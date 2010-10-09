@@ -6,3 +6,4 @@ import org.junit.runner.RunWith;
 
 @RunWith(FilteredSuite.class)
 public class MyFilteredSuite {}
+ 

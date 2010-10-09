@@ -3,19 +3,39 @@ package com.dhemery.filteredsuite.tests;
 import static org.fest.assertions.Assertions.*;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.dhemery.filteredsuite.CategoryClassFilter;
-import com.dhemery.filteredsuite.fixtures.SuiteThatExcludesCategoryB;
-import com.dhemery.filteredsuite.fixtures.SuiteThatIncludesCategoryA;
-import com.dhemery.filteredsuite.fixtures.SuiteThatIncludesCategoryAandExcludesCategoryB;
-import com.dhemery.filteredsuite.fixtures.SuiteWithNoInclusionsOrExclusions;
-import com.dhemery.filteredsuite.fixtures.TestClassWithCategoriesAandB;
-import com.dhemery.filteredsuite.fixtures.TestClassWithCategoryA;
-import com.dhemery.filteredsuite.fixtures.TestClassWithCategoryB;
-import com.dhemery.filteredsuite.fixtures.TestClassWithNoCategories;
-
+import com.dhemery.filteredsuite.ExcludeClassesWithCategories;
+import com.dhemery.filteredsuite.IncludeClassesWithCategories;
 
 public class ACategoryClassFilter {
+	public class CategoryA {}
+	public class CategoryB {}
+
+	public class TestClassWithNoCategories {}
+	
+	@Category({CategoryA.class, CategoryB.class})
+	public class TestClassWithCategoriesAandB {}
+
+	@Category(CategoryA.class)
+	public class TestClassWithCategoryA {}
+
+	@Category(CategoryB.class)
+	public class TestClassWithCategoryB {}
+
+	public class SuiteWithNoInclusionsOrExclusions {}
+
+	@IncludeClassesWithCategories(CategoryA.class)
+	public class SuiteThatIncludesCategoryA {}
+
+	@ExcludeClassesWithCategories(CategoryB.class)
+	public class SuiteThatExcludesCategoryB {}
+
+	@IncludeClassesWithCategories(CategoryA.class)
+	@ExcludeClassesWithCategories(CategoryB.class)
+	public class SuiteThatIncludesCategoryAandExcludesCategoryB {}
+
 	@Test public void withNoInclusionsOrExclusions_allowsAllClasses() {
 		CategoryClassFilter filter = new CategoryClassFilter(SuiteWithNoInclusionsOrExclusions.class);
 		assertThat(filter.allows(TestClassWithNoCategories.class)).isTrue();
