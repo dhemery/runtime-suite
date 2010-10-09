@@ -1,0 +1,24 @@
+Consider annotating methods (or fields?) within the suite class with:
+	@ClassFinder: Constructs a list of test classes to consider for the suite.
+	@ClassFilter: Constructs a filter that selects classes for inclusion in the suite.
+	@MethodFilter: Constructs a filter that @Test methods must pass in order to be run.
+
+Examples:
+	@ClassFinder ClassFinder myClassFinder = new ClasspathClassFinder("com.dhemery.filtered-suite.tests");
+	@ClassFilter ClassFilter myClassFilter = new CategoryInclusionClassFilter(MyCategory.class);
+	@MethodFilter MethodFilter myMethodFilter = new CategoryExclusionMethodFilter(MyCategory.class);
+
+Conceptually, the suite:
+	1. Calls each @ClassFinder field and collects the classes.
+	2. Calls each @ClassFilter field and collects the surviving classes.
+	3. Gathers the @Test methods from each surviving class.
+	4. Calls each @MethodFilter field and collects the surviving methods.
+	5. Builds a Runner for each surviving method.
+
+There's probably a way to subclass ParentRunner to do steps 3-5.
+
+Is this possible:
+	@Finder ClassFinder myClassFinder = ...;
+	@Filter ClassFilter myClassFilter = ...;
+	@Filter MethodFilter myMethodFilter = ...;
+ 
