@@ -1,8 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.dhdmery</groupId>
-  <artifactId>runner</artifactId>
+  <groupId>com.dhemery</groupId>
+  <artifactId>filtered-suite</artifactId>
+  <name>Filtered Suite</name>
   <version>0.0.1-SNAPSHOT</version>
+  <description>Filter JUnit tests by categories on test classes and test methods.</description>
+  <url>http://github.com/dhemery/Filtered-Suite</url>
+  <issueManagement>
+  	<system>GitHub</system>
+  	<url>http://github.com/dhemery/Filtered-Suite/issues</url>
+  </issueManagement>
+  <scm>
+  	<connection>git@github.com:dhemery/Filtered-Suite</connection>
+  	<developerConnection>dhemery</developerConnection>
+  	<url>http://github.com/dhemery/Filtered-Suite/commits/master</url>
+  </scm>
+  <organization>
+  	<name>Dale H. Emery</name>
+  	<url>http://dhemery.com</url>
+  </organization>
   <dependencies>
   	<dependency>
   		<groupId>org.easytesting</groupId>
