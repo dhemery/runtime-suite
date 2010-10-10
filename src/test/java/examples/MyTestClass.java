@@ -1,4 +1,4 @@
-package com.dhemery.filteredsuite.examples;
+package examples;
 
 import org.junit.Test;
 
