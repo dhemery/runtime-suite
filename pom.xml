@@ -11,9 +11,9 @@
   	<url>http://github.com/dhemery/Filtered-Suite/issues</url>
   </issueManagement>
   <scm>
-  	<connection>git@github.com:dhemery/Filtered-Suite</connection>
-  	<developerConnection>dhemery</developerConnection>
-  	<url>http://github.com/dhemery/Filtered-Suite/commits/master</url>
+  	<connection>scm:git:git@github.com:dhemery/giltered-suite.git</connection>
+  	<developerConnection>scm:git:git@github.com:dhemery/giltered-suite.git</developerConnection>
+  	<url>scm:git:git@github.com:dhemery/giltered-suite.git</url>
   </scm>
   <organization>
   	<name>Dale H. Emery</name>
