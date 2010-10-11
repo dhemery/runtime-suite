@@ -1,10 +1,6 @@
 package com.dhemery.runtimesuite;
 
 import java.lang.annotation.Annotation;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,22 +13,6 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
 public class RuntimeSuite extends ParentRunner<Runner> {
-	public interface ClassFilter {
-		List<Class<?>> filter(List<Class<?>> candidateClasses);
-	}
-
-	public interface ClassFinder {
-		List<Class<?>> find();
-	}
-
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target(ElementType.FIELD)
-	public @interface Filter {}
-
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target(ElementType.FIELD)
-	public @interface Finder {}
-
 	private List<Class<?>> testClasses;
 	private List<Runner> runners;
 
@@ -103,6 +83,10 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		}
 	}
 
+	public List<Runner> getRunners() {
+		return runners;
+	}
+
 	public List<Class<?>> getTestClasses() {
 		return testClasses;
 	}
@@ -137,9 +121,5 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 
 	protected void runChild(Runner child, RunNotifier notifier) {
 		child.run(notifier);
-	}
-
-	public List<Runner> getRunners() {
-		return runners;
 	}
 }

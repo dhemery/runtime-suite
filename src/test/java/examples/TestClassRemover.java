@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.dhemery.runtimesuite.RuntimeSuite.ClassFilter;
+import com.dhemery.runtimesuite.ClassFilter;
 
 public class TestClassRemover implements ClassFilter {
 	private List<Class<?>> classesToRemove;

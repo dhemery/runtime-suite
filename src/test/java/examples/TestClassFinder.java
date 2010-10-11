@@ -3,7 +3,7 @@ package examples;
 import java.util.Arrays;
 import java.util.List;
 
-import com.dhemery.runtimesuite.RuntimeSuite.ClassFinder;
+import com.dhemery.runtimesuite.ClassFinder;
 
 public class TestClassFinder implements ClassFinder {
 	private List<Class<?>> classes;

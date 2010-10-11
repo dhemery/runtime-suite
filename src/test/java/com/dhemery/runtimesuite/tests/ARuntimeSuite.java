@@ -12,11 +12,11 @@ import org.junit.runner.Runner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
+import com.dhemery.runtimesuite.ClassFilter;
+import com.dhemery.runtimesuite.ClassFinder;
+import com.dhemery.runtimesuite.Filter;
+import com.dhemery.runtimesuite.Finder;
 import com.dhemery.runtimesuite.RuntimeSuite;
-import com.dhemery.runtimesuite.RuntimeSuite.ClassFinder;
-import com.dhemery.runtimesuite.RuntimeSuite.ClassFilter;
-import com.dhemery.runtimesuite.RuntimeSuite.Filter;
-import com.dhemery.runtimesuite.RuntimeSuite.Finder;
 
 import examples.TestClass3;
 import examples.TestClassFinder;
