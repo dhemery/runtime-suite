@@ -96,7 +96,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 	private boolean hasType(Field field, Class<?> requiredType) {
-		return field.getType().isAssignableFrom(requiredType);
+		return requiredType.isAssignableFrom(field.getType());
 	}
 
 	private Runner makeRunner(RunnerBuilder builder, Class<?> testClass) {

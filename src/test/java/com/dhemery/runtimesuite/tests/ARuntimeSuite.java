@@ -42,21 +42,21 @@ public class ARuntimeSuite {
 		@Filter public ClassFilter classFilter2 = new TestClassRemover(TestClass3.class);
 	} 
 
-	@Test public void gathersClassesFromAllClassFinders() throws InitializationError {
+	@Test public void gathersTestClassesFromAllClassFinderFieldsAnnotatedWithFinder() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFinders.class, builder);
 		List<Class<?>> testClasses = suite.getTestClasses();
 		assertThat(testClasses).containsOnly(TestClass1.class, TestClass2.class);
 		assertThat(testClasses).hasSize(2);
 	}
 
-	@Test public void appliesAllClassFilters() throws InitializationError {
+	@Test public void appliesAllClassFilterFieldsAnnotatedWithFilter() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFilters.class, builder);
 		List<Class<?>> testClasses = suite.getTestClasses();
 		assertThat(testClasses).containsOnly(TestClass2.class);
 		assertThat(testClasses).hasSize(1);
 	}
 
-	@Test public void createsRunnersForEachTestClass() throws InitializationError {
+	@Test public void createsARunnerForEachTestClass() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFinders.class, builder);
 		List<Runner> runners = suite.getRunners();
 		assertThat(runners).hasSize(2);
