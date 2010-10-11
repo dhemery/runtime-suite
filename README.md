@@ -1,6 +1,13 @@
 # Runtime Suite
 
-A Runtime Suite is a class that finds candidate test classes at runtime, filters them based on whatever criteria you choose, and runs the remaining classes them under JUnit.
+A Runtime Suite is a class that finds candidate test classes at runtime, filters the candidate classes and their test methods for inclusion in the suite, and runs the surviving methods under JUnit.
+
+You write the classes to find and filter classes and methods. I will write a few finders and filters for my own needs, such as:
+
+ * `ClassesOnTheClasspath`: Finds all test classes in the classpath.
+ * `CategoryInclusionClassFilter`: Retains classes marked (by `@Category` annotations) as belonging to specified categories, and rejects classes not in those categories.
+ * `CategoryExclusionClassFilter`: Rejects classes marked (by `@Category` annotations) as belonging to specified categories, and retains classes not in those categories.
+
 
 **NOTE:** This document describes my current intentions, which are subject to change on my slightest whim. This stuff isn't implemented yet. Follow along if you wish, but don't count on anything until I declare a release.
 
@@ -21,7 +28,12 @@ Declare a class to be a runtime suite by annotating it with `@RunWith(RuntimeSui
     	...
     }
 
-Conceptually, `RuntimeSuite` calls each of the class finder classes and accumulates the results. It then calls each class filter and retains the classes that survive the filters. For each surviving class, it creates a Runner to run the class's tests.
+Conceptually, `RuntimeSuite` does the following:
+
+* Call each class finder and accumulate the resulting candidate classes.
+* Call each class filter and retain the classes that survive all filters.
+* Create a `Runner` for each surviving class.
+* Yield the runners to JUnit for processing.
 
 ## Declaring Class Finder fields
 
@@ -61,7 +73,7 @@ Write each class finder class to implement the `ClassFinder` interface:
 
 `RuntimeSuite` calls the `find()` method, passing it a `Field` that represents the finder field. You can use this parameter to examine the field declaration or its declaring suite class for annotations or other information.
 
-The `find()` method is where your finder class will do the work of finding candidate test classes. Return the list as the return value. `RuntimeSuite` will gather all candidate classes returned from all finders, and send them to the filters.
+Write your `find()` method to find test classes to be considered as candidates for inclusion in the suite. Return the list as the return value. `RuntimeSuite` will gather all candidate classes returned from all finders, filter them using the declared filters, and run the tests that survive the filters.
 
 
 ## Writing a Class Filter class
@@ -74,7 +86,12 @@ Write each class filter class to implement the `ClassFilter` interface:
 
 `RuntimeSuite` calls the `filter()` method, passing it a `Field` that represents the class filter field. You can use this parameter to examine the field declaration or its declaring suite class for annotations or other information.
 
-The `filter()` method is where your filter class will do the work of assessing each candidate test class
+Write your `filter()` method to determine whether to include each test class in the suite. Return the list of classes that survive the filter. `RuntimeSuite` will submit these classes to other filters (if any are declared). The classes that survive all filters are considered part of the suite.
 
 ## Declaring Method Filters
-I don't yet know how I will filter methods. Perhaps I will create a custom RunnerBuilder for that.
+I don't yet know how I will filter methods. Candidates include:
+
+* Fields of type `MethodFilter` annotated with `@Filter`, analogous to `ClassFilter`.
+* Filters declared somewhere, and applied by `ParentRunner`.
+* A custom `RunnerBuilder` specific to `RuntimeSuite`.
+* Custom `RunnerBuilder`s written by users.
