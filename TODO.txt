@@ -22,4 +22,6 @@ Don't make runners for classes with no tests.
 
 Instead of having filters loop over classes, have them just apply to a single class.
 
-Let ParentRunner apply the filters?
+Let ParentRunner apply the filters? Build all runners, then let it filter?
+
+Before applying filters, make sure that each class in the list is unique.
