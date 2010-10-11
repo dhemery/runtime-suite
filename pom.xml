@@ -11,9 +11,9 @@
   	<url>http://github.com/dhemery/Runtime-Suite/issues</url>
   </issueManagement>
   <scm>
-  	<connection>scm:git:git@github.com:dhemery/runtime-suite.git</connection>
-  	<developerConnection>scm:git:git@github.com:dhemery/runtime-suite.git</developerConnection>
-  	<url>scm:git:git@github.com:dhemery/runtime-suite.git</url>
+  	<connection>scm:git:git://git@github.com:dhemery/runtime-suite.git</connection>
+  	<developerConnection>scm:git:git://git@github.com:dhemery/runtime-suite.git</developerConnection>
+  	<url>scm:git:git://git@github.com:dhemery/runtime-suite.git</url>
   </scm>
   <organization>
   	<name>Dale H. Emery</name>
