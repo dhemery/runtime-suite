@@ -62,6 +62,12 @@ public class ARuntimeSuite {
 		@Filter public TestClassRemover filter = new TestClassRemover(TestClass2.class);
 	}
 
+	public static class SuiteThatFindsATestClassSeveralTimes {
+		@Finder public TestClassFinder finder1 = new TestClassFinder(TestClass1.class);
+		@Finder public TestClassFinder finder2 = new TestClassFinder(TestClass1.class);
+		@Finder public TestClassFinder finder3 = new TestClassFinder(TestClass1.class);
+	}
+
 	@Test public void gathersTestClassesFromAllClassFinderFieldsAnnotatedWithFinder() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFinders.class, builder);
 		List<Class<?>> testClasses = testClassesFrom(suite.getRunners());
@@ -119,6 +125,14 @@ public class ARuntimeSuite {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFinders.class, builder);
 		List<Runner> runners = suite.getRunners();
 		assertThat(testClassesFrom(runners)).contains(TestClass1.class, TestClass2.class);
+	}
+
+	@Test public void createsOnlyOneRunnerPerTestClassEvenIfFindersFindItMultipleTimes() throws InitializationError {
+		RuntimeSuite suite = new RuntimeSuite(SuiteThatFindsATestClassSeveralTimes.class, builder);
+		List<Runner> runners = suite.getRunners();
+		List<Class<?>> testClasses = testClassesFrom(runners);
+		assertThat(testClasses).contains(TestClass1.class);
+		assertThat(testClasses).hasSize(1);
 	}
 
 	@Test public void createsRunnersOnlyForTestClassesThatSurviveFilters() throws InitializationError {

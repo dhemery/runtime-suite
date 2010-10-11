@@ -41,7 +41,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 
 	private List<Class<?>> filterTestClasses(Object suite, List<Field> filterFields, List<Class<?>> candidateClasses) throws InitializationError {
 		List<Class<?>> result = new ArrayList<Class<?>>();
-		result.addAll(candidateClasses);
+		addNewClasses(result, candidateClasses);
 		for(Field filterField : filterFields) {
 			ClassFilter filter = (ClassFilter) getMember(suite, filterField);
 			result = filter.filter(result);
@@ -64,9 +64,16 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		List<Class<?>> result = new ArrayList<Class<?>>();
 		for(Field finderField : finderFields) {
 			ClassFinder finder = (ClassFinder) getMember(suite, finderField);
-			result.addAll(finder.find());
+			List<Class<?>> foundClasses = finder.find();
+			addNewClasses(result, foundClasses);
 		}
 		return result;
+	}
+
+	private void addNewClasses(List<Class<?>> knownClasses, List<Class<?>> classesToMakeKnown) {
+		for(Class<?> classToMakeKnown : classesToMakeKnown) {
+			if(!knownClasses.contains(classToMakeKnown)) knownClasses.add(classToMakeKnown);
+		}
 	}
 
 	protected List<Runner> getChildren() {	
