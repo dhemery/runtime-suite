@@ -7,3 +7,19 @@ Show that @Filter fields not of type ClassFilter are ignonred.
 Show that types derived from ClassFilter are okay.
 
 What RunnerBuilder to use? Currently using AllDefaultPossiblitiesBuilder.
+
+Write class path finder.
+    - All of class path.
+    - Selected packages (= class path finder + package filters).
+
+Category inclusion and exclusion filters.
+Class name inclusion and exclusion filters.
+Package inclusion and exclusion filters.
+
+How to filter methods?
+
+Don't make runners for classes with no tests.
+
+Instead of having filters loop over classes, have them just apply to a single class.
+
+Let ParentRunner apply the filters?
