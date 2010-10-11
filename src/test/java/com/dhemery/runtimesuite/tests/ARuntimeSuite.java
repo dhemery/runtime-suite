@@ -1,6 +1,5 @@
 package com.dhemery.runtimesuite.tests;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import static org.fest.assertions.Assertions.*;
 import java.util.List;
@@ -41,13 +40,13 @@ public class ARuntimeSuite {
 		public static boolean classFinder1WasRun = false;
 		public static boolean classFinder2WasRun = false;
 		@Finder public ClassFinder classFinder1 = new ClassFinder() {
-			public List<Class<?>> find(Field finderField) {
+			public List<Class<?>> find() {
 				classFinder1WasRun = true;
 				return Arrays.asList(new Class<?>[] { MyTestClass.class });
 			}
 		};
 		@Finder public ClassFinder classFinder2 = new ClassFinder() {
-			public List<Class<?>> find(Field finderField) {
+			public List<Class<?>> find() {
 				classFinder2WasRun = true;
 				return Arrays.asList(new Class<?>[] { MyTestClass.class });
 			}
@@ -66,19 +65,19 @@ public class ARuntimeSuite {
 		public static boolean classFilter2WasRun = false;
 		
 		@Finder public ClassFinder classFinder1 = new ClassFinder() {
-			public List<Class<?>> find(Field finderField) {
+			public List<Class<?>> find() {
 				return Arrays.asList(new Class<?>[] { MyTestClass.class });
 			}
 		};
 
 		@Filter public ClassFilter classiFilter1 = new ClassFilter() {
-			public List<Class<?>> filter(Field filterField, List<Class<?>> candidateClasses) {
+			public List<Class<?>> filter(List<Class<?>> candidateClasses) {
 				classFilter1WasRun = true;
 				return Arrays.asList(new Class<?>[] { MyTestClass.class });
 			}
 		};
 		@Filter public ClassFilter classFilter2 = new ClassFilter() {
-			public List<Class<?>> filter(Field filterField, List<Class<?>> candidateClasses) {
+			public List<Class<?>> filter(List<Class<?>> candidateClasses) {
 				classFilter2WasRun = true;
 				return Arrays.asList(new Class<?>[] { MyTestClass.class });
 			}

@@ -19,11 +19,11 @@ import org.junit.runners.model.RunnerBuilder;
 
 public class RuntimeSuite extends ParentRunner<Runner> {
 	public interface ClassFilter {
-		List<Class<?>> filter(Field filterField, List<Class<?>> candidateClasses);
+		List<Class<?>> filter(List<Class<?>> candidateClasses);
 	}
 
 	public interface ClassFinder {
-		List<Class<?>> find(Field finderField);
+		List<Class<?>> find();
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -61,7 +61,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		List<Class<?>> result = new ArrayList<Class<?>>();
 		for(Field filterField : filterFields) {
 			ClassFilter filter = (ClassFilter) getMember(suite, filterField);
-			result = filter.filter(filterField, result);
+			result = filter.filter(result);
 		}
 		return result;
 	}
@@ -93,7 +93,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		List<Class<?>> result = new ArrayList<Class<?>>();
 		for(Field finderField : finderFields) {
 			ClassFinder finder = (ClassFinder) getMember(suite, finderField);
-			result.addAll(finder.find(finderField));
+			result.addAll(finder.find());
 		}
 		return result;
 	}

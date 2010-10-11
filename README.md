@@ -68,10 +68,10 @@ In your suite class, declare one or more methods of type `ClassFilter` annotated
 Write each class finder class to implement the `ClassFinder` interface:
 
     public interface ClassFinder {
-        List<Class<?>> find(Field finderField);
+        List<Class<?>> find();
     }
 
-`RuntimeSuite` calls the `find()` method, passing it a `Field` that represents the class finder field declared in the suite class. You can use this parameter to examine the field declaration or its declaring suite class for annotations or other information.
+`RuntimeSuite` calls the `find()` method to find classes to run.
 
 Write your `find()` method to find test classes to be considered as candidates for inclusion in the suite. Return the list as the return value. `RuntimeSuite` will gather all candidate classes returned from all finders, filter them using the declared filters, and run the tests that survive the filters.
 
@@ -81,10 +81,10 @@ Write your `find()` method to find test classes to be considered as candidates f
 Write each class filter class to implement the `ClassFilter` interface:
 
     public interface ClassFilter {
-        List<Class<?>> filter(Field filterField, List<Class<?>> candidateClasses);
+        List<Class<?>> filter(List<Class<?>> candidateClasses);
     }
 
-`RuntimeSuite` calls the `filter()` method, passing it a `Field` that represents the class filter field declared in the suite class, and a list of candidate test classes to filter. You can use the `Field` parameter to examine the field declaration or its declaring suite class for annotations or other information.
+`RuntimeSuite` calls the `filter()` method, passing it a list of candidate test classes to filter.
 
 Write your `filter()` method to determine whether to include each test class in the suite. Return the list of classes that survive the filter. `RuntimeSuite` will submit these classes to other filters (if any are declared). The classes that survive all filters are considered part of the suite.
 
