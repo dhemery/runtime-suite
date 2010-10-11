@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
-import org.junit.runner.manipulation.NoTestsRemainException;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
@@ -34,6 +33,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	@Target(ElementType.FIELD)
 	public @interface Finder {}
 
+	private List<Class<?>> testClasses;
 	private List<Runner> runners;
 
 	public RuntimeSuite(Class<?> suiteClass, RunnerBuilder builder) throws InitializationError {
@@ -44,38 +44,23 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		Object suite = makeSuite(suiteClass);
 
 		List<Class<?>> candidateClasses = findTestClasses(suite, classFinderFields);
-		List<Class<?>> testClasses = filterTestClasses(suite, classFilterFields, candidateClasses);
+		testClasses = filterTestClasses(suite, classFilterFields, candidateClasses);
 
 		runners = makeRunners(builder, testClasses);
 	}
 
-	private Object makeSuite(Class<?> suiteClass) throws InitializationError {
-		try {
-			return suiteClass.newInstance();
-		} catch (Throwable cause) {
-			throw new InitializationError(cause);
-		}
+	protected Description describeChild(Runner child) {
+		return child.getDescription();
 	}
 
 	private List<Class<?>> filterTestClasses(Object suite, List<Field> filterFields, List<Class<?>> candidateClasses) throws InitializationError {
 		List<Class<?>> result = new ArrayList<Class<?>>();
+		result.addAll(candidateClasses);
 		for(Field filterField : filterFields) {
 			ClassFilter filter = (ClassFilter) getMember(suite, filterField);
 			result = filter.filter(result);
 		}
 		return result;
-	}
-
-	private Object getMember(Object suite, Field memberField) throws InitializationError {
-		try {
-			return memberField.get(suite);
-		} catch (Throwable cause) {
-			throw new InitializationError(cause);
-		}
-	}
-
-	protected Description describeChild(Runner child) {
-		return child.getDescription();
 	}
 
 	private List<Field> findMatchingFields(Class<?> suiteClass, Class<? extends Annotation> requiredAnnotation, Class<?> requiredType) {
@@ -99,7 +84,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 	protected List<Runner> getChildren() {	
-		return runners;
+		return getRunners();
 	}
 
 	private List<Field> getClassFilterFields(Class<?> suiteClass) {
@@ -110,8 +95,19 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		return findMatchingFields(suiteClass, Finder.class, ClassFinder.class);
 	}
 
-	private boolean hasAnnotation(Field field,
-			Class<? extends Annotation> requiredAnnotation) {
+	private Object getMember(Object suite, Field memberField) throws InitializationError {
+		try {
+			return memberField.get(suite);
+		} catch (Throwable cause) {
+			throw new InitializationError(cause);
+		}
+	}
+
+	public List<Class<?>> getTestClasses() {
+		return testClasses;
+	}
+
+	private boolean hasAnnotation(Field field, Class<? extends Annotation> requiredAnnotation) {
 		return field.isAnnotationPresent(requiredAnnotation);
 	}
 
@@ -119,22 +115,11 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		return field.getType().isAssignableFrom(requiredType);
 	}
 
-	private Runner makeRunner(RunnerBuilder builder, Class<?> testClass) throws InitializationError {
-		try {
-			System.out.println("Trying to build a runner for " + testClass.getSimpleName());
-			Runner runner = builder.runnerForClass(testClass);
-			if(runner.testCount() < 1) {
-				System.out.println("Found no test methods in " + testClass.getSimpleName());
-				throw new NoTestsRemainException();
-			}
-			return runner;
-		} catch (Throwable e) {
-			System.out.println("runnerForClass() threw " + e.getClass().getSimpleName());
-			throw new InitializationError(e);
-		}
+	private Runner makeRunner(RunnerBuilder builder, Class<?> testClass) {
+		return builder.safeRunnerForClass(testClass);
 	}
 
-	private List<Runner> makeRunners(RunnerBuilder builder, List<Class<?>> testClasses) throws InitializationError {
+	private List<Runner> makeRunners(RunnerBuilder builder, List<Class<?>> testClasses) {
 		List<Runner> runners = new ArrayList<Runner>();
 		for(Class<?> testClass : testClasses) {
 			runners.add(makeRunner(builder, testClass));
@@ -142,7 +127,19 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		return runners;
 	}
 
+	private Object makeSuite(Class<?> suiteClass) throws InitializationError {
+		try {
+			return suiteClass.newInstance();
+		} catch (Throwable cause) {
+			throw new InitializationError(cause);
+		}
+	}
+
 	protected void runChild(Runner child, RunNotifier notifier) {
 		child.run(notifier);
+	}
+
+	public List<Runner> getRunners() {
+		return runners;
 	}
 }

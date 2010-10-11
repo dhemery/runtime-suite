@@ -1,20 +1,16 @@
 package com.dhemery.runtimesuite.tests;
 
-import java.util.Arrays;
 import static org.fest.assertions.Assertions.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.Description;
-import org.junit.runner.RunWith;
+import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.runner.Runner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import static org.mockito.Mockito.*;
 
 import com.dhemery.runtimesuite.RuntimeSuite;
 import com.dhemery.runtimesuite.RuntimeSuite.ClassFinder;
@@ -22,72 +18,64 @@ import com.dhemery.runtimesuite.RuntimeSuite.ClassFilter;
 import com.dhemery.runtimesuite.RuntimeSuite.Filter;
 import com.dhemery.runtimesuite.RuntimeSuite.Finder;
 
-import examples.MyTestClass;
+import examples.TestClass3;
+import examples.TestClassFinder;
+import examples.TestClass1;
+import examples.TestClass2;
+import examples.TestClassRemover;
 
 public class ARuntimeSuite {
-	@Mock private RunnerBuilder builder;
-	@Mock private Runner runner;
-
-	@Before public void setUp() throws Throwable {
-		MockitoAnnotations.initMocks(this);
-		when(builder.runnerForClass(any(Class.class))).thenReturn(runner);
-		when(runner.testCount()).thenReturn(1);
-		when(runner.getDescription()).thenReturn(Description.TEST_MECHANISM);
+	private RunnerBuilder builder;
+	
+	@Before public void setUp() {
+		builder = new AllDefaultPossibilitiesBuilder(true);
 	}
 
-	@RunWith(RuntimeSuite.class)
-	public static class MyClassFinderSuite {
-		public static boolean classFinder1WasRun = false;
-		public static boolean classFinder2WasRun = false;
-		@Finder public ClassFinder classFinder1 = new ClassFinder() {
-			public List<Class<?>> find() {
-				classFinder1WasRun = true;
-				return Arrays.asList(new Class<?>[] { MyTestClass.class });
-			}
-		};
-		@Finder public ClassFinder classFinder2 = new ClassFinder() {
-			public List<Class<?>> find() {
-				classFinder2WasRun = true;
-				return Arrays.asList(new Class<?>[] { MyTestClass.class });
-			}
-		};
+	public static class SuiteWithTwoClassFinders {
+		@Finder public ClassFinder classFinder1 = new TestClassFinder(TestClass1.class);
+		@Finder public ClassFinder classFinder2 = new TestClassFinder(TestClass2.class);
 	}
 
-	@Test public void runsTheSuiteClassFinders() throws InitializationError {
-		new RuntimeSuite(MyClassFinderSuite.class, builder);
-		assertThat(MyClassFinderSuite.classFinder1WasRun).isTrue();
-		assertThat(MyClassFinderSuite.classFinder2WasRun).isTrue();
+	public static class SuiteWithTwoClassFilters {
+		@Finder public ClassFinder classFinder1 = new TestClassFinder(TestClass1.class, TestClass2.class, TestClass3.class);
+		@Filter public ClassFilter classFilter1 = new TestClassRemover(TestClass1.class);
+		@Filter public ClassFilter classFilter2 = new TestClassRemover(TestClass3.class);
+	} 
+
+	@Test public void gathersClassesFromAllClassFinders() throws InitializationError {
+		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFinders.class, builder);
+		List<Class<?>> testClasses = suite.getTestClasses();
+		assertThat(testClasses).containsOnly(TestClass1.class, TestClass2.class);
+		assertThat(testClasses).hasSize(2);
 	}
 
-	@RunWith(RuntimeSuite.class)
-	public static class MyClassFilterSuite {
-		public static boolean classFilter1WasRun = false;
-		public static boolean classFilter2WasRun = false;
-		
-		@Finder public ClassFinder classFinder1 = new ClassFinder() {
-			public List<Class<?>> find() {
-				return Arrays.asList(new Class<?>[] { MyTestClass.class });
-			}
-		};
-
-		@Filter public ClassFilter classiFilter1 = new ClassFilter() {
-			public List<Class<?>> filter(List<Class<?>> candidateClasses) {
-				classFilter1WasRun = true;
-				return Arrays.asList(new Class<?>[] { MyTestClass.class });
-			}
-		};
-		@Filter public ClassFilter classFilter2 = new ClassFilter() {
-			public List<Class<?>> filter(List<Class<?>> candidateClasses) {
-				classFilter2WasRun = true;
-				return Arrays.asList(new Class<?>[] { MyTestClass.class });
-			}
-		};
+	@Test public void appliesAllClassFilters() throws InitializationError {
+		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFilters.class, builder);
+		List<Class<?>> testClasses = suite.getTestClasses();
+		assertThat(testClasses).containsOnly(TestClass2.class);
+		assertThat(testClasses).hasSize(1);
 	}
- 
-	@Test public void runsTheSuiteClassFilters() throws InitializationError, InstantiationException, IllegalAccessException {
-		new RuntimeSuite(MyClassFilterSuite.class, builder);
-		assertThat(MyClassFilterSuite.classFilter1WasRun).isTrue();
-		assertThat(MyClassFilterSuite.classFilter2WasRun).isTrue();
+
+	@Test public void createsRunnersForEachTestClass() throws InitializationError {
+		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFinders.class, builder);
+		List<Runner> runners = suite.getRunners();
+		assertThat(runners).hasSize(2);
+		List<Class<?>> runnerTestClasses = testClassesFrom(runners);
+		assertThat(runnerTestClasses).containsOnly(TestClass1.class, TestClass2.class);
+	}
+
+	@Test public void createsRunnersOnlyForTestClassesThatSurviveFilters() throws InitializationError {
+		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFilters.class, builder);
+		List<Runner> runners = suite.getRunners();
+		assertThat(runners).hasSize(1);
+		assertThat(testClassesFrom(runners)).containsOnly(TestClass2.class);
+	}
+
+	private List<Class<?>> testClassesFrom(List<Runner> runners) {
+		List<Class<?>> runnerTestClasses = new ArrayList<Class<?>>();
+		for(Runner runner : runners) {
+			runnerTestClasses.add(runner.getDescription().getTestClass());
+		}
+		return runnerTestClasses;
 	}
 }
-
