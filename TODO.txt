@@ -1,11 +1,3 @@
-Show that ClassFinder fields that lack @Finder annotation are ignored.
-Show that @Finder fields not of type ClassFinder are ignored.
-Show that types derived from ClassFinder are okay.
-
-Show that ClassFilter fields that lack @Filter annotation are ignored.
-Show that @Filter fields not of type ClassFilter are ignonred.
-Show that types derived from ClassFilter are okay.
-
 What RunnerBuilder to use? Currently using AllDefaultPossiblitiesBuilder.
 
 Write class path finder.

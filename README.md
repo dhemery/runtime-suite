@@ -5,8 +5,8 @@ A Runtime Suite is a class that finds candidate test classes at runtime, filters
 You write the classes to find and filter classes and methods. I will write a few finders and filters for my own needs, such as:
 
  * `ClassesOnTheClasspath`: Finds all test classes in the classpath.
- * `CategoryInclusionClassFilter`: Retains classes marked (by `@Category` annotations) as belonging to specified categories, and rejects classes not in those categories.
- * `CategoryExclusionClassFilter`: Rejects classes marked (by `@Category` annotations) as belonging to specified categories, and retains classes not in those categories.
+ * `InCategory` filter: Retain classes in specified categories (specified by `@Category` annotations); reject classes not in those categories.
+ * `NotInCategory` filter: Reject classes in specified categories (specified by `@Category` annotations); retain classes not in those categories.
 
 
 **NOTE:** This document describes my current intentions, which are subject to change on my slightest whim. This stuff isn't implemented yet. Follow along if you wish, but don't count on anything until I declare a release.
