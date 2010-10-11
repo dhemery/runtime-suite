@@ -3,6 +3,7 @@ package com.dhemery.runtimesuite;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.runner.Description;
@@ -13,20 +14,25 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
 public class RuntimeSuite extends ParentRunner<Runner> {
-	private List<Class<?>> testClasses;
-	private List<Runner> runners;
+	private final Class<?> suiteClass;
+	private final RunnerBuilder builder;
 
 	public RuntimeSuite(Class<?> suiteClass, RunnerBuilder builder) throws InitializationError {
 		super(suiteClass);
+		this.suiteClass = suiteClass;
+		this.builder = builder;
+	}
+
+	private List<Runner> computeRunners(Class<?> suiteClass, RunnerBuilder builder) throws InitializationError {
 		List<Field> classFinderFields = getClassFinderFields(suiteClass);
 		List<Field> classFilterFields = getClassFilterFields(suiteClass);
 
 		Object suite = makeSuite(suiteClass);
 
 		List<Class<?>> candidateClasses = findTestClasses(suite, classFinderFields);
-		testClasses = filterTestClasses(suite, classFilterFields, candidateClasses);
+		List<Class<?>> testClasses = filterTestClasses(suite, classFilterFields, candidateClasses);
 
-		runners = makeRunners(builder, testClasses);
+		return makeRunners(builder, testClasses);
 	}
 
 	protected Description describeChild(Runner child) {
@@ -84,11 +90,11 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 	public List<Runner> getRunners() {
-		return runners;
-	}
-
-	public List<Class<?>> getTestClasses() {
-		return testClasses;
+		try {
+			return computeRunners(suiteClass, builder);
+		} catch (InitializationError cause) {
+			return Collections.emptyList();
+		}
 	}
 
 	private boolean hasAnnotation(Field field, Class<? extends Annotation> requiredAnnotation) {

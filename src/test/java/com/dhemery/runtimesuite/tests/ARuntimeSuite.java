@@ -44,14 +44,14 @@ public class ARuntimeSuite {
 
 	@Test public void gathersTestClassesFromAllClassFinderFieldsAnnotatedWithFinder() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFinders.class, builder);
-		List<Class<?>> testClasses = suite.getTestClasses();
+		List<Class<?>> testClasses = testClassesFrom(suite.getRunners());
 		assertThat(testClasses).containsOnly(TestClass1.class, TestClass2.class);
 		assertThat(testClasses).hasSize(2);
 	}
 
 	@Test public void appliesAllClassFilterFieldsAnnotatedWithFilter() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoClassFilters.class, builder);
-		List<Class<?>> testClasses = suite.getTestClasses();
+		List<Class<?>> testClasses = testClassesFrom(suite.getRunners());
 		assertThat(testClasses).containsOnly(TestClass2.class);
 		assertThat(testClasses).hasSize(1);
 	}
