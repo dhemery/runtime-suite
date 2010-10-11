@@ -1,4 +1,4 @@
-package com.dhemery.filteredsuite;
+package com.dhemery.runtimesuite;
 
 import java.util.Arrays;
 import java.util.Collections;

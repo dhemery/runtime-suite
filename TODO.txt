@@ -4,7 +4,7 @@ Declare these interfaces:
 	MethodFilter: Selects @Test methods for inclusion in the suite.
 
 Mark the finder and filter fields with @Finder and @Filter:
-	@Finder ClassFinder myClassFinder = new ClasspathClassFinder("com.dhemery.filtered-suite.tests");
+	@Finder ClassFinder myClassFinder = new ClasspathClassFinder("com.dhemery.mytests");
 	@Filter ClassFilter myClassFilter = new CategoryInclusionClassFilter(MyCategory.class);
 	@Filter MethodFilter myMethodFilter = new CategoryExclusionMethodFilter(MyCategory.class);
 

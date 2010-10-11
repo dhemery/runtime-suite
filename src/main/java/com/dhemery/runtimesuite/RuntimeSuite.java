@@ -1,5 +1,9 @@
-package com.dhemery.filteredsuite;
+package com.dhemery.runtimesuite;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,10 +19,22 @@ import org.junit.runners.model.RunnerBuilder;
 
 import examples.MyTestClass;
 
-public class FilteredSuiteRunner extends ParentRunner<Runner> {
+public class RuntimeSuite extends ParentRunner<Runner> {
 	private List<Runner> runners;
 
-	public FilteredSuiteRunner(Class<?> suiteClass, RunnerBuilder builder) throws InitializationError, InstantiationException, IllegalAccessException {
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	public @interface Finder {}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	public @interface Filter {}
+
+	public interface ClassFinder {
+		List<Class<?>> find(Class<?> suiteClass);
+	}
+
+	public RuntimeSuite(Class<?> suiteClass, RunnerBuilder builder) throws InitializationError, InstantiationException, IllegalAccessException {
 		super(suiteClass);
 		List<Class<?>> candidateTestClasses = findTestClasses(suiteClass);
 		List<Class<?>> testClasses = filterTestClasses(suiteClass, candidateTestClasses);

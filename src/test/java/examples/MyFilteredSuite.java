@@ -1,9 +1,9 @@
 package examples;
 
-import com.dhemery.filteredsuite.FilteredSuiteRunner;
+import com.dhemery.runtimesuite.RuntimeSuite;
 
 import org.junit.runner.RunWith;
 
-@RunWith(FilteredSuiteRunner.class)
+@RunWith(RuntimeSuite.class)
 public class MyFilteredSuite {}
  

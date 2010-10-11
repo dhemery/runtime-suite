@@ -1,13 +1,13 @@
-package com.dhemery.filteredsuite.tests;
+package com.dhemery.runtimesuite.tests;
 
 import static org.fest.assertions.Assertions.*;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.dhemery.filteredsuite.CategoryClassFilter;
-import com.dhemery.filteredsuite.ExcludeClassesWithCategories;
-import com.dhemery.filteredsuite.IncludeClassesWithCategories;
+import com.dhemery.runtimesuite.CategoryClassFilter;
+import com.dhemery.runtimesuite.ExcludeClassesWithCategories;
+import com.dhemery.runtimesuite.IncludeClassesWithCategories;
 
 public class ACategoryClassFilter {
 	public class CategoryA {}

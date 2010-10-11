@@ -1,19 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dhemery</groupId>
-  <artifactId>filtered-suite</artifactId>
-  <name>Filtered Suite</name>
+  <artifactId>runtime-suite</artifactId>
+  <name>Runtime Suite</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>Filter JUnit tests by categories on test classes and test methods.</description>
-  <url>http://github.com/dhemery/Filtered-Suite</url>
+  <url>http://github.com/dhemery/Runtime-Suite</url>
   <issueManagement>
   	<system>GitHub</system>
-  	<url>http://github.com/dhemery/Filtered-Suite/issues</url>
+  	<url>http://github.com/dhemery/Runtime-Suite/issues</url>
   </issueManagement>
   <scm>
-  	<connection>scm:git:git@github.com:dhemery/giltered-suite.git</connection>
-  	<developerConnection>scm:git:git@github.com:dhemery/giltered-suite.git</developerConnection>
-  	<url>scm:git:git@github.com:dhemery/giltered-suite.git</url>
+  	<connection>scm:git:git@github.com:dhemery/runtime-suite.git</connection>
+  	<developerConnection>scm:git:git@github.com:dhemery/runtime-suite.git</developerConnection>
+  	<url>scm:git:git@github.com:dhemery/runtime-suite.git</url>
   </scm>
   <organization>
   	<name>Dale H. Emery</name>
@@ -31,6 +31,13 @@
   		<groupId>junit</groupId>
   		<artifactId>junit</artifactId>
   		<version>4.8.2</version>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.mockito</groupId>
+  		<artifactId>mockito-all</artifactId>
+  		<version>1.8.5</version>
+  		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   </dependencies>
