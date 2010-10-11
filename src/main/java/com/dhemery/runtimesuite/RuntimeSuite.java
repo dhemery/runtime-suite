@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
@@ -112,14 +113,16 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		return requiredType.isAssignableFrom(field.getType());
 	}
 
-	private Runner makeRunner(RunnerBuilder builder, Class<?> testClass) {
-		return builder.safeRunnerForClass(testClass);
+	private Runner makeRunner(RunnerBuilder builder, Class<?> testClass) throws InitializationError {
+		return new BlockJUnit4ClassRunner(testClass);
 	}
 
 	private List<Runner> makeRunners(RunnerBuilder builder, List<Class<?>> testClasses) {
 		List<Runner> runners = new ArrayList<Runner>();
 		for(Class<?> testClass : testClasses) {
-			runners.add(makeRunner(builder, testClass));
+			try {
+				runners.add(makeRunner(builder, testClass));
+			} catch (InitializationError e) {}
 		}
 		return runners;
 	}

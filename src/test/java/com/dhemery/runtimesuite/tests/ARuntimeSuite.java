@@ -20,6 +20,7 @@ import com.dhemery.runtimesuite.RuntimeSuite;
 
 import examples.NotAClassFilter;
 import examples.NotAClassFinder;
+import examples.NotATestClass;
 import examples.TestClass3;
 import examples.TestClassFinder;
 import examples.TestClass1;
@@ -63,9 +64,13 @@ public class ARuntimeSuite {
 	}
 
 	public static class SuiteThatFindsATestClassSeveralTimes {
-		@Finder public TestClassFinder finder1 = new TestClassFinder(TestClass1.class);
-		@Finder public TestClassFinder finder2 = new TestClassFinder(TestClass1.class);
-		@Finder public TestClassFinder finder3 = new TestClassFinder(TestClass1.class);
+		@Finder public ClassFinder finder1 = new TestClassFinder(TestClass1.class);
+		@Finder public ClassFinder finder2 = new TestClassFinder(TestClass1.class);
+		@Finder public ClassFinder finder3 = new TestClassFinder(TestClass1.class);
+	}
+
+	public static class SuiteThatFindsNonTestClasses {
+		@Finder public ClassFinder nonTestClassFinder = new TestClassFinder(NotATestClass.class);
 	}
 
 	@Test public void gathersTestClassesFromAllClassFinderFieldsAnnotatedWithFinder() throws InitializationError {
@@ -141,6 +146,12 @@ public class ARuntimeSuite {
 		assertThat(testClassesFrom(runners)).containsOnly(TestClass2.class);
 	}
 	
+	@Test public void createsRunnersOnlyForTestClasses() throws InitializationError {
+		RuntimeSuite suite = new RuntimeSuite(SuiteThatFindsNonTestClasses.class, builder);
+		List<Runner> runners = suite.getRunners();
+		assertThat(testClassesFrom(runners)).excludes(NotATestClass.class);
+	}
+
 	private List<Class<?>> testClassesFrom(List<Runner> runners) {
 		List<Class<?>> runnerTestClasses = new ArrayList<Class<?>>();
 		for(Runner runner : runners) {
