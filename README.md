@@ -37,7 +37,7 @@ Conceptually, `RuntimeSuite` does the following:
 
 ## Declaring Class Finder fields
 
-In your suite class, declare a method of type `ClassFinder` annotated with the `@Finder` annotation. For example:
+In your suite class, declare one or more fields of type `ClassFinder` annotated with the `@Finder` annotation. For example:
 
     @RunWith(RuntimeSuite.class)
     public static class MyClassFinderSuite {
@@ -49,7 +49,7 @@ In your suite class, declare a method of type `ClassFinder` annotated with the `
 
 ## Declaring Class Filter fields
 
-In your suite class, declare one or more methods of type `ClassFilter` annotated with the `@Filter` annotation.
+In your suite class, declare one or more fields of type `ClassFilter` annotated with the `@Filter` annotation.
 
     @RunWith(RuntimeSuite.class)
     public static class MyClassFinderSuite {
