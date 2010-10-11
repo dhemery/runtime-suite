@@ -1,18 +1,2 @@
-Declare these interfaces:
-	ClassFinder: Constructs a list of test classes to consider for the suite.
-	ClassFilter: Selects classes for inclusion in the suite.
-	MethodFilter: Selects @Test methods for inclusion in the suite.
+Wrap InstantiationException and IllegalAccessException in InitializationError
 
-Mark the finder and filter fields with @Finder and @Filter:
-	@Finder ClassFinder myClassFinder = new ClasspathClassFinder("com.dhemery.mytests");
-	@Filter ClassFilter myClassFilter = new CategoryInclusionClassFilter(MyCategory.class);
-	@Filter MethodFilter myMethodFilter = new CategoryExclusionMethodFilter(MyCategory.class);
-
-Conceptually, the suite:
-	1. Calls each @Finder ClassFinder field and collects the classes.
-	2. Calls each @Filter ClassFilter field and collects the classes that pass the filters.
-	3. Gathers the @Test methods from each surviving class.
-	4. Calls each @Filter MethodFilter field and collects the methods that pass the filters.
-	5. Builds a Runner for each surviving method.
-
-There's probably a way to subclass ParentRunner or RunnerBuilder to do steps 3-5.

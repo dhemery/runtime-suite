@@ -37,7 +37,7 @@ Conceptually, `RuntimeSuite` does the following:
 
 ## Declaring Class Finder fields
 
-In your suite class, declare a method of type `ClassFinder` annotated with the @Finder annotation. For example:
+In your suite class, declare a method of type `ClassFinder` annotated with the `@Finder` annotation. For example:
 
     @RunWith(RuntimeSuite.class)
     public static class MyClassFinderSuite {
@@ -49,7 +49,7 @@ In your suite class, declare a method of type `ClassFinder` annotated with the @
 
 ## Declaring Class Filter fields
 
-In your suite class, declare one or more methods of type `ClassFilter` annotated with the @Filter annotation.
+In your suite class, declare one or more methods of type `ClassFilter` annotated with the `@Filter` annotation.
 
     @RunWith(RuntimeSuite.class)
     public static class MyClassFinderSuite {
@@ -84,7 +84,7 @@ Write each class filter class to implement the `ClassFilter` interface:
         List<Class<?>> filter(Field filterField, List<Class<?>> candidateClasses);
     }
 
-`RuntimeSuite` calls the `filter()` method, passing it a `Field` that represents the class filter field declared in the suite class. You can use this parameter to examine the field declaration or its declaring suite class for annotations or other information.
+`RuntimeSuite` calls the `filter()` method, passing it a `Field` that represents the class filter field declared in the suite class, and a list of candidate test classes to filter. You can use the `Field` parameter to examine the field declaration or its declaring suite class for annotations or other information.
 
 Write your `filter()` method to determine whether to include each test class in the suite. Return the list of classes that survive the filter. `RuntimeSuite` will submit these classes to other filters (if any are declared). The classes that survive all filters are considered part of the suite.
 

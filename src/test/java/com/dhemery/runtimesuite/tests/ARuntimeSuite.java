@@ -1,5 +1,6 @@
 package com.dhemery.runtimesuite.tests;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import static org.fest.assertions.Assertions.*;
 import java.util.List;
@@ -18,6 +19,8 @@ import static org.mockito.Mockito.*;
 
 import com.dhemery.runtimesuite.RuntimeSuite;
 import com.dhemery.runtimesuite.RuntimeSuite.ClassFinder;
+import com.dhemery.runtimesuite.RuntimeSuite.ClassFilter;
+import com.dhemery.runtimesuite.RuntimeSuite.Filter;
 import com.dhemery.runtimesuite.RuntimeSuite.Finder;
 
 import examples.MyTestClass;
@@ -35,18 +38,57 @@ public class ARuntimeSuite {
 
 	@RunWith(RuntimeSuite.class)
 	public static class MyClassFinderSuite {
-		public static boolean myClassFinderWasRun = false;
-		private List<Class<?>> testClasses = Arrays.asList(new Class<?>[] { MyTestClass.class });
-		@Finder public ClassFinder myClassFinder = new ClassFinder() {
-			public List<Class<?>> find(Class<?> suiteClass) {
-				myClassFinderWasRun = true;
-				return testClasses;
+		public static boolean classFinder1WasRun = false;
+		public static boolean classFinder2WasRun = false;
+		@Finder public ClassFinder classFinder1 = new ClassFinder() {
+			public List<Class<?>> find(Field finderField) {
+				classFinder1WasRun = true;
+				return Arrays.asList(new Class<?>[] { MyTestClass.class });
+			}
+		};
+		@Finder public ClassFinder classFinder2 = new ClassFinder() {
+			public List<Class<?>> find(Field finderField) {
+				classFinder2WasRun = true;
+				return Arrays.asList(new Class<?>[] { MyTestClass.class });
 			}
 		};
 	}
 
-	@Test public void runsTheSuiteClassFinders() throws InitializationError, InstantiationException, IllegalAccessException {
+	@Test public void runsTheSuiteClassFinders() throws InitializationError {
 		new RuntimeSuite(MyClassFinderSuite.class, builder);
-		assertThat(MyClassFinderSuite.myClassFinderWasRun).isTrue();
+		assertThat(MyClassFinderSuite.classFinder1WasRun).isTrue();
+		assertThat(MyClassFinderSuite.classFinder2WasRun).isTrue();
+	}
+
+	@RunWith(RuntimeSuite.class)
+	public static class MyClassFilterSuite {
+		public static boolean classFilter1WasRun = false;
+		public static boolean classFilter2WasRun = false;
+		
+		@Finder public ClassFinder classFinder1 = new ClassFinder() {
+			public List<Class<?>> find(Field finderField) {
+				return Arrays.asList(new Class<?>[] { MyTestClass.class });
+			}
+		};
+
+		@Filter public ClassFilter classiFilter1 = new ClassFilter() {
+			public List<Class<?>> filter(Field filterField, List<Class<?>> candidateClasses) {
+				classFilter1WasRun = true;
+				return Arrays.asList(new Class<?>[] { MyTestClass.class });
+			}
+		};
+		@Filter public ClassFilter classFilter2 = new ClassFilter() {
+			public List<Class<?>> filter(Field filterField, List<Class<?>> candidateClasses) {
+				classFilter2WasRun = true;
+				return Arrays.asList(new Class<?>[] { MyTestClass.class });
+			}
+		};
+	}
+ 
+	@Test public void runsTheSuiteClassFilters() throws InitializationError, InstantiationException, IllegalAccessException {
+		new RuntimeSuite(MyClassFilterSuite.class, builder);
+		assertThat(MyClassFilterSuite.classFilter1WasRun).isTrue();
+		assertThat(MyClassFilterSuite.classFilter2WasRun).isTrue();
 	}
 }
+
