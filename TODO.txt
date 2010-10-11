@@ -1,7 +1,3 @@
-Don't make runners for classes with no tests.
-
-Instead of having filters loop over classes, have them just apply to a single class.
-
 Let ParentRunner apply the filters? Build all runners, then let it filter?
 
 What RunnerBuilder to use? Currently using AllDefaultPossiblitiesBuilder.

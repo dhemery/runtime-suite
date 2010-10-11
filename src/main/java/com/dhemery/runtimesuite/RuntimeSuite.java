@@ -24,6 +24,20 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		this.builder = builder;
 	}
 
+	private void addNewClasses(List<Class<?>> knownClasses, List<Class<?>> classesToMakeKnown) {
+		for(Class<?> classToMakeKnown : classesToMakeKnown) {
+			if(!knownClasses.contains(classToMakeKnown)) knownClasses.add(classToMakeKnown);
+		}
+	}
+
+	private List<Class<?>> applyFilters(List<ClassFilter> filters, List<Class<?>> candidateClasses) {
+		List<Class<?>> result = new ArrayList<Class<?>>();
+		for(Class<?> candidateClass : candidateClasses) {
+			if(passesAllFilters(filters, candidateClass)) result.add(candidateClass);
+		}
+		return result;
+	}
+
 	private List<Runner> computeRunners(Class<?> suiteClass, RunnerBuilder builder) throws InitializationError {
 		List<Field> classFinderFields = getClassFinderFields(suiteClass);
 		List<Field> classFilterFields = getClassFilterFields(suiteClass);
@@ -41,13 +55,9 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 	private List<Class<?>> filterTestClasses(Object suite, List<Field> filterFields, List<Class<?>> candidateClasses) throws InitializationError {
-		List<Class<?>> result = new ArrayList<Class<?>>();
-		addNewClasses(result, candidateClasses);
-		for(Field filterField : filterFields) {
-			ClassFilter filter = (ClassFilter) getMember(suite, filterField);
-			result = filter.filter(result);
-		}
-		return result;
+		if(filterFields.isEmpty()) return candidateClasses;
+		List<ClassFilter> filters = makeFilters(suite, filterFields);
+		return applyFilters(filters, candidateClasses);
 	}
 
 	private List<Field> findMatchingFields(Class<?> suiteClass, Class<? extends Annotation> requiredAnnotation, Class<?> requiredType) {
@@ -62,19 +72,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 	private List<Class<?>> findTestClasses(Object suite, List<Field> finderFields) throws InitializationError {
-		List<Class<?>> result = new ArrayList<Class<?>>();
-		for(Field finderField : finderFields) {
-			ClassFinder finder = (ClassFinder) getMember(suite, finderField);
-			List<Class<?>> foundClasses = finder.find();
-			addNewClasses(result, foundClasses);
-		}
-		return result;
-	}
-
-	private void addNewClasses(List<Class<?>> knownClasses, List<Class<?>> classesToMakeKnown) {
-		for(Class<?> classToMakeKnown : classesToMakeKnown) {
-			if(!knownClasses.contains(classToMakeKnown)) knownClasses.add(classToMakeKnown);
-		}
+		return runFinders(makeFinders(suite, finderFields));
 	}
 
 	protected List<Runner> getChildren() {	
@@ -113,6 +111,25 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		return requiredType.isAssignableFrom(field.getType());
 	}
 
+	private List<ClassFilter> makeFilters(Object suite, List<Field> filterFields)
+			throws InitializationError {
+		List<ClassFilter> filters = new ArrayList<ClassFilter>();
+		for(Field filterField : filterFields) {
+			ClassFilter filter = (ClassFilter) getMember(suite, filterField);
+			filters.add(filter);
+		}
+		return filters;
+	}
+
+	private List<ClassFinder> makeFinders(Object suite, List<Field> finderFields)
+			throws InitializationError {
+		List<ClassFinder> finders = new ArrayList<ClassFinder>();
+		for(Field finderField : finderFields) {
+			finders.add((ClassFinder) getMember(suite, finderField));
+		}
+		return finders;
+	}
+
 	private Runner makeRunner(RunnerBuilder builder, Class<?> testClass) throws InitializationError {
 		return new BlockJUnit4ClassRunner(testClass);
 	}
@@ -135,7 +152,22 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		}
 	}
 
+	private boolean passesAllFilters(List<ClassFilter> filters, Class<?> candidateClass) {
+		for(ClassFilter filter : filters) {
+			if(!filter.passes(candidateClass)) return false;
+		}
+		return true;
+	}
+
 	protected void runChild(Runner child, RunNotifier notifier) {
 		child.run(notifier);
+	}
+
+	private List<Class<?>> runFinders(List<ClassFinder> finders) {
+		List<Class<?>> result = new ArrayList<Class<?>>();
+		for(ClassFinder finder : finders) {
+			addNewClasses(result, finder.find());
+		}
+		return result;
 	}
 }

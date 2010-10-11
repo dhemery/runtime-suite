@@ -81,12 +81,12 @@ Write your `find()` method to find test classes to be considered as candidates f
 Write each class filter class to implement the `ClassFilter` interface:
 
     public interface ClassFilter {
-        List<Class<?>> filter(List<Class<?>> candidateClasses);
+        boolean passes(Class<?> candidateClass);
     }
 
-`RuntimeSuite` calls the `filter()` method, passing it a list of candidate test classes to filter.
+`RuntimeSuite` calls the `passes()` method once for each candidate test class.
 
-Write your `filter()` method to determine whether to include each test class in the suite. Return the list of classes that survive the filter. `RuntimeSuite` will submit these classes to other filters (if any are declared). The classes that survive all filters are considered part of the suite.
+Write your `passed()` method to determine whether to include the given class in the suite. Return `true` if the filter passes the class, `false` if the filter rejects the class. If this filter passes the class, `RuntimeSuite` will subject the class to other filters (if any are declared). The classes that survive all filters are considered part of the suite.
 
 ## Declaring Method Filters
 I don't yet know how I will filter methods. Candidates include:
