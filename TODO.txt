@@ -1,3 +1,7 @@
+Category inclusion and exclusion filters.
+Class name inclusion and exclusion filters.
+Package inclusion and exclusion filters.
+
 Let ParentRunner apply the filters? Build all runners, then let it filter?
 
 @BeforeClass and @AfterClass annotations on RuntimeSuites.
@@ -12,9 +16,7 @@ Write class path finder.
     - All of class path.
     - Selected packages (= class path finder + package filters).
 
-Category inclusion and exclusion filters.
-Class name inclusion and exclusion filters.
-Package inclusion and exclusion filters.
+Can FEST-reflection help?
 
 How to filter methods?
 
