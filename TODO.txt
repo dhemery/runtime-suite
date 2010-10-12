@@ -1,8 +1,12 @@
-Javadoc.
-
 Let ParentRunner apply the filters? Build all runners, then let it filter?
 
-What RunnerBuilder to use? Currently using AllDefaultPossiblitiesBuilder.
+@BeforeClass and @AfterClass annotations on RuntimeSuites.
+
+Javadoc.
+
+Use a RunnerBuilder? Currently creating BlockJUnit4ClassRunner,
+which (I think) does not know about child runners.
+Maybe that's okay. Just make sure finders find only test classes.
 
 Write class path finder.
     - All of class path.
@@ -14,3 +18,6 @@ Package inclusion and exclusion filters.
 
 How to filter methods?
 
+What to do with classes that inherit from suites?
+
+What to do with suites that inherit from other classes (with annotations)?
