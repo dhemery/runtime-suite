@@ -2,16 +2,21 @@
 
 A Runtime Suite is a class that finds candidate test classes at runtime, filters the candidate classes and their test methods for inclusion in the suite, and runs the surviving methods under JUnit.
 
-You write the classes to find and filter classes and methods. I will write a few finders and filters for my own needs, such as:
+`RuntimeSuite` is designed to make it easy for you to write your own finders and filters, and to create suites that use them.
 
- * `ClassesOnTheClasspath`: Finds all test classes in the classpath.
- * `InCategory` filter: Retain classes in specified categories (specified by `@Category` annotations); reject classes not in those categories.
- * `NotInCategory` filter: Reject classes in specified categories (specified by `@Category` annotations); retain classes not in those categories.
+This project will include a few basic finders and filters. These filters are ready to use:
+
+ * `ClassesInCategories` filter: Passes each class in any of the specified categories; rejects all other classes. (Done)
+ * `ClassesNotInCategories` filter: Rejects each class in any of the specified categories; passes all other classes. (Done)
+ 
+I intend to write these finders and filters:
+ 
+ * `ClassesOnTheClasspath`: Finds all test classes in the classpath. (Not yet implemented.)
+ * `MethodsInCategories` filter: Passes each test method in any of the specified categories; rejects all other test methods. (Not yet implemented.)
+ * `MethodsNotInCategories` filter: Rejects each test method in any of the specified categories; passes all other test methods. (Not yet implemented.)
 
 
-**NOTE:** This document describes my current intentions, which are subject to change on my slightest whim. This stuff isn't implemented yet. Follow along if you wish, but don't count on anything until I declare a release.
-
-If my intentions and capriciousness don't fit your needs, feel free to grab the code from any commit and have your way with it.
+**Note:** This code is still volatile.
 
 ## Declaring Runtime Suites
 
