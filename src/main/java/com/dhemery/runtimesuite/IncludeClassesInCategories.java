@@ -3,19 +3,19 @@ package com.dhemery.runtimesuite;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.experimental.categories.Category;
 
-
 public class IncludeClassesInCategories implements ClassFilter {
-	private final Class<?> allowedCategories;
+	private final List<Class<?>> allowedCategories;
 
-	public IncludeClassesInCategories(Class<?> allowedCategories) {
-		this.allowedCategories = allowedCategories;
+	public IncludeClassesInCategories(Class<?>...allowedCategories) {
+		this.allowedCategories = Arrays.asList(allowedCategories);
 	}
 
 	public boolean passes(Class<?> candidateClass) {
-		return categoriesOn(candidateClass).contains(allowedCategories);
+		return !Collections.disjoint(allowedCategories, categoriesOn(candidateClass));
 	}
 
 	private Collection<Class<?>> categoriesOn(Class<?> candidateClass) {
