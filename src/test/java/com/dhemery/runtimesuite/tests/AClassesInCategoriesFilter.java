@@ -6,9 +6,9 @@ import org.junit.experimental.categories.Category;
 import static org.fest.assertions.Assertions.*;
 
 import com.dhemery.runtimesuite.ClassFilter;
-import com.dhemery.runtimesuite.IncludeClassesInCategories;
+import com.dhemery.runtimesuite.ClassesInCategories;
 
-public class AnIncludeClassesInCategoriesFilter {
+public class AClassesInCategoriesFilter {
 	public interface CategoryA {}
 	public interface CategoryB {}
 	public interface CategoryC {}
@@ -29,26 +29,26 @@ public class AnIncludeClassesInCategoriesFilter {
 	public class ClassInCategoriesCandD {}
 	
 	@Test public void forASingleCategory_passesClassesInThatCategory() {
-		ClassFilter filter = new IncludeClassesInCategories(CategoryA.class);
+		ClassFilter filter = new ClassesInCategories(CategoryA.class);
 		assertThat(filter.passes(ClassInCategoryA.class)).isTrue();
 		assertThat(filter.passes(ClassInCategoriesAandB.class)).isTrue();
 	}
 	
 	@Test public void forASingleCategory_doesNotPassClassesThatLackThatCategory() {
-		ClassFilter filter = new IncludeClassesInCategories(CategoryA.class);
+		ClassFilter filter = new ClassesInCategories(CategoryA.class);
 		assertThat(filter.passes(ClassWithNoCategories.class)).isFalse();
 		assertThat(filter.passes(ClassInCategoryB.class)).isFalse();
 	}
 	
 	@Test public void forMultipleCategories_passesClassesInAnySpecifiedCategory() {
-		ClassFilter filter = new IncludeClassesInCategories(CategoryA.class, CategoryB.class);
+		ClassFilter filter = new ClassesInCategories(CategoryA.class, CategoryB.class);
 		assertThat(filter.passes(ClassInCategoryA.class)).isTrue();
 		assertThat(filter.passes(ClassInCategoryB.class)).isTrue();
 		assertThat(filter.passes(ClassInCategoriesAandB.class)).isTrue();
 	}
 	
 	@Test public void forMultipleCategories_doesNotPassClassesThatLackAllSpecifiedCategories() {
-		ClassFilter filter = new IncludeClassesInCategories(CategoryA.class, CategoryB.class);
+		ClassFilter filter = new ClassesInCategories(CategoryA.class, CategoryB.class);
 		assertThat(filter.passes(ClassWithNoCategories.class)).isFalse();
 		assertThat(filter.passes(ClassInCategoriesCandD.class)).isFalse();
 	}

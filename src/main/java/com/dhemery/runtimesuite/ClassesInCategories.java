@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.junit.experimental.categories.Category;
 
-public class IncludeClassesInCategories implements ClassFilter {
+public class ClassesInCategories implements ClassFilter {
 	private final List<Class<?>> allowedCategories;
 
-	public IncludeClassesInCategories(Class<?>...allowedCategories) {
+	public ClassesInCategories(Class<?>...allowedCategories) {
 		this.allowedCategories = Arrays.asList(allowedCategories);
 	}
 
