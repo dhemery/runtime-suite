@@ -1,5 +1,6 @@
 package examples;
 
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class TestClassFinder implements ClassFinder {
 		this.classes = Arrays.asList(classes);
 	}
 
-	public List<Class<?>> find() {
+	public Collection<Class<?>> find() {
 		return classes;
 	}
 

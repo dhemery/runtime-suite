@@ -1,6 +1,7 @@
 package com.dhemery.runtimesuite;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
@@ -67,7 +68,7 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 
-	private void addNewClasses(List<Class<?>> knownClasses, List<Class<?>> classesToMakeKnown) {
+	private void addNewClasses(Collection<Class<?>> knownClasses, Collection<Class<?>> classesToMakeKnown) {
 		for(Class<?> classToMakeKnown : classesToMakeKnown) {
 			if(!knownClasses.contains(classToMakeKnown)) knownClasses.add(classToMakeKnown);
 		}

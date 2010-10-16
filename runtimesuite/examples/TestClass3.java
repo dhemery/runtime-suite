@@ -1,5 +1,6 @@
 package examples;
 
+
 import org.junit.Test;
 
 public class TestClass3 {

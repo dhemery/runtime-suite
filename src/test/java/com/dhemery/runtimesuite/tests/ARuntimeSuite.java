@@ -19,11 +19,12 @@ import com.dhemery.runtimesuite.RuntimeSuite;
 import examples.NotAClassFilter;
 import examples.NotAClassFinder;
 import examples.NotATestClass;
-import examples.TestClass3;
-import examples.TestClassFinder;
 import examples.TestClass1;
 import examples.TestClass2;
+import examples.TestClass3;
+import examples.TestClassFinder;
 import examples.TestClassRemover;
+
 
 public class ARuntimeSuite {
 	public static class SuiteWithTwoFinders {

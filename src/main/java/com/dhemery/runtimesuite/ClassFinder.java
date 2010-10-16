@@ -1,7 +1,8 @@
 package com.dhemery.runtimesuite;
 
-import java.util.List;
+import java.util.Collection;
+
 
 public interface ClassFinder {
-	List<Class<?>> find();
+	Collection<Class<?>> find();
 }
