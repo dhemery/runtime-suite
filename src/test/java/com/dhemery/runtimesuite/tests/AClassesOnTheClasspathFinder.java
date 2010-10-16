@@ -34,9 +34,6 @@ import com.dhemery.runtimesuite.ClassesOnClassPath;
 import static org.fest.assertions.Assertions.*;
 
 public class AClassesOnTheClasspathFinder {
-	@Test public void showClassPath() {
-		System.out.println("Classpath: " + System.getProperty("java.class.path"));
-	}
 	@Ignore
 	@Test public void findsAllClassesOnASingleElementClasspath() {
 		ClassFinder finder = new ClassesOnClassPath("./classpath.one");
