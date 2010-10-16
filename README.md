@@ -73,7 +73,7 @@ In your suite class, declare one or more fields of type `ClassFilter` annotated 
 Write each class finder class to implement the `ClassFinder` interface:
 
     public interface ClassFinder {
-        List<Class<?>> find();
+        Collection<Class<?>> find();
     }
 
 `RuntimeSuite` calls the `find()` method to find classes to run.

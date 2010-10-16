@@ -3,7 +3,6 @@ package com.dhemery.runtimesuite;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 
 public class ClassesOnClassPath implements ClassFinder {

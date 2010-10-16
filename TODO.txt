@@ -1,22 +1,29 @@
-Category inclusion and exclusion filters.
-Class name inclusion and exclusion filters.
-Package inclusion and exclusion filters.
+--------
+FEATURES
+--------
+Filter: MethodsInCategories
+Filter: MethodsNotInCategories
+Filter: ClassesInPackages
+Filter: ClassesNotInPackages
 
+
+--------
+GUIDANCE
+--------
+Javadoc
+GitHub wiki
+
+
+--------
+RESEARCH
+--------
 Let ParentRunner apply the filters? Build all runners, then let it filter?
 
 @BeforeClass and @AfterClass annotations on RuntimeSuites.
 
-Javadoc.
-
 Use a RunnerBuilder? Currently creating BlockJUnit4ClassRunner,
 which (I think) does not know about child runners.
 Maybe that's okay. Just make sure finders find only test classes.
-
-Write class path finder.
-    - All of class path.
-    - Selected packages (= class path finder + package filters).
-
-Can FEST-reflection help?
 
 How to filter methods?
 

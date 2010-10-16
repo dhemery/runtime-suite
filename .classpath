@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
-	<classpathentry kind="src" path="runtimesuite"/>
-	<classpathentry kind="src" path="classpath.one"/>
-	<classpathentry kind="src" path="classpath.two"/>
+	<classpathentry kind="src" path="test.samples/runtimesuite"/>
+	<classpathentry kind="src" path="test.samples/finder/classpath.one"/>
+	<classpathentry kind="src" path="test.samples/finder/classpath.two"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
