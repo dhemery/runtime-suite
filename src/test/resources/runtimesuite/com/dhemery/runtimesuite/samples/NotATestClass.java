@@ -1,4 +1,4 @@
-package runtimesuite;
+package com.dhemery.runtimesuite.samples;
 
 
 public class NotATestClass {

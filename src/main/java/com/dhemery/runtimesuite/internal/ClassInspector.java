@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite;
+package com.dhemery.runtimesuite.internal;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

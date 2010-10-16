@@ -1,4 +1,4 @@
-package runtimesuite;
+package com.dhemery.runtimesuite.samples;
 
 
 import org.junit.Test;

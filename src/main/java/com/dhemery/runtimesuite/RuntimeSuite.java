@@ -11,6 +11,8 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 
+import com.dhemery.runtimesuite.internal.ClassInspector;
+
 public class RuntimeSuite extends ParentRunner<Runner> {
 	private List<Runner> runners;
 

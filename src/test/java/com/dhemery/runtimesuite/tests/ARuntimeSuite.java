@@ -10,20 +10,20 @@ import org.junit.Test;
 import org.junit.runner.Runner;
 import org.junit.runners.model.InitializationError;
 
-import runtimesuite.NotAClassFilter;
-import runtimesuite.NotAClassFinder;
-import runtimesuite.NotATestClass;
-import runtimesuite.TestClass1;
-import runtimesuite.TestClass2;
-import runtimesuite.TestClass3;
-import runtimesuite.TestClassFinder;
-import runtimesuite.TestClassRemover;
 
 import com.dhemery.runtimesuite.ClassFilter;
 import com.dhemery.runtimesuite.ClassFinder;
 import com.dhemery.runtimesuite.Filter;
 import com.dhemery.runtimesuite.Finder;
 import com.dhemery.runtimesuite.RuntimeSuite;
+import com.dhemery.runtimesuite.samples.NotAClassFilter;
+import com.dhemery.runtimesuite.samples.NotAClassFinder;
+import com.dhemery.runtimesuite.samples.NotATestClass;
+import com.dhemery.runtimesuite.samples.TestClass1;
+import com.dhemery.runtimesuite.samples.TestClass2;
+import com.dhemery.runtimesuite.samples.TestClass3;
+import com.dhemery.runtimesuite.samples.TestClassFinder;
+import com.dhemery.runtimesuite.samples.TestClassRemover;
 
 
 
