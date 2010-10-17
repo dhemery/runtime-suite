@@ -4,6 +4,9 @@
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/examples-for-testing"/>
+	<classpathentry kind="lib" path="examples-for-testing/bin/finder/classpath.a"/>
+	<classpathentry kind="lib" path="examples-for-testing/bin/finder/classpath.b"/>
+	<classpathentry kind="lib" path="examples-for-testing/bin/finder/classpath.c"/>
+	<classpathentry kind="lib" path="examples-for-testing/bin/finder/classpath.d"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
