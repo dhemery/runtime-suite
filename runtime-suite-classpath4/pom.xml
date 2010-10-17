@@ -5,7 +5,7 @@
     <groupId>com.dhemery</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.dhemery</groupId>
-  <artifactId>classpath1</artifactId>
+  <groupId>com.dhemery.runtime-suite</groupId>
+  <artifactId>classpath4</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 </project>
