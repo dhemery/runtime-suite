@@ -35,7 +35,6 @@ public class ClasspathElement {
 		try {
 			return Class.forName(classNameForFile(file));
 		} catch (ClassNotFoundException e) {
-			System.out.println("No file for class name: " + file.getPath());
 			return null;
 		}
 	}
