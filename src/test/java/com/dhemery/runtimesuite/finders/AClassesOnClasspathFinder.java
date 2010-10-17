@@ -12,7 +12,7 @@ import static org.fest.assertions.Assertions.*;
 
 public class AClassesOnClasspathFinder {
 	@Test public void findsAllClassesOnASingleElementClasspath() {
-		String classpath = "./examples-for-testing/classpath1";
+		String classpath = makeClasspath("classpath.a");
 		ClassFinder finder = new ClassesOnClassPath(classpath);
 		Collection<Class<?>> found = finder.find();
 		assertThat(found).containsOnly(a.Test_a_1.class,
@@ -27,10 +27,14 @@ public class AClassesOnClasspathFinder {
 										a._2.Test_a2_2.class);
 	}
 
+	private String makeClasspath(String path) {
+		return String.format("./examples-for-testing/bin/finder/%s", path);
+	}
+
 	@Test public void findsAllClassesOnAMultipleElementClasspath() {
-		String classpath = "./examples-for-testing/classpath1"
+		String classpath = makeClasspath("classpath.a")
 							+ File.pathSeparator
-							+ "./examples-for-testing/classpath2";
+							+ makeClasspath("classpath.b");
 		ClassFinder finder = new ClassesOnClassPath(classpath);
 		Collection<Class<?>> found = finder.find();
 		assertThat(found).containsOnly(a.Test_a_1.class,
@@ -56,10 +60,10 @@ public class AClassesOnClasspathFinder {
 	}
 	
 	@Test public void ignoresNonClassFiles() {
-		// classpath.three contains
+		// classpath.c contains
 		//    - ./c/Test_c_1.class
 		//    - ./c/not-a-test.txt
-		String classpath = "./examples-for-testing/classpath3";
+		String classpath = makeClasspath("classpath.c");
 		ClassFinder finder = new ClassesOnClassPath(classpath);
 		Collection<Class<?>> found = finder.find();
 		assertThat(found).containsOnly(c.Test_c_1.class);
@@ -69,7 +73,7 @@ public class AClassesOnClasspathFinder {
 		// classpath.four contains
 		//    - ./d/Test_d_1.class
 		//    - ./d/NotATest_d_2.class
-		String classpath = "./examples-for-testing/classpath4";
+		String classpath = makeClasspath("classpath.d");
 		ClassFinder finder = new ClassesOnClassPath(classpath);
 		Collection<Class<?>> found = finder.find();
 		assertThat(found).containsOnly(d.Test_d_1.class);
