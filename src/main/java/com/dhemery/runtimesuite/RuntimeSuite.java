@@ -39,8 +39,8 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 
 	private List<Runner> computeRunners(Class<?> suiteClass) throws InitializationError {
 		ClassInspector inspector = new ClassInspector(suiteClass);
-		List<ClassFinder> finders = inspector.matchingMembers(Finder.class, ClassFinder.class);
-		List<ClassFilter> filters = inspector.matchingMembers(Filter.class, ClassFilter.class);
+		List<ClassFinder> finders = inspector.membersWith(Finder.class, ClassFinder.class);
+		List<ClassFilter> filters = inspector.membersWith(Filter.class, ClassFilter.class);
 		List<Class<?>> candidateClasses = findTestClasses(finders);
 		Class<?>[] filteredClasses = filterTestClasses(filters, candidateClasses).toArray(new Class<?>[0]);
 		return new AllDefaultPossibilitiesBuilder(false).runners(suiteClass, filteredClasses);

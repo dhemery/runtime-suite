@@ -3,6 +3,7 @@ package com.dhemery.runtimesuite.internal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class ClasspathElement {
 
@@ -13,7 +14,9 @@ public class ClasspathElement {
 	}
 
 	public Collection<Class<?>> allClasses() {
-		return classesInDirectory(new File(classpath));
+		File directory = new File(classpath);
+		if(!directory.isDirectory()) return Collections.emptyList();
+		return classesInDirectory(directory);
 	}
 	
 	private Collection<Class<?>> classesInDirectory(File directory) {
@@ -32,6 +35,7 @@ public class ClasspathElement {
 		try {
 			return Class.forName(classNameForFile(file));
 		} catch (ClassNotFoundException e) {
+			System.out.println("No file for class name: " + file.getPath());
 			return null;
 		}
 	}

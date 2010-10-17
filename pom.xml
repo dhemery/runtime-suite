@@ -2,6 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dhemery</groupId>
   <artifactId>runtime-suite</artifactId>
+  <packaging>pom</packaging>
   <name>Runtime Suite</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>Filter JUnit tests by categories on test classes and test methods.</description>
@@ -33,6 +34,20 @@
   		<version>4.8.2</version>
   		<scope>compile</scope>
   	</dependency>
+  	<dependency>
+  		<groupId>com.dhemery</groupId>
+  		<artifactId>classpath3</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.dhemery</groupId>
+  		<artifactId>classpath4</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
   </dependencies>
 
   <build>
@@ -48,4 +63,10 @@
       </plugin>
     </plugins>
   </build>
+  <modules>
+  	<module>classpath1</module>
+  	<module>classpath2</module>
+  	<module>classpath3</module>
+  	<module>classpath4</module>
+  </modules>
 </project>

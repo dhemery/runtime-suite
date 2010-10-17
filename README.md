@@ -4,14 +4,14 @@ A Runtime Suite is a class that finds candidate test classes at runtime, filters
 
 `RuntimeSuite` is designed to make it easy for you to write your own finders and filters, and to create suites that use them.
 
-This project will include a few basic finders and filters. These filters are ready to use:
+This project these finders and filters:
 
+ * `ClassesOnClasspath` finder: Finds all classes on the given classpath.
  * `ClassesInCategories` filter: Passes each class in any of the specified categories; rejects all other classes. (Done)
  * `ClassesNotInCategories` filter: Rejects each class in any of the specified categories; passes all other classes. (Done)
  
 I intend to write these finders and filters:
  
- * `ClassesOnTheClasspath`: Finds all test classes in the classpath. (Not yet implemented.)
  * `MethodsInCategories` filter: Passes each test method in any of the specified categories; rejects all other test methods. (Not yet implemented.)
  * `MethodsNotInCategories` filter: Rejects each test method in any of the specified categories; passes all other test methods. (Not yet implemented.)
 

@@ -8,10 +8,10 @@ import java.util.List;
 import org.junit.runners.model.InitializationError;
 
 public class ClassInspector {
-	private final Object suite;
+	private final Object object;
 
-	public ClassInspector(Class<?> suiteClass) throws InitializationError {
-		suite = instantiate(suiteClass);
+	public ClassInspector(Class<?> objectClass) throws InitializationError {
+		object = instantiate(objectClass);
 	}
 
 	private Object instantiate(Class<?> suiteClass) throws InitializationError {
@@ -23,17 +23,17 @@ public class ClassInspector {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> T member(Field memberField) throws InitializationError {
+	private <T> T member(Field field) throws InitializationError {
 		try {
-			return (T) memberField.get(suite);
+			return (T) field.get(object);
 		} catch (Throwable cause) {
 			throw new InitializationError(cause);
 		}
 	}
 
-	public <T> List<T> matchingMembers(Class<? extends Annotation> annotation, Class<T> type) throws InitializationError {
+	public <T> List<T> membersWith(Class<? extends Annotation> annotation, Class<T> type) throws InitializationError {
 		List<T> result = new ArrayList<T>();
-		for(Field field : suite.getClass().getFields()) {
+		for(Field field : object.getClass().getFields()) {
 			if(matches(field, annotation, type)) {
 				result.add(this.<T>member(field));
 			}

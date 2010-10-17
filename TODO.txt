@@ -1,6 +1,7 @@
 --------
 FEATURES
 --------
+Make ClassesOnClasspath find only test classes.
 Filter: MethodsInCategories
 Filter: MethodsNotInCategories
 Filter: ClassesInPackages
