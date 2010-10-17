@@ -54,10 +54,5 @@
   	</dependencies>
   </dependencyManagement>
   <modules>
-  	<module>runtime-suite-core</module>
-  	<module>runtime-suite-classpath1</module>
-  	<module>runtime-suite-classpath2</module>
-  	<module>runtime-suite-classpath3</module>
-  	<module>runtime-suite-classpath4</module>
   </modules>
 </project>
