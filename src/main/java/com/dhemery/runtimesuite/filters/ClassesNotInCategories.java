@@ -1,4 +1,6 @@
-package com.dhemery.runtimesuite;
+package com.dhemery.runtimesuite.filters;
+
+import com.dhemery.runtimesuite.ClassFilter;
 
 public class ClassesNotInCategories implements ClassFilter {
 	private final ClassFilter inCategories;

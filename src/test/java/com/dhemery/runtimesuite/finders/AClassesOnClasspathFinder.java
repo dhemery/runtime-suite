@@ -1,18 +1,19 @@
-package com.dhemery.runtimesuite.tests;
+package com.dhemery.runtimesuite.finders;
 
+import java.io.File;
 import java.util.Collection;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.dhemery.runtimesuite.ClassFinder;
-import com.dhemery.runtimesuite.ClassesOnClassPath;
+import com.dhemery.runtimesuite.finders.ClassesOnClassPath;
 
 import static org.fest.assertions.Assertions.*;
 
 public class AClassesOnClasspathFinder {
 	@Test public void findsAllClassesOnASingleElementClasspath() {
-		ClassFinder finder = new ClassesOnClassPath("./target/test-resources/finder/classpath.one");
+		String classpath = "./target/test-resources/finder/classpath.one";
+		ClassFinder finder = new ClassesOnClassPath(classpath);
 		Collection<Class<?>> found = finder.find();
 		assertThat(found).containsOnly(a.Test_a_1.class,
 										a.Test_a_2.class,
@@ -26,9 +27,11 @@ public class AClassesOnClasspathFinder {
 										a._2.Test_a2_2.class);
 	}
 
-	@Ignore
 	@Test public void findsAllClassesOnAMultipleElementClasspath() {
-		ClassFinder finder = new ClassesOnClassPath("./target/test-resources/finder/classpath.one:./target/test-resources/finder/classpath.two");
+		String classpath = "./target/test-resources/finder/classpath.one"
+							+ File.pathSeparator
+							+ "./target/test-resources/finder/classpath.two";
+		ClassFinder finder = new ClassesOnClassPath(classpath);
 		Collection<Class<?>> found = finder.find();
 		assertThat(found).containsOnly(a.Test_a_1.class,
 										a.Test_a_2.class,
@@ -50,5 +53,13 @@ public class AClassesOnClasspathFinder {
 										b._2._a.Test_b2a_2.class,
 										b._2._b.Test_b2b_1.class,
 										b._2._b.Test_b2b_2.class);
+	}
+	
+	@Test public void ignoresNonClassFiles() {
+		// classpath.three has a non-class file ./c/not-a-test.txt
+		String classpath = "./target/test-resources/finder/classpath.three";
+		ClassFinder finder = new ClassesOnClassPath(classpath);
+		Collection<Class<?>> found = finder.find();
+		assertThat(found).containsOnly(c.Test_c_1.class);
 	}
 }

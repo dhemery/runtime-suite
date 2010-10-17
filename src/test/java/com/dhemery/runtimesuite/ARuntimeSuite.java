@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite.tests;
+package com.dhemery.runtimesuite;
 
 import static org.fest.assertions.Assertions.*;
 

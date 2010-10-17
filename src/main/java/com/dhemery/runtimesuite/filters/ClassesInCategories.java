@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite;
+package com.dhemery.runtimesuite.filters;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.experimental.categories.Category;
+
+import com.dhemery.runtimesuite.ClassFilter;
 
 public class ClassesInCategories implements ClassFilter {
 	private final List<Class<?>> allowedCategories;

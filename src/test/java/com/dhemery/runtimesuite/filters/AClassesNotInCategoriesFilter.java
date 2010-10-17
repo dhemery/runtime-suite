@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite.tests;
+package com.dhemery.runtimesuite.filters;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -6,7 +6,7 @@ import org.junit.experimental.categories.Category;
 import static org.fest.assertions.Assertions.*;
 
 import com.dhemery.runtimesuite.ClassFilter;
-import com.dhemery.runtimesuite.ClassesNotInCategories;
+import com.dhemery.runtimesuite.filters.ClassesNotInCategories;
 
 public class AClassesNotInCategoriesFilter {
 	public interface CategoryA {}
