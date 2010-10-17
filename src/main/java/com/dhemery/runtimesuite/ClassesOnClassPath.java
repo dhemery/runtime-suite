@@ -6,7 +6,6 @@ import java.util.Collection;
 
 
 public class ClassesOnClassPath implements ClassFinder {
-
 	private final String classpath;
 
 	public ClassesOnClassPath(String classpath) {
@@ -39,8 +38,12 @@ public class ClassesOnClassPath implements ClassFinder {
 	}
 
 	private String classNameForFile(File file) {
-		System.out.println("file: " + file.getAbsolutePath());
-		return "a._1._a.Test_a1a_1";
+		String fileNameWithinClasspath = file.getPath().substring(classpath.length() + 1);
+		int fileNameLength = fileNameWithinClasspath.length();
+		String fileNameWithClassSuffixStripped = fileNameWithinClasspath.substring(0, fileNameLength - ".class".length());
+		String className = fileNameWithClassSuffixStripped.replace('/', '.');
+		System.out.println("File name: " + className);
+		return className;
 	}
 
 	private boolean isClassFile(File file) {
