@@ -34,20 +34,6 @@
   		<version>4.8.2</version>
   		<scope>compile</scope>
   	</dependency>
-  	<dependency>
-  		<groupId>com.dhemery</groupId>
-  		<artifactId>classpath3</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.dhemery</groupId>
-  		<artifactId>classpath4</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
   </dependencies>
 
   <build>
@@ -63,6 +49,10 @@
       </plugin>
     </plugins>
   </build>
+  <dependencyManagement>
+  	<dependencies>
+  	</dependencies>
+  </dependencyManagement>
   <modules>
   	<module>classpath1</module>
   	<module>classpath2</module>

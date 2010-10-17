@@ -6,6 +6,6 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.dhemery</groupId>
-  <artifactId>classpath.one</artifactId>
+  <artifactId>classpath1</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 </project>
