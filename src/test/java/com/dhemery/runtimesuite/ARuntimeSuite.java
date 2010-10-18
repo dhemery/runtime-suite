@@ -2,12 +2,15 @@ package com.dhemery.runtimesuite;
 
 import static org.fest.assertions.Assertions.*;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runners.model.InitializationError;
 
@@ -60,6 +63,11 @@ public class ARuntimeSuite {
 		@Finder public ClassFinder nonTestClassFinder = new ListedClassFinder(TestlessClass.class);
 	}
 
+	public static class SuiteWithMethodFilters {
+		@Finder public ClassFinder finder = new ListedClassFinder(TestClassWithNamesToFilter.class);
+		@Filter public MethodFilter filter = new MethodNamePrefixFilter("a_");
+	}
+
 	public static class ListedClassNonFinder /* Does not implement ClassFinder */ {
 		private Collection<Class<?>> classes;
 
@@ -96,6 +104,18 @@ public class ARuntimeSuite {
 		}
 	}
 
+	public static class MethodNamePrefixFilter implements MethodFilter {
+		private final String prefix;
+
+		public MethodNamePrefixFilter(String prefix) {
+			this.prefix = prefix;
+		}
+
+		public boolean passes(Method method) {
+			return method.getName().startsWith(prefix);
+		}
+	}
+
 	public class TestClass1 {
 		@Test public void myTest1() {}
 	}
@@ -113,6 +133,13 @@ public class ARuntimeSuite {
 		@Test public int nonVoidReturnType() { return 0; }
 		@Test public void takesParameters(int i) {}
 		@Test void notPublic() {}
+	}
+
+	public static class TestClassWithNamesToFilter {
+		@Test public void a_test1() {}
+		@Test public void a_test2() {}
+		@Test public void b_test1() {}
+		@Test public void b_test2() {}
 	}
 
 	@Test public void gathersTestClassesFromAllClassFinderFieldsAnnotatedWithFinder() throws InitializationError {
@@ -182,7 +209,7 @@ public class ARuntimeSuite {
 		assertThat(testClasses).hasSize(1);
 	}
 
-	@Test public void createsRunnersOnlyForTestClassesThatSurviveFilters() throws InitializationError {
+	@Test public void createsRunnersOnlyForTestClassesThatSurviveClassFilters() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFilters.class);
 		List<Runner> runners = suite.getRunners();
 		assertThat(testClassesFrom(runners)).containsOnly(TestClass2.class);
@@ -192,6 +219,50 @@ public class ARuntimeSuite {
 		RuntimeSuite suite = new RuntimeSuite(SuiteThatFindsNonTestClasses.class);
 		List<Runner> runners = suite.getRunners();
 		assertThat(testClassesFrom(runners)).excludes(TestlessClass.class);
+	}
+
+	@Test public void createsRunnersOnlyForMethodsThatSurviveMethodFilters() throws InitializationError, SecurityException, NoSuchMethodException {
+		RuntimeSuite suite = new RuntimeSuite(SuiteWithMethodFilters.class);
+		List<Runner> runners = suite.getRunners();
+		Collection<Method> testMethods = testMethodsFrom(runners);
+		assertThat(testMethods).excludes(method(TestClassWithNamesToFilter.class, "b_test1"));
+		assertThat(testMethods).excludes(method(TestClassWithNamesToFilter.class, "b_test2"));
+	}
+
+	private Collection<Method> testMethodsFrom(List<Runner> runners) {
+		Collection<Method> methods = new ArrayList<Method>();
+		for(Runner runner : runners) {
+			methods.addAll(testMethodsFrom(runner.getDescription()));			
+		}
+		return methods;
+	}
+
+	private Collection<Method> testMethodsFrom(Description description) {
+		if(description.isTest()) {
+			Class<?> c = description.getTestClass();
+			String methodName = description.getMethodName();
+			return Arrays.asList(new Method[] { method(c, methodName) });
+		}
+		if(description.isSuite()) {
+			return testMethodsFromSuite(description);
+		}
+		return Collections.emptyList();
+	}
+
+	private Method method(Class<?> c, String methodName) {
+		try {
+			return c.getMethod(methodName);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private Collection<Method> testMethodsFromSuite(Description suite) {
+		Collection<Method> methods = new ArrayList<Method>();
+		for(Description child : suite.getChildren()) {
+			methods.addAll(testMethodsFrom(child));
+		}
+		return methods;
 	}
 
 	private List<Class<?>> testClassesFrom(List<Runner> runners) {
