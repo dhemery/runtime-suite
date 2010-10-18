@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.Runner;
 import org.junit.runners.model.InitializationError;
@@ -110,7 +109,10 @@ public class ARuntimeSuite {
 	}
 
 	public class TestlessClass {
-		public void notATestBecauseNoTestAnnotation() {}
+		public void noTestAnnotation() {}
+		@Test public int nonVoidReturnType() { return 0; }
+		@Test public void takesParameters(int i) {}
+		@Test void notPublic() {}
 	}
 
 	@Test public void gathersTestClassesFromAllClassFinderFieldsAnnotatedWithFinder() throws InitializationError {
@@ -186,7 +188,6 @@ public class ARuntimeSuite {
 		assertThat(testClassesFrom(runners)).containsOnly(TestClass2.class);
 	}
 	
-	@Ignore("Make RuntimeSuite filter out non-test classes")
 	@Test public void createsRunnersOnlyForTestClasses() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteThatFindsNonTestClasses.class);
 		List<Runner> runners = suite.getRunners();

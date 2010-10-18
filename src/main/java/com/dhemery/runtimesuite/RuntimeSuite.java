@@ -2,7 +2,9 @@ package com.dhemery.runtimesuite;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.runner.Description;
@@ -12,12 +14,19 @@ import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 
 import com.dhemery.runtimesuite.internal.ClassInspector;
+import com.dhemery.runtimesuite.internal.ClassesWithTestMethods;
 
 public class RuntimeSuite extends ParentRunner<Runner> {
 	private List<Runner> runners;
+	private Collection<ClassFinder> finders;
+	private Collection<ClassFilter> filters;
 
 	public RuntimeSuite(Class<?> suiteClass) throws InitializationError {
 		super(suiteClass);
+		ClassInspector inspector = new ClassInspector(suiteClass);
+		finders = inspector.membersWith(Finder.class, ClassFinder.class);
+		filters = inspector.membersWith(Filter.class, ClassFilter.class);
+		filters.add(new ClassesWithTestMethods());
 		runners = computeRunners(suiteClass);
 	}
 
@@ -38,44 +47,33 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 	private List<Runner> computeRunners(Class<?> suiteClass) throws InitializationError {
-		ClassInspector inspector = new ClassInspector(suiteClass);
-		List<ClassFinder> finders = inspector.membersWith(Finder.class, ClassFinder.class);
-		List<ClassFilter> filters = inspector.membersWith(Filter.class, ClassFilter.class);
-		List<Class<?>> candidateClasses = findTestClasses(finders);
-		Class<?>[] filteredClasses = filterTestClasses(filters, candidateClasses).toArray(new Class<?>[0]);
+		Collection<Class<?>> candidateClasses = findTestClasses();
+		Class<?>[] filteredClasses = filter(candidateClasses).toArray(new Class<?>[0]);
 		return new AllDefaultPossibilitiesBuilder(false).runners(suiteClass, filteredClasses);
 	}
 
-	private List<Class<?>> findTestClasses(List<ClassFinder> finders) {
-		List<Class<?>> result = new ArrayList<Class<?>>();
+	private Collection<Class<?>> findTestClasses() {
+		Set<Class<?>> result = new HashSet<Class<?>>();
 		for(ClassFinder finder : finders) {
-			addNewClasses(result, finder.find());
+			result.addAll(finder.find());
 		}
 		return result;
 	}
 
-	private List<Class<?>> filterTestClasses(List<ClassFilter> filters, List<Class<?>> candidateClasses) {
-		List<Class<?>> result = new ArrayList<Class<?>>();
+	private Collection<Class<?>> filter(Collection<Class<?>> candidateClasses) {
+		Collection<Class<?>> result = new ArrayList<Class<?>>();
 		for(Class<?> candidateClass : candidateClasses) {
-			if(passesAllFilters(filters, candidateClass)) {
+			if(passesAllFilters(candidateClass)) {
 				result.add(candidateClass);
 			}
 		}
 		return result;
 	}
 
-	private boolean passesAllFilters(List<ClassFilter> filters, Class<?> candidateClass) {
+	private boolean passesAllFilters(Class<?> candidateClass) {
 		for(ClassFilter filter : filters) {
 			if(!filter.passes(candidateClass)) return false;
 		}
 		return true;
 	}
-
-
-	private void addNewClasses(Collection<Class<?>> knownClasses, Collection<Class<?>> classesToMakeKnown) {
-		for(Class<?> classToMakeKnown : classesToMakeKnown) {
-			if(!knownClasses.contains(classToMakeKnown)) knownClasses.add(classToMakeKnown);
-		}
-	}
-
 }
