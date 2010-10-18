@@ -1,7 +1,6 @@
 package com.dhemery.runtimesuite.finders;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -11,6 +10,8 @@ import com.dhemery.runtimesuite.finders.ClassesOnClassPath;
 import static org.fest.assertions.Assertions.*;
 
 public class AClassesOnClasspathFinder {
+	private static final String FINDER_EXAMPLES_PATH = "./examples-for-testing/bin/finder/";
+
 	@Test public void findsAllClassesOnASingleElementClasspath() {
 		String classpath = makeClasspath("classpath.a");
 		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
@@ -27,7 +28,7 @@ public class AClassesOnClasspathFinder {
 	}
 
 	private String makeClasspath(String path) {
-		return String.format("./examples-for-testing/bin/finder/%s", path);
+		return FINDER_EXAMPLES_PATH + path;
 	}
 
 	@Test public void findsAllClassesOnAMultipleElementClasspath() {

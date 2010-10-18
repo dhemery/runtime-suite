@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class ClasspathElement {
+public class Classpath {
 
 	private final String classpath;
 
-	public ClasspathElement(String classpath) {
+	public Classpath(String classpath) {
 		this.classpath = classpath;
 	}
 

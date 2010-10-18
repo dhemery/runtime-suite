@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 import com.dhemery.runtimesuite.ClassFinder;
-import com.dhemery.runtimesuite.internal.ClasspathElement;
+import com.dhemery.runtimesuite.internal.Classpath;
 
 
 public class ClassesOnClassPath implements ClassFinder {
@@ -26,7 +26,7 @@ public class ClassesOnClassPath implements ClassFinder {
 	private Collection<Class<?>> allClasses() {
 		Collection<Class<?>> classes = new ArrayList<Class<?>>();
 		for(String path : classpath.split(File.pathSeparator)) {
-			ClasspathElement pathElement = new ClasspathElement(path);
+			Classpath pathElement = new Classpath(path);
 			classes.addAll(pathElement.allClasses());
 		}
 		return classes;
