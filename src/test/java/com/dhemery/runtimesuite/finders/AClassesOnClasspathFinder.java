@@ -14,22 +14,16 @@ public class AClassesOnClasspathFinder {
 	@Test public void findsAllClassesOnASingleElementClasspath() {
 		String classpath = makeClasspath("classpath.a");
 		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
-		assertThat(namesOf(found)).containsOnly("a.Test_a_1",
-										"a.Test_a_2",
-										"a.a.Test_aa_1",
-										"a.a.Test_aa_2",
-										"a.a.a.Test_aaa_1",
-										"a.a.a.Test_aaa_2",
-										"a.a.b.Test_aab_1",
-										"a.a.b.Test_aab_2",
-										"a.b.Test_ab_1",
-										"a.b.Test_ab_2");
-	}
-
-	private Collection<String> namesOf(Collection<Class<?>> classes) {
-		Collection<String> names = new ArrayList<String>();
-		for(Class<?> each : classes) names.add(each.getName());
-		return names;
+		assertThat(found).containsOnly(a.Test_a_1.class,
+										a.Test_a_2.class,
+										a.a.Test_aa_1.class,
+										a.a.Test_aa_2.class,
+										a.a.a.Test_aaa_1.class,
+										a.a.a.Test_aaa_2.class,
+										a.a.b.Test_aab_1.class,
+										a.a.b.Test_aab_2.class,
+										a.b.Test_ab_1.class,
+										a.b.Test_ab_2.class);
 	}
 
 	private String makeClasspath(String path) {
@@ -41,26 +35,26 @@ public class AClassesOnClasspathFinder {
 							+ File.pathSeparator
 							+ makeClasspath("classpath.b");
 		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
-		assertThat(namesOf(found)).containsOnly("a.Test_a_1",
-												"a.Test_a_2",
-												"a.a.Test_aa_1",
-												"a.a.Test_aa_2",
-												"a.a.a.Test_aaa_1",
-												"a.a.a.Test_aaa_2",
-												"a.a.b.Test_aab_1",
-												"a.a.b.Test_aab_2",
-												"a.b.Test_ab_1",
-												"a.b.Test_ab_2",
-												"b.Test_b_1",
-												"b.Test_b_2",
-												"b.a.Test_ba_1",
-												"b.a.Test_ba_2",
-												"b.b.Test_bb_1",
-												"b.b.Test_bb_2",
-												"b.b.a.Test_bba_1",
-												"b.b.a.Test_bba_2",
-												"b.b.b.Test_bbb_1",
-												"b.b.b.Test_bbb_2");
+		assertThat(found).containsOnly(a.Test_a_1.class,
+												a.Test_a_2.class,
+												a.a.Test_aa_1.class,
+												a.a.Test_aa_2.class,
+												a.a.a.Test_aaa_1.class,
+												a.a.a.Test_aaa_2.class,
+												a.a.b.Test_aab_1.class,
+												a.a.b.Test_aab_2.class,
+												a.b.Test_ab_1.class,
+												a.b.Test_ab_2.class,
+												b.Test_b_1.class,
+												b.Test_b_2.class,
+												b.a.Test_ba_1.class,
+												b.a.Test_ba_2.class,
+												b.b.Test_bb_1.class,
+												b.b.Test_bb_2.class,
+												b.b.a.Test_bba_1.class,
+												b.b.a.Test_bba_2.class,
+												b.b.b.Test_bbb_1.class,
+												b.b.b.Test_bbb_2.class);
 	}
 	
 	@Test public void ignoresNonClassFiles() {
@@ -69,7 +63,7 @@ public class AClassesOnClasspathFinder {
 		//    - ./c/not-a-test.txt
 		String classpath = makeClasspath("classpath.c");
 		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
-		assertThat(namesOf(found)).containsOnly("c.Test_c_1");
+		assertThat(found).containsOnly(c.Test_c_1.class);
 	}
 	
 	@Test public void ignoresNonTestClasses() {
@@ -78,7 +72,7 @@ public class AClassesOnClasspathFinder {
 		//    - ./d/NotATest_d_2.class
 		String classpath = makeClasspath("classpath.d");
 		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
-		assertThat(namesOf(found)).containsOnly("d.Test_d_1");
+		assertThat(found).containsOnly(d.Test_d_1.class);
 	}
 	
 	@Test public void ignoresNonDirectoryClasspathElements() {
