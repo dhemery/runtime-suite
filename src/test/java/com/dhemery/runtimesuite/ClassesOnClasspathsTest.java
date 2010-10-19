@@ -11,7 +11,7 @@ import com.dhemery.runtimesuite.finders.ClassesOnClasspath;
 import static org.fest.assertions.Assertions.*;
 
 public class ClassesOnClasspathsTest {
-	private static final String FINDER_EXAMPLES_PATH = "./examples-for-testing/bin/finder/";
+	private static final String FINDER_EXAMPLES_PATH = "./target/test-classes/";
 
 	@Test public void findsAllClassesOnASingleElementClasspath() {
 		String classpath = makeClasspath("classpath.a");

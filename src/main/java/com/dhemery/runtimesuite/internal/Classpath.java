@@ -15,18 +15,19 @@ public class Classpath {
 
 	public Collection<Class<?>> allClasses() {
 		File directory = new File(classpath);
-		System.out.println("Looking for class files in " + directory);		
 		if(!directory.isDirectory()) return Collections.emptyList();
 		return classesInDirectory(directory);
 	}
 	
 	private Collection<Class<?>> classesInDirectory(File directory) {
 		Collection<Class<?>> classes = new ArrayList<Class<?>>();
-		System.out.println("Classes in directory " + directory);
 		for(File file : directory.listFiles()) {
-			System.out.println("Checking file " + file);
 			if(isClassFile(file)) {
-				classes.add(classForFile(file));
+				try {
+					classes.add(classForFile(file));
+				} catch (ClassNotFoundException e) {
+					System.out.println("Unable to load class from file " + file);
+				}
 			} else if (file.isDirectory()) {
 				classes.addAll(classesInDirectory(file));
 			}
@@ -34,12 +35,8 @@ public class Classpath {
 		return classes;
 	}
 
-	private Class<?> classForFile(File file) {
-		try {
-			return Class.forName(classNameForFile(file));
-		} catch (ClassNotFoundException e) {
-			return null;
-		}
+	private Class<?> classForFile(File file) throws ClassNotFoundException {
+		return Class.forName(classNameForFile(file));
 	}
 
 	private String classNameForFile(File file) {
