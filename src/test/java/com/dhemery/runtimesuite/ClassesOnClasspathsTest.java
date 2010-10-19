@@ -6,16 +6,16 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import com.dhemery.runtimesuite.finders.ClassesOnClasspath;
+import com.dhemery.runtimesuite.finders.ClassesOnClasspathFred;
 
 import static org.fest.assertions.Assertions.*;
 
 public class ClassesOnClasspathsTest {
-	private static final String FINDER_EXAMPLES_PATH = "./target/test-classes/";
+	private static final String FINDER_EXAMPLES_PATH = "./examples-for-testing/bin/finder/";
 
 	@Test public void findsAllClassesOnASingleElementClasspath() {
 		String classpath = makeClasspath("classpath.a");
-		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
+		Collection<Class<?>> foundClasses = new ClassesOnClasspathFred(classpath).find();
 		assertThat(namesOf(foundClasses)).containsOnly("a.Test_a_1",
 										"a.Test_a_2",
 										"a.a.Test_aa_1",
@@ -32,7 +32,7 @@ public class ClassesOnClasspathsTest {
 		String classpath = makeClasspath("classpath.a")
 							+ File.pathSeparator
 							+ makeClasspath("classpath.b");
-		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
+		Collection<Class<?>> foundClasses = new ClassesOnClasspathFred(classpath).find();
 		assertThat(namesOf(foundClasses)).containsOnly("a.Test_a_1",
 												"a.Test_a_2",
 												"a.a.Test_aa_1",
@@ -60,7 +60,7 @@ public class ClassesOnClasspathsTest {
 		//    - ./c/Test_c_1.class
 		//    - ./c/not-a-test.txt
 		String classpath = makeClasspath("classpath.c");
-		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
+		Collection<Class<?>> foundClasses = new ClassesOnClasspathFred(classpath).find();
 		assertThat(namesOf(foundClasses)).containsOnly("c.Test_c_1");
 	}
 	
@@ -69,12 +69,12 @@ public class ClassesOnClasspathsTest {
 		//    - ./d/Test_d_1.class
 		//    - ./d/NotATest_d_2.class
 		String classpath = makeClasspath("classpath.d");
-		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
+		Collection<Class<?>> foundClasses = new ClassesOnClasspathFred(classpath).find();
 		assertThat(namesOf(foundClasses)).containsOnly("d.Test_d_1");
 	}
 	
 	@Test public void ignoresNonDirectoryClasspathElements() {
-		Collection<Class<?>> foundClasses = new ClassesOnClasspath("no.such.directory").find();
+		Collection<Class<?>> foundClasses = new ClassesOnClasspathFred("no.such.directory").find();
 		assertThat(foundClasses).isEmpty();
 	}
 

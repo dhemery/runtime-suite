@@ -15,13 +15,16 @@ public class Classpath {
 
 	public Collection<Class<?>> allClasses() {
 		File directory = new File(classpath);
+		System.out.println("Looking for class files in " + directory);		
 		if(!directory.isDirectory()) return Collections.emptyList();
 		return classesInDirectory(directory);
 	}
 	
 	private Collection<Class<?>> classesInDirectory(File directory) {
 		Collection<Class<?>> classes = new ArrayList<Class<?>>();
+		System.out.println("Classes in directory " + directory);
 		for(File file : directory.listFiles()) {
+			System.out.println("Checking file " + file);
 			if(isClassFile(file)) {
 				classes.add(classForFile(file));
 			} else if (file.isDirectory()) {

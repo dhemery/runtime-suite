@@ -11,10 +11,10 @@ import com.dhemery.runtimesuite.ClassFinder;
 import com.dhemery.runtimesuite.internal.Classpath;
 
 
-public class ClassesOnClasspath implements ClassFinder {
+public class ClassesOnClasspathFred implements ClassFinder {
 	private final String classpath;
 
-	public ClassesOnClasspath(String classpath) {
+	public ClassesOnClasspathFred(String classpath) {
 		this.classpath = classpath;
 	}
 
