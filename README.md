@@ -37,34 +37,51 @@ Conceptually, `RuntimeSuite` does the following:
 
 * Call each class finder and accumulate the resulting candidate classes.
 * Call each class filter and retain the classes that survive all filters.
-* Create a `Runner` for each surviving class.
+* Call each method filter and retain the methods that survive all filters.
+* Create a `Runner` for each surviving method of each surviving class.
 * Yield the runners to JUnit for processing.
 
-## Declaring Class Finder fields
+## Declaring Class Finders in Suites
 
 In your suite class, declare one or more fields of type `ClassFinder` annotated with the `@Finder` annotation. For example:
 
     @RunWith(RuntimeSuite.class)
     public static class MyClassFinderSuite {
-        // Declare finders:
+        // Declare class finders
     	@Finder public ClassFinder classFinder1 = new AClassFinder();
     	@Finder public ClassFinder classFinder2 = new AnotherClassFinder();
     	...
     }
 
-## Declaring Class Filter fields
+## Declaring Class Filters in Suites
 
 In your suite class, declare one or more fields of type `ClassFilter` annotated with the `@Filter` annotation.
 
     @RunWith(RuntimeSuite.class)
     public static class MyClassFinderSuite {
-        // Declare finders:
+        // Declare class finders
         ...
 
-        // Declare filters
+        // Declare class filters
     	@Filter public ClassFilter classFilter1 = new AClassFilter();
     	@Filter public ClassFilter classFilter2 = new AnotherClassFilter();
     	...
+    }
+
+
+## Declaring Method Filters in Suites
+
+In your suite class, declare one or more fields of type `MethodFilter` annotated with the `@Filter` annotation.
+
+    @RunWith(RuntimeSuite.class)
+    public static class MyClassFinderSuite {
+        // Declare class finders and class filters
+        ...
+        
+        // Declare method filters
+        @Filter public MethodFilter methodFilter1 = new AMethodFilter();
+        @Filter public Methodilter methodFilter2 = new AnotherMethodFilter();
+        ...
     }
 
 
@@ -94,9 +111,11 @@ Write each class filter class to implement the `ClassFilter` interface:
 Write your `passed()` method to determine whether to include the given class in the suite. Return `true` if the filter passes the class, `false` if the filter rejects the class. If this filter passes the class, `RuntimeSuite` will subject the class to other filters (if any are declared). The classes that survive all filters are considered part of the suite.
 
 ## Declaring Method Filters
-I don't yet know how I will filter methods. Candidates include:
 
-* Fields of type `MethodFilter` annotated with `@Filter`, analogous to `ClassFilter`.
-* Filters declared somewhere, and applied by `ParentRunner`.
-* A custom `RunnerBuilder` specific to `RuntimeSuite`.
-* Custom `RunnerBuilder`s written by users.
+Write each method filter class to implement the `MethodFilter` interface:
+
+    public interface MethodFilter {
+        boolean passes(Method candidateMethod);
+    }
+
+Write your `passed()` method to determine whether to include the given method in the suite. Return `true` if the filter passes the method, `false` if the filter rejects the method. If this filter passes the method, `RuntimeSuite` will subject the method to other filters (if any are declared). The methods that survive all filters are considered part of the suite.
