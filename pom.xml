@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dhemery</groupId>
   <artifactId>runtime-suite</artifactId>
-  <packaging>pom</packaging>
   <name>Runtime Suite</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>Filter JUnit tests by categories on test classes and test methods.</description>

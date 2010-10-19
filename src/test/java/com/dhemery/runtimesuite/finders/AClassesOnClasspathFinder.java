@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import com.dhemery.runtimesuite.finders.ClassesOnClassPath;
+import com.dhemery.runtimesuite.finders.ClassesOnClasspath;
 
 import static org.fest.assertions.Assertions.*;
 
@@ -14,7 +14,7 @@ public class AClassesOnClasspathFinder {
 
 	@Test public void findsAllClassesOnASingleElementClasspath() {
 		String classpath = makeClasspath("classpath.a");
-		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
+		Collection<Class<?>> found = new ClassesOnClasspath(classpath).find();
 		assertThat(found).containsOnly(a.Test_a_1.class,
 										a.Test_a_2.class,
 										a.a.Test_aa_1.class,
@@ -35,7 +35,7 @@ public class AClassesOnClasspathFinder {
 		String classpath = makeClasspath("classpath.a")
 							+ File.pathSeparator
 							+ makeClasspath("classpath.b");
-		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
+		Collection<Class<?>> found = new ClassesOnClasspath(classpath).find();
 		assertThat(found).containsOnly(a.Test_a_1.class,
 												a.Test_a_2.class,
 												a.a.Test_aa_1.class,
@@ -63,7 +63,7 @@ public class AClassesOnClasspathFinder {
 		//    - ./c/Test_c_1.class
 		//    - ./c/not-a-test.txt
 		String classpath = makeClasspath("classpath.c");
-		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
+		Collection<Class<?>> found = new ClassesOnClasspath(classpath).find();
 		assertThat(found).containsOnly(c.Test_c_1.class);
 	}
 	
@@ -72,12 +72,12 @@ public class AClassesOnClasspathFinder {
 		//    - ./d/Test_d_1.class
 		//    - ./d/NotATest_d_2.class
 		String classpath = makeClasspath("classpath.d");
-		Collection<Class<?>> found = new ClassesOnClassPath(classpath).find();
+		Collection<Class<?>> found = new ClassesOnClasspath(classpath).find();
 		assertThat(found).containsOnly(d.Test_d_1.class);
 	}
 	
 	@Test public void ignoresNonDirectoryClasspathElements() {
-		Collection<Class<?>> found = new ClassesOnClassPath("no.such.directory").find();
+		Collection<Class<?>> found = new ClassesOnClasspath("no.such.directory").find();
 		assertThat(found).isEmpty();
 	}
 }
