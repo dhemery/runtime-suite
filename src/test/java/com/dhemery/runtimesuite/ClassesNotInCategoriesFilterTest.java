@@ -1,33 +1,20 @@
-package com.dhemery.runtimesuite.filters;
+package com.dhemery.runtimesuite;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static org.fest.assertions.Assertions.*;
 
 import com.dhemery.runtimesuite.ClassFilter;
+import com.dhemery.runtimesuite.examples.CategoryA;
+import com.dhemery.runtimesuite.examples.CategoryB;
+import com.dhemery.runtimesuite.examples.ClassInCategoriesAandB;
+import com.dhemery.runtimesuite.examples.ClassInCategoriesCandD;
+import com.dhemery.runtimesuite.examples.ClassInCategoryA;
+import com.dhemery.runtimesuite.examples.ClassInCategoryB;
+import com.dhemery.runtimesuite.examples.ClassWithNoCategories;
 import com.dhemery.runtimesuite.filters.ClassesNotInCategories;
 
-public class AClassesNotInCategoriesFilter {
-	public interface CategoryA {}
-	public interface CategoryB {}
-	public interface CategoryC {}
-	public interface CategoryD {}
-
-	public class ClassWithNoCategories {}
-
-	@Category(CategoryA.class)
-	public class ClassInCategoryA {}
-
-	@Category(CategoryB.class)
-	public class ClassInCategoryB {}
-	
-	@Category({CategoryA.class, CategoryB.class})
-	public class ClassInCategoriesAandB {}
-	
-	@Category({CategoryC.class, CategoryD.class})
-	public class ClassInCategoriesCandD {}
-	
+public class ClassesNotInCategoriesFilterTest {
 	@Test public void forASingleCategory_passesEachClassThatLacksThatCategory() {
 		ClassFilter filter = new ClassesNotInCategories(CategoryA.class);
 		assertThat(filter.passes(ClassWithNoCategories.class)).isTrue();

@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite.finders;
+package com.dhemery.runtimesuite;
 
 import java.io.File;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import com.dhemery.runtimesuite.finders.ClassesOnClasspath;
 
 import static org.fest.assertions.Assertions.*;
 
-public class AClassesOnClasspathFinder {
+public class ClassesOnClasspathsTest {
 	private static final String FINDER_EXAMPLES_PATH = "./examples-for-testing/bin/finder/";
 
 	@Test public void findsAllClassesOnASingleElementClasspath() {

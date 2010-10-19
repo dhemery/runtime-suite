@@ -45,7 +45,6 @@ public class RunnableClass {
 				runnableMethods.add(new FrameworkMethod(method));
 			}
 		}
-		System.out.println(String.format("Test Class %s has %d runnable methods", testClass.getSimpleName(), runnableMethods.size()));
 	}
 
 	private boolean hasTestAnnotation(Method method) {
