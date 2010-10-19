@@ -6,28 +6,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 
-import com.dhemery.runtimesuite.internal.ClassInspector;
-import com.dhemery.runtimesuite.internal.ClassesWithTestMethods;
+import com.dhemery.runtimesuite.internal.RunnableClassRunner;
+import com.dhemery.runtimesuite.internal.SuiteInspector;
+import com.dhemery.runtimesuite.internal.RunnableClass;
 
 public class RuntimeSuite extends ParentRunner<Runner> {
-	private List<Runner> runners;
-	private Collection<ClassFinder> finders;
-	private Collection<ClassFilter> filters;
+	private final List<Runner> runners;
+	private final SuiteInspector inspector;
+	private final List<ClassFinder> classFinders;
+	private final List<ClassFilter> classFilters;
+	private final List<MethodFilter> methodFilters;
 
 	public RuntimeSuite(Class<?> suiteClass) throws InitializationError {
 		super(suiteClass);
-		ClassInspector inspector = new ClassInspector(suiteClass);
-		finders = inspector.membersWith(Finder.class, ClassFinder.class);
-		filters = inspector.membersWith(Filter.class, ClassFilter.class);
-		filters.add(new ClassesWithTestMethods());
-		runners = computeRunners(suiteClass);
+		inspector = new SuiteInspector(suiteClass);
+		classFinders = inspector.classFinders();
+		classFilters = inspector.classFilters();
+		methodFilters = inspector.methodFilters();
+		runners = runnersFor(classesInSuite());
+	}
+
+	private Set<Class<?>> classesInSuite() throws InitializationError {
+		Set<Class<?>> classes = new HashSet<Class<?>>();
+		for(ClassFinder finder : classFinders) {
+			classes.addAll(finder.find());
+		}
+		return classes;
 	}
 
 	protected Description describeChild(Runner child) {
@@ -38,42 +48,22 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		return getRunners();
 	}
 
-	protected void runChild(Runner child, RunNotifier notifier) {
-		child.run(notifier);
-	}
-
 	public List<Runner> getRunners() {
 		return runners;
 	}
 
-	private List<Runner> computeRunners(Class<?> suiteClass) throws InitializationError {
-		Collection<Class<?>> candidateClasses = findTestClasses();
-		Class<?>[] filteredClasses = filter(candidateClasses).toArray(new Class<?>[0]);
-		return new AllDefaultPossibilitiesBuilder(false).runners(suiteClass, filteredClasses);
+	protected void runChild(Runner child, RunNotifier notifier) {
+		child.run(notifier);
 	}
 
-	private Collection<Class<?>> findTestClasses() {
-		Set<Class<?>> result = new HashSet<Class<?>>();
-		for(ClassFinder finder : finders) {
-			result.addAll(finder.find());
-		}
-		return result;
-	}
-
-	private Collection<Class<?>> filter(Collection<Class<?>> candidateClasses) {
-		Collection<Class<?>> result = new ArrayList<Class<?>>();
-		for(Class<?> candidateClass : candidateClasses) {
-			if(passesAllFilters(candidateClass)) {
-				result.add(candidateClass);
+	private List<Runner> runnersFor(Collection<Class<?>> classes) throws InitializationError {
+		List<Runner> runners = new ArrayList<Runner>();
+		for(Class<?> c : classes) {
+			RunnableClass runnable = new RunnableClass(c, classFilters, methodFilters);
+			if(!runnable.runnableMethods().isEmpty()) {
+				runners.add(new RunnableClassRunner(runnable));
 			}
 		}
-		return result;
-	}
-
-	private boolean passesAllFilters(Class<?> candidateClass) {
-		for(ClassFilter filter : filters) {
-			if(!filter.passes(candidateClass)) return false;
-		}
-		return true;
+		return runners;
 	}
 }

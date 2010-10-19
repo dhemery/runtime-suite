@@ -116,19 +116,19 @@ public class ARuntimeSuite {
 		}
 	}
 
-	public class TestClass1 {
+	public static class TestClass1 {
 		@Test public void myTest1() {}
 	}
 
-	public class TestClass2 {
+	public static class TestClass2 {
 		@Test public void myTest2() {}
 	}
 
-	public class TestClass3 {
+	public static class TestClass3 {
 		@Test public void myTest3() {}
 	}
 
-	public class TestlessClass {
+	public static class TestlessClass {
 		public void noTestAnnotation() {}
 		@Test public int nonVoidReturnType() { return 0; }
 		@Test public void takesParameters(int i) {}
@@ -146,7 +146,6 @@ public class ARuntimeSuite {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFinders.class);
 		List<Class<?>> testClasses = testClassesFrom(suite.getRunners());
 		assertThat(testClasses).containsOnly(TestClass1.class, TestClass2.class);
-		assertThat(testClasses).hasSize(2);
 	}
 
 	@Test public void ignoresClassFinderFieldsThatLackFinderAnnotation() throws InitializationError {
@@ -215,7 +214,7 @@ public class ARuntimeSuite {
 		assertThat(testClassesFrom(runners)).containsOnly(TestClass2.class);
 	}
 	
-	@Test public void createsRunnersOnlyForTestClasses() throws InitializationError {
+	public void createsRunnersOnlyForTestClasses() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteThatFindsNonTestClasses.class);
 		List<Runner> runners = suite.getRunners();
 		assertThat(testClassesFrom(runners)).excludes(TestlessClass.class);
@@ -225,8 +224,16 @@ public class ARuntimeSuite {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithMethodFilters.class);
 		List<Runner> runners = suite.getRunners();
 		Collection<Method> testMethods = testMethodsFrom(runners);
-		assertThat(testMethods).excludes(method(TestClassWithNamesToFilter.class, "b_test1"));
-		assertThat(testMethods).excludes(method(TestClassWithNamesToFilter.class, "b_test2"));
+		assertThat(testMethods).excludes(method(TestClassWithNamesToFilter.class, "b_test1"),
+										method(TestClassWithNamesToFilter.class, "b_test2"));
+	}
+
+	@Test public void createsRunnersForAllMethodsThatSurviveMethodFilters() throws InitializationError, SecurityException, NoSuchMethodException {
+		RuntimeSuite suite = new RuntimeSuite(SuiteWithMethodFilters.class);
+		List<Runner> runners = suite.getRunners();
+		Collection<Method> testMethods = testMethodsFrom(runners);
+		assertThat(testMethods).containsOnly(method(TestClassWithNamesToFilter.class, "a_test1"),
+											method(TestClassWithNamesToFilter.class, "a_test2"));
 	}
 
 	private Collection<Method> testMethodsFrom(List<Runner> runners) {
