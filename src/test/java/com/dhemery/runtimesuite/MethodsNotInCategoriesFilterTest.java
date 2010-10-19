@@ -5,10 +5,11 @@ import org.junit.Test;
 import static org.fest.assertions.Assertions.*;
 
 import com.dhemery.runtimesuite.MethodFilter;
-import com.dhemery.runtimesuite.examples.CategoryA;
-import com.dhemery.runtimesuite.examples.CategoryB;
-import com.dhemery.runtimesuite.examples.ClassWithCategorizedMethods;
 import com.dhemery.runtimesuite.filters.MethodsNotInCategories;
+
+import examples.CategoryA;
+import examples.CategoryB;
+import examples.ClassWithCategorizedMethods;
 
 public class MethodsNotInCategoriesFilterTest {
 	private Class<?> targetClass = ClassWithCategorizedMethods.class;

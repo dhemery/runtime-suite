@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite.examples;
+package examples;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

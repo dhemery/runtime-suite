@@ -20,19 +20,20 @@ import com.dhemery.runtimesuite.ClassFinder;
 import com.dhemery.runtimesuite.Filter;
 import com.dhemery.runtimesuite.Finder;
 import com.dhemery.runtimesuite.RuntimeSuite;
-import com.dhemery.runtimesuite.examples.ListedClassFinder;
-import com.dhemery.runtimesuite.examples.ListedClassNonFinder;
-import com.dhemery.runtimesuite.examples.ListedClassRejecterFilter;
-import com.dhemery.runtimesuite.examples.ListedClassRejecterNonFilter;
-import com.dhemery.runtimesuite.examples.MethodNamePrefixFilter;
-import com.dhemery.runtimesuite.examples.NotRunnable;
-import com.dhemery.runtimesuite.examples.Runnable1;
-import com.dhemery.runtimesuite.examples.Runnable2;
-import com.dhemery.runtimesuite.examples.Runnable3;
-import com.dhemery.runtimesuite.examples.RunnableWithFilterableMethodNames;
+
+import examples.ListedClassFinder;
+import examples.ListedClassNonFinder;
+import examples.ListedClassRejecterFilter;
+import examples.ListedClassRejecterNonFilter;
+import examples.MethodNamePrefixFilter;
+import examples.NotRunnable;
+import examples.Runnable1;
+import examples.Runnable2;
+import examples.Runnable3;
+import examples.RunnableWithFilterableMethodNames;
 
 
-public class ARuntimeSuite {
+public class RuntimeSuiteTest {
 	public static class SuiteWithTwoFinders {
 		@Finder public ClassFinder classFinder1 = new ListedClassFinder(Runnable1.class);
 		@Finder public ClassFinder classFinder2 = new ListedClassFinder(Runnable2.class);

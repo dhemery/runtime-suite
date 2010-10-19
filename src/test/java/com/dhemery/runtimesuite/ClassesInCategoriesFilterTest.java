@@ -5,14 +5,15 @@ import org.junit.Test;
 import static org.fest.assertions.Assertions.*;
 
 import com.dhemery.runtimesuite.ClassFilter;
-import com.dhemery.runtimesuite.examples.CategoryA;
-import com.dhemery.runtimesuite.examples.CategoryB;
-import com.dhemery.runtimesuite.examples.ClassInCategoriesAandB;
-import com.dhemery.runtimesuite.examples.ClassInCategoriesCandD;
-import com.dhemery.runtimesuite.examples.ClassInCategoryA;
-import com.dhemery.runtimesuite.examples.ClassInCategoryB;
-import com.dhemery.runtimesuite.examples.ClassWithNoCategories;
 import com.dhemery.runtimesuite.filters.ClassesInCategories;
+
+import examples.CategoryA;
+import examples.CategoryB;
+import examples.ClassInCategoriesAandB;
+import examples.ClassInCategoriesCandD;
+import examples.ClassInCategoryA;
+import examples.ClassInCategoryB;
+import examples.ClassWithNoCategories;
 
 public class ClassesInCategoriesFilterTest {
 	@Test public void forASingleCategory_passesEachClassInThatCategory() {

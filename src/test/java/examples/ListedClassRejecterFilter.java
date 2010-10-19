@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite.examples;
+package examples;
 
 import com.dhemery.runtimesuite.ClassFilter;
 

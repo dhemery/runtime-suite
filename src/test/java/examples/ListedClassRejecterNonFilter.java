@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite.examples;
+package examples;
 
 import java.util.Arrays;
 import java.util.List;
