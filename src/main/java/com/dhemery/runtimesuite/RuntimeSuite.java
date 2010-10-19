@@ -12,7 +12,6 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 
-import com.dhemery.runtimesuite.internal.RunnableClassRunner;
 import com.dhemery.runtimesuite.internal.SuiteInspector;
 import com.dhemery.runtimesuite.internal.RunnableClass;
 
@@ -60,8 +59,8 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 		List<Runner> runners = new ArrayList<Runner>();
 		for(Class<?> c : classes) {
 			RunnableClass runnable = new RunnableClass(c, classFilters, methodFilters);
-			if(!runnable.runnableMethods().isEmpty()) {
-				runners.add(new RunnableClassRunner(runnable));
+			if(runnable.isRunnable()) {
+				runners.add(runnable.runner());
 			}
 		}
 		return runners;

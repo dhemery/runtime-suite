@@ -1,11 +1,6 @@
 --------
 FEATURES
 --------
-Make ClassesOnClasspath find only test classes.
-Filter: MethodsInCategories
-Filter: MethodsNotInCategories
-Filter: ClassesInPackages
-Filter: ClassesNotInPackages
 
 
 --------
@@ -21,12 +16,6 @@ RESEARCH
 Let ParentRunner apply the filters? Build all runners, then let it filter?
 
 @BeforeClass and @AfterClass annotations on RuntimeSuites.
-
-Use a RunnerBuilder? Currently creating BlockJUnit4ClassRunner,
-which (I think) does not know about child runners.
-Maybe that's okay. Just make sure finders find only test classes.
-
-How to filter methods?
 
 What to do with classes that inherit from suites?
 

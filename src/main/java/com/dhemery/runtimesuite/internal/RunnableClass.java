@@ -6,15 +6,28 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.InitializationError;
 
 import com.dhemery.runtimesuite.ClassFilter;
 import com.dhemery.runtimesuite.MethodFilter;
 
 public class RunnableClass {
+	public class RunnableClassRunner extends BlockJUnit4ClassRunner {
+		public RunnableClassRunner() throws InitializationError {
+			super(testClass);
+		}
+
+		@Override
+		public List<FrameworkMethod> computeTestMethods() {
+			return runnableMethods;	
+		}
+	}
 	private final Collection<ClassFilter> classFilters;
 	private final Collection<MethodFilter> methodFilters;
 	private final Class<?> testClass;
+
 	private List<FrameworkMethod> runnableMethods = new ArrayList<FrameworkMethod>();
 
 	public RunnableClass(Class<?> testClass, Collection<ClassFilter> classFilters, Collection<MethodFilter> methodFilters) {
@@ -32,21 +45,15 @@ public class RunnableClass {
 				runnableMethods.add(new FrameworkMethod(method));
 			}
 		}
-	}
-
-	public List<FrameworkMethod> runnableMethods() {
-		return runnableMethods;
-	}
-
-	private boolean passesClassFilters() {
-		for(ClassFilter filter : classFilters) {
-			if(!filter.passes(testClass)) return false;
-		}
-		return true;
+		System.out.println(String.format("Test Class %s has %d runnable methods", testClass.getSimpleName(), runnableMethods.size()));
 	}
 
 	private boolean hasTestAnnotation(Method method) {
 		return method.isAnnotationPresent(Test.class);
+	}
+
+	public boolean isRunnable() {
+		return !runnableMethods.isEmpty();
 	}
 
 	private boolean isRunnable(Method method) {
@@ -54,6 +61,13 @@ public class RunnableClass {
 			&& takesNoParameters(method) 
 			&& returnsVoid(method)
 			&& passesFilters(method);
+	}
+
+	private boolean passesClassFilters() {
+		for(ClassFilter filter : classFilters) {
+			if(!filter.passes(testClass)) return false;
+		}
+		return true;
 	}
 
 	private boolean passesFilters(Method method) {
@@ -67,6 +81,10 @@ public class RunnableClass {
 
 	private boolean returnsVoid(Method method) {
 		return method.getReturnType().equals(Void.TYPE);
+	}
+
+	public RunnableClassRunner runner() throws InitializationError {
+		return new RunnableClassRunner();
 	}
 
 	private boolean takesNoParameters(Method method) {
