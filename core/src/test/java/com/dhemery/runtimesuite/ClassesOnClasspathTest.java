@@ -14,7 +14,6 @@ public class ClassesOnClasspathTest {
 	private static final String FINDER_EXAMPLES_PATH_FORMAT = "../%s/target/classes";
 
 	@Test public void findsAllClassesOnASingleElementClasspath() {
-		System.out.println("classpath is: " + System.getProperty("java.class.path"));
 		String classpath = makeClasspath("classpath.a");
 		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
 		assertThat(namesOf(foundClasses)).containsOnly("a.Test_a_1",
