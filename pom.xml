@@ -9,7 +9,7 @@
   <url>http://github.com/dhemery/runtime-suite</url>
   <issueManagement>
     <system>GitHub</system>
-    <url>http://github.com/dhemery/Runtime-Suite/issues</url>
+    <url>http://github.com/dhemery/runtime-suite/issues</url>
   </issueManagement>
   <scm>
     <connection>scm:git:git://github.com:dhemery/runtime-suite.git</connection>
