@@ -27,21 +27,25 @@
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.a</artifactId>
       <version>0.2-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.b</artifactId>
       <version>0.2-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.c</artifactId>
       <version>0.2-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.d</artifactId>
       <version>0.2-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
