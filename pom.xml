@@ -3,7 +3,7 @@
   <groupId>com.dhemery.runtime-suite</groupId>
   <artifactId>runtime-suite</artifactId>
   <name>Runtime Suite</name>
-  <version>0.1</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>A JUnit suite class that finds and filters tests based on user-defined criteria, then runs the selected tests. Also includes a class finder that finds test classes on the classpath, and filters to included or exclude test classes and methods by category.</description>
   <url>http://github.com/dhemery/runtime-suite</url>
