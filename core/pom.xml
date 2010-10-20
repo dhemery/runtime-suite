@@ -8,6 +8,7 @@
   <name>Runtime Suite Core</name>
   <artifactId>core</artifactId>
   
+  <description>Implementation and tests for runtime-suite.</description>
   <build>
     <plugins>
       <plugin>

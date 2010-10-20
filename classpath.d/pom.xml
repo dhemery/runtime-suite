@@ -8,6 +8,7 @@
   <name>Runtime Suite Test Classpath D</name>
   <artifactId>classpath.d</artifactId>
 
+  <description>A sample classpath used for testing ClassesOnClasspath. Contains a single package d, with a test class and a non-test class.</description>
   <build>
     <plugins>
       <plugin>

@@ -7,11 +7,7 @@
   </parent>
   <name>Runtime Suite Test Classpath B</name>
   <artifactId>classpath.b</artifactId>
-
-  <name>classpath.b</name>
-  <description>A sample classpath used for testing ClassesOnClasspath.
-
-classpath.b contains a heirarchy of packages, rooted at b, with test classes in each.</description>
+  <description>A sample classpath used for testing ClassesOnClasspath. Contains a package heirarchy, rooted at package b, with test classes in each.</description>
   <build>
     <plugins>
       <plugin>

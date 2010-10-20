@@ -7,8 +7,7 @@
   </parent>
   <name>Runtime Suite Test Classpath C</name>
   <artifactId>classpath.c</artifactId>
-
-  <name>classpath.c</name>
+  <description>A sample classpath used for testing ClassesOnClasspath. Creates a single package c, with a test class and a text file.</description>
   <build>
     <plugins>
       <plugin>
