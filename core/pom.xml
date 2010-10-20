@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.dhemery.runtime-suite</groupId>
     <artifactId>runtime-suite</artifactId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
   </parent>
   <name>Runtime Suite Core</name>
   <artifactId>core</artifactId>
@@ -26,25 +26,25 @@
     <dependency>
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.a</artifactId>
-      <version>0.2</version>
+      <version>0.3-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.b</artifactId>
-      <version>0.2</version>
+      <version>0.3-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.c</artifactId>
-      <version>0.2</version>
+      <version>0.3-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.dhemery.runtime-suite</groupId>
       <artifactId>classpath.d</artifactId>
-      <version>0.2</version>
+      <version>0.3-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
