@@ -8,6 +8,10 @@
 
   <artifactId>classpath.b</artifactId>
 
+  <name>classpath.b</name>
+  <description>A sample classpath used for testing ClassesOnClasspath.
+
+classpath.b contains a heirarchy of packages, rooted at b, with test classes in each.</description>
   <build>
     <plugins>
       <plugin>

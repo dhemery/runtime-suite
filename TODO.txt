@@ -8,7 +8,11 @@ GUIDANCE
 --------
 Javadoc
 GitHub wiki
+Move most of the README stuff to the wiki.
 
+--------
+RELEASE
+--------
 
 --------
 RESEARCH

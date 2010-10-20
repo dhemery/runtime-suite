@@ -8,6 +8,7 @@
 
   <artifactId>classpath.c</artifactId>
 
+  <name>classpath.c</name>
   <build>
     <plugins>
       <plugin>
