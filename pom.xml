@@ -8,34 +8,35 @@
   <description>Filter JUnit tests by categories on test classes and test methods.</description>
   <url>http://github.com/dhemery/runtime-suite</url>
   <issueManagement>
-  	<system>GitHub</system>
-  	<url>http://github.com/dhemery/Runtime-Suite/issues</url>
+    <system>GitHub</system>
+    <url>http://github.com/dhemery/Runtime-Suite/issues</url>
   </issueManagement>
   <scm>
-  	<connection>scm:git:git://git@github.com:dhemery/runtime-suite.git</connection>
-  	<developerConnection>scm:git:git://git@github.com:dhemery/runtime-suite.git</developerConnection>
-  	<url>scm:git:git://git@github.com:dhemery/runtime-suite.git</url>
+    <connection>scm:git:git://github.com:dhemery/runtime-suite.git</connection>
+    <developerConnection>scm:git:git@github.com:dhemery/runtime-suite.git</developerConnection>
+    <url>http://github.com/dhemery/runtime-suite</url>
   </scm>
   <organization>
-  	<name>Dale H. Emery</name>
-  	<url>http://dhemery.com</url>
+    <name>Dale H. Emery</name>
+    <url>http://dhemery.com</url>
   </organization>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.easytesting</groupId>
-  		<artifactId>fest-assert</artifactId>
-  		<version>1.3</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.8.2</version>
-  		<scope>compile</scope>
-  	</dependency>
-  </dependencies>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <version>1.3</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  
   <build>
     <plugins>
       <plugin>
@@ -50,19 +51,40 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
-        <configuration>
-        </configuration>
+        <version>2.8</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.0</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.3</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
+      </extension>
+    </extensions>
   </build>
+
   <dependencyManagement>
-  	<dependencies>
-  	</dependencies>
+    <dependencies>
+    </dependencies>
   </dependencyManagement>
-<modules>
+
+  <modules>
     <module>core</module>
     <module>classpath.a</module>
     <module>classpath.b</module>
     <module>classpath.c</module>
     <module>classpath.d</module>
-  </modules></project>
+  </modules>
+</project>
