@@ -5,7 +5,7 @@
   <name>Runtime Suite</name>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <description>Filter JUnit tests by categories on test classes and test methods.</description>
+  <description>A JUnit suite class that finds and filters tests based on user-defined criteria, then runs the selected tests. Also includes a class finder that finds test classes on the classpath, and filters to included or exclude test classes and methods by category.</description>
   <url>http://github.com/dhemery/runtime-suite</url>
   <issueManagement>
     <system>GitHub</system>
