@@ -4,14 +4,23 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.dhemery.runtimesuite.finders.ClassesOnClasspath;
 
+import static java.lang.String.format;
 import static org.fest.assertions.Assertions.*;
 
 public class ClassesOnClasspathTest {
+	Log log = LogFactory.getLog(ClassesOnClasspath.class);
 	private static final String FINDER_EXAMPLES_PATH_FORMAT = "../%s/target/classes";
+
+	@Before public void printSystemClasspath() {
+		log.debug(format("System java.class.path is", System.getProperty("java.class.path")));
+	}
 
 	@Test public void findsAllClassesOnASingleElementClasspath() {
 		String classpath = makeClasspath("classpath.a");

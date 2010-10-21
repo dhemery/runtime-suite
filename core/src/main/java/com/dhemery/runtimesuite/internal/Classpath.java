@@ -5,31 +5,45 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Classpath {
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+import com.dhemery.runtimesuite.ClassFilter;
+
+import static java.lang.String.*;
+
+public class Classpath {
+	private final Log log = LogFactory.getLog(Classpath.class);
 	private final String classpath;
 
 	public Classpath(String classpath) {
 		this.classpath = classpath;
 	}
 
-	public Collection<Class<?>> allClasses() {
+	public Collection<Class<?>> classes(ClassFilter filter) {
 		File directory = new File(classpath);
 		if(!directory.isDirectory()) return Collections.emptyList();
-		return classesInDirectory(directory);
+		return classesInDirectory(directory, filter);
 	}
 	
-	private Collection<Class<?>> classesInDirectory(File directory) {
+	private Collection<Class<?>> classesInDirectory(File directory, ClassFilter filter) {
+		log.debug(format("Gathering classes from %s", classpath));
 		Collection<Class<?>> classes = new ArrayList<Class<?>>();
 		for(File file : directory.listFiles()) {
 			if(isClassFile(file)) {
 				try {
-					classes.add(classForFile(file));
+					Class<?> c = classForFile(file);
+					if(filter.passes(c))  {
+						log.trace(format("Gathered class %s", c));
+						classes.add(c);
+					} else {
+						log.trace(format("Rejected class %s", c));
+					}
 				} catch (ClassNotFoundException e) {
-					System.out.println("Unable to load class from file " + file);
+					log.warn(format("Unable to load class from file %s", file));
 				}
 			} else if (file.isDirectory()) {
-				classes.addAll(classesInDirectory(file));
+				classes.addAll(classesInDirectory(file, filter));
 			}
 		}
 		return classes;
