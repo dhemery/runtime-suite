@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.Description;
@@ -80,7 +79,7 @@ public class RuntimeSuiteTest {
 
 	@Test public void gathersTestClassesFromAllClassFinderFieldsAnnotatedWithFinder() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFinders.class);
-		List<Class<?>> testClasses = testClassesFrom(suite.getRunners());
+		Collection<Class<?>> testClasses = testClassesFrom(suite.getRunners());
 		assertThat(testClasses).containsOnly(Runnable1.class, Runnable2.class);
 	}
 
@@ -106,7 +105,7 @@ public class RuntimeSuiteTest {
 
 	@Test public void appliesAllClassFilterFieldsAnnotatedWithFilter() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFilters.class);
-		List<Class<?>> testClasses = testClassesFrom(suite.getRunners());
+		Collection<Class<?>> testClasses = testClassesFrom(suite.getRunners());
 		assertThat(testClasses).containsOnly(Runnable2.class);
 	}
 
@@ -132,33 +131,33 @@ public class RuntimeSuiteTest {
 
 	@Test public void createsARunnerForEachTestClass() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFinders.class);
-		List<Runner> runners = suite.getRunners();
+		Collection<Runner> runners = suite.getRunners();
 		assertThat(testClassesFrom(runners)).contains(Runnable1.class, Runnable2.class);
 	}
 
 	@Test public void createsOnlyOneRunnerPerTestClassEvenIfFindersFindItMultipleTimes() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteThatFindsATestClassSeveralTimes.class);
-		List<Runner> runners = suite.getRunners();
-		List<Class<?>> testClasses = testClassesFrom(runners);
+		Collection<Runner> runners = suite.getRunners();
+		Collection<Class<?>> testClasses = testClassesFrom(runners);
 		assertThat(testClasses).contains(Runnable1.class);
 		assertThat(testClasses).hasSize(1);
 	}
 
 	@Test public void createsRunnersOnlyForTestClassesThatSurviveClassFilters() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithTwoFilters.class);
-		List<Runner> runners = suite.getRunners();
+		Collection<Runner> runners = suite.getRunners();
 		assertThat(testClassesFrom(runners)).containsOnly(Runnable2.class);
 	}
 	
 	public void createsRunnersOnlyForTestClasses() throws InitializationError {
 		RuntimeSuite suite = new RuntimeSuite(SuiteThatFindsNonTestClasses.class);
-		List<Runner> runners = suite.getRunners();
+		Collection<Runner> runners = suite.getRunners();
 		assertThat(testClassesFrom(runners)).excludes(NotRunnable.class);
 	}
 
 	@Test public void createsRunnersOnlyForMethodsThatSurviveMethodFilters() throws InitializationError, SecurityException, NoSuchMethodException {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithMethodFilters.class);
-		List<Runner> runners = suite.getRunners();
+		Collection<Runner> runners = suite.getRunners();
 		Collection<Method> testMethods = testMethodsFrom(runners);
 		assertThat(testMethods).excludes(method(RunnableWithFilterableMethodNames.class, "b_test1"),
 										method(RunnableWithFilterableMethodNames.class, "b_test2"));
@@ -166,13 +165,13 @@ public class RuntimeSuiteTest {
 
 	@Test public void createsRunnersForAllMethodsThatSurviveMethodFilters() throws InitializationError, SecurityException, NoSuchMethodException {
 		RuntimeSuite suite = new RuntimeSuite(SuiteWithMethodFilters.class);
-		List<Runner> runners = suite.getRunners();
+		Collection<Runner> runners = suite.getRunners();
 		Collection<Method> testMethods = testMethodsFrom(runners);
 		assertThat(testMethods).containsOnly(method(RunnableWithFilterableMethodNames.class, "a_test1"),
 											method(RunnableWithFilterableMethodNames.class, "a_test2"));
 	}
 
-	private Collection<Method> testMethodsFrom(List<Runner> runners) {
+	private Collection<Method> testMethodsFrom(Collection<Runner> runners) {
 		Collection<Method> methods = new ArrayList<Method>();
 		for(Runner runner : runners) {
 			methods.addAll(testMethodsFrom(runner.getDescription()));			
@@ -208,8 +207,8 @@ public class RuntimeSuiteTest {
 		return methods;
 	}
 
-	private List<Class<?>> testClassesFrom(List<Runner> runners) {
-		List<Class<?>> runnerTestClasses = new ArrayList<Class<?>>();
+	private Collection<Class<?>> testClassesFrom(Collection<Runner> runners) {
+		Collection<Class<?>> runnerTestClasses = new ArrayList<Class<?>>();
 		for(Runner runner : runners) {
 			runnerTestClasses.add(runner.getDescription().getTestClass());
 		}

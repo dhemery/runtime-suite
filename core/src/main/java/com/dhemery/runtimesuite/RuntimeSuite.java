@@ -18,6 +18,68 @@ import com.dhemery.runtimesuite.internal.SuiteInspector;
 import com.dhemery.runtimesuite.internal.RunnableClass;
 import static java.lang.String.*;
 
+/**
+ * <p>
+ * Constructs a suite of JUnit tests at runtime, and executes the tests in the suite.
+ * A "runtime suite" declares finders to find candidate test classes,
+ * and filters to select test classes and methods.
+ * The {@code RuntimeSuite} runner executes the finders and filters,
+ * and executes the test methods that survive the filters.
+ * </p>
+ * <p>
+ * To declare a runtime suite, declare a class and annotate it with
+ * {@code @}{@code RunWith}{@code (RuntimeSuite.class)}.
+ * </p>
+ * <pre>
+ * &#64;RunWith(RuntimeSuite.class)
+ * public class MySuite { ... }
+ * </pre>
+ * <p>
+ * To tell {@code RuntimeSuite} which tests to run,
+ * add one or more class finders to your suite class.
+ * To add a class finder, declare and initialize a public field whose type implements {@link ClassFinder},
+ * and annotate it with {@link Finder}.
+ * </p>
+ * <pre>
+ * &#64;RunWith(RuntimeSuite.class)
+ * public class MySuite {
+ *     ...
+ *     &#64;Finder ClassFinder myFinder = new MyFinderClass();
+ *     ...
+ * }
+ * </pre>
+ * <p>
+ * By default, {@code RuntimeSuite} executes every test method in every class delivered by the finders.
+ * To exclude classes and methods from execution,
+ * add one or more class filters and method filters to the suite.
+ * To add a class filter,
+ * declare and initialize a public field whose type implements {@link ClassFilter},
+ * and annotate it with {@link Filter}.
+ * To add a method filter,
+ * declare and initialize a public field whose type implements {@link MethodFilter},
+ * and annotate it with {@code Filter}.
+ * </p>
+ * <pre>
+ * &#64;RunWith(RuntimeSuite.class)
+ * public class MySuite {
+ *     ...
+ *     &#64;Filter ClassFilter myClasses = new MyClassFilter();
+ *     &#64;Filter ClassFilter myMethods = new MyMethodFilter();
+ *     ...
+ * }
+ * </pre>
+ * <p>
+ * {@code RuntimeSuite} applies each class filter to select classes,
+ * and each method filter to select test methods from the selected classes.
+ * It then runs the selected test methods from the selected classes.
+ * </p>
+ * <p>
+ * The order in which {@code RuntimeSuite} executes finders and filters
+ * does not depend on the order in which they are declared. 
+ * </p>
+ * @author Dale H. Emery
+ * @see org.junit.runners.RunWith
+ */
 public class RuntimeSuite extends ParentRunner<Runner> {
 	Log log = LogFactory.getLog(RuntimeSuite.class);
 	private final List<Runner> runners;
@@ -26,6 +88,11 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	private final List<ClassFilter> classFilters;
 	private final List<MethodFilter> methodFilters;
 
+	/**
+	 * Called reflectively by JUnit to initialize a suite before running its tests.
+	 * @param suiteClass the suite class to execute.
+	 * @throws InitializationError
+	 */
 	public RuntimeSuite(Class<?> suiteClass) throws InitializationError {
 		super(suiteClass);
 		log.debug(format("RuntimeSuite(%s)", suiteClass));
@@ -51,11 +118,14 @@ public class RuntimeSuite extends ParentRunner<Runner> {
 	}
 
 	protected List<Runner> getChildren() {	
-		return getRunners();
+		return runners;
 	}
 
-	public List<Runner> getRunners() {
-		return runners;
+	/**
+	 * Used only for testing.
+	 */
+	public Collection<Runner> getRunners() {
+		return getChildren();
 	}
 
 	protected void runChild(Runner child, RunNotifier notifier) {
