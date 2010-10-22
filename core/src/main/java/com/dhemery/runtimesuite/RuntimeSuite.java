@@ -25,6 +25,7 @@ import static java.lang.String.*;
  * and filters to select test classes and methods.
  * The {@code RuntimeSuite} runner executes the finders and filters,
  * and executes the test methods that survive the filters.
+ * (The &#64;{@link org.junit.Test} annotation describes what constitutes a test method.)
  * </p>
  * <p>
  * To declare a runtime suite, declare a class and annotate it with
@@ -38,7 +39,7 @@ import static java.lang.String.*;
  * To tell {@code RuntimeSuite} which tests to run,
  * add one or more class finders to your suite class.
  * To add a class finder, declare and initialize a public field whose type implements {@link ClassFinder},
- * and annotate it with {@link Finder}.
+ * and annotate it with &#64;{@link Finder}.
  * </p>
  * <pre>
  * &#64;RunWith(RuntimeSuite.class)
@@ -53,11 +54,11 @@ import static java.lang.String.*;
  * To exclude classes and methods from execution,
  * add one or more class filters and method filters to the suite.
  * To add a class filter,
- * declare and initialize a public field whose type implements {@link ClassFilter},
- * and annotate it with {@link Filter}.
+ * declare and initialize a public field of type {@link ClassFilter},
+ * and annotate it with &#64;{@link Filter}.
  * To add a method filter,
- * declare and initialize a public field whose type implements {@link MethodFilter},
- * and annotate it with {@code Filter}.
+ * declare and initialize a public field of type {@link MethodFilter},
+ * and annotate it with &#64;{@code Filter}.
  * </p>
  * <pre>
  * &#64;RunWith(RuntimeSuite.class)
@@ -76,6 +77,13 @@ import static java.lang.String.*;
  * <p>
  * The order in which {@code RuntimeSuite} executes finders and filters
  * does not depend on the order in which they are declared. 
+ * </p>
+ * <p>
+ * {@code RuntimeSuite} automatically filters out classes that have no test methods.
+ * </p>
+ * <p>
+ * {@code RuntimeSuite} acts on each found class only once,
+ * regardless of how many times it appears in the lists returned from the finders.
  * </p>
  * @author Dale H. Emery
  * @see org.junit.runners.RunWith

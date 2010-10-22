@@ -7,19 +7,32 @@
   <packaging>pom</packaging>
   <description>A JUnit suite class that finds and filters tests based on user-defined criteria, then runs the selected tests. Also includes a class finder that finds test classes on the classpath, and filters to included or exclude test classes and methods by category.</description>
   <url>http://github.com/dhemery/runtime-suite</url>
-  <issueManagement>
+  <licenses>
+    <license>
+      <name>The MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses><issueManagement>
     <system>GitHub</system>
     <url>http://github.com/dhemery/runtime-suite/issues</url>
   </issueManagement>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>5</version>
+  </parent>
   <scm>
     <connection>scm:git:git://github.com:dhemery/runtime-suite.git</connection>
     <developerConnection>scm:git:git@github.com:dhemery/runtime-suite.git</developerConnection>
     <url>http://github.com/dhemery/runtime-suite</url>
   </scm>
-  <organization>
-    <name>Dale H. Emery</name>
-    <url>http://dhemery.com</url>
-  </organization>
+  <developers>
+  	<developer>
+  		<id>dhemery</id>
+  		<name>Dale H. Emery</name>
+  		<email>dale@dhemery.com</email>
+  	</developer>
+  </developers>
 
   <dependencies>
     <dependency>
@@ -75,17 +88,12 @@
     </extensions>
   </build>
 
-  <dependencyManagement>
-    <dependencies>
-    </dependencies>
-  </dependencyManagement>
-
-  <distributionManagement>
+  <repositories>
     <repository>
       <id>java.net-m2-repository</id>
       <url>java-net:/maven2-repository/trunk/repository/</url>
     </repository>
-  </distributionManagement>
+  </repositories>
   
   <modules>
     <module>core</module>

@@ -10,6 +10,14 @@ import org.junit.Test;
 
 import com.dhemery.runtimesuite.ClassFilter;
 
+/**
+ * <p>
+ * A filter that accepts each class that declares one or more test methods.
+ * This filter is applied automatically by {@link com.dhemery.runtimesuite.RuntimeSuite}
+ * and is not intended for public use.
+ * </p>
+ * @author Dale H. Emery
+ */
 public class ClassesWithTestMethods implements ClassFilter {
 	private final Log log = LogFactory.getLog(ClassesWithTestMethods.class); 
 

@@ -12,6 +12,11 @@ import com.dhemery.runtimesuite.ClassFilter;
 
 import static java.lang.String.*;
 
+/**
+ * Finds classes in a directory and its subdirectories.
+ * This class is not intended for public use.
+ * @author Dale H. Emery
+ */
 public class Classpath {
 	private final Log log = LogFactory.getLog(Classpath.class);
 	private final String classpath;

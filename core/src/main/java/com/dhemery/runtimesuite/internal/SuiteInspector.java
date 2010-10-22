@@ -16,6 +16,11 @@ import com.dhemery.runtimesuite.Finder;
 import com.dhemery.runtimesuite.MethodFilter;
 import static java.lang.String.*;
 
+/**
+ * Delivers information about a runtime suite.
+ * This class is not intended for public use.
+ * @author Dale H. Emery
+ */
 public class SuiteInspector {
 	Log log = LogFactory.getLog(SuiteInspector.class);
 	private final Object suite;

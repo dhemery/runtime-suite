@@ -13,6 +13,12 @@ import org.junit.runners.model.InitializationError;
 import com.dhemery.runtimesuite.ClassFilter;
 import com.dhemery.runtimesuite.MethodFilter;
 
+/**
+ * Reports runnable test methods to its parent {@link BlockJUnit4ClassRunner}
+ * for execution.
+ * This class is not intended for public use.
+ * @author Dale H. Emery
+ */
 public class RunnableClass {
 	public class RunnableClassRunner extends BlockJUnit4ClassRunner {
 		public RunnableClassRunner() throws InitializationError {
