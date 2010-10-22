@@ -2,16 +2,12 @@ package com.dhemery.runtimesuite.filters;
 
 import java.lang.reflect.Method;
 
-import org.junit.experimental.categories.Category;
-
 import com.dhemery.runtimesuite.MethodFilter;
 
 /**
- * <p>
  * A filter that rejects each method if it is in a disallowed category.
- * </p>
+ * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
- * @see Category
  */
 public class MethodsNotInCategories implements MethodFilter {
 	private final MethodFilter inCategories;

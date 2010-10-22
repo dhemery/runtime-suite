@@ -1,7 +1,6 @@
 package examples;
 
-import org.junit.experimental.categories.Category;
-
+import com.dhemery.runtimesuite.filters.Category;
 
 @Category(CategoryA.class)
 public class ClassInCategoryA {}

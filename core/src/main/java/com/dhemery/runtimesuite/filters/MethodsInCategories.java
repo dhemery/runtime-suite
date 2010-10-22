@@ -6,16 +6,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.experimental.categories.Category;
-
 import com.dhemery.runtimesuite.MethodFilter;
 
 /**
- * <p>
  * A filter that accepts each method if it is in an allowed category.
- * </p>
+ * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
- * @see Category
  */
 public class MethodsInCategories implements MethodFilter {
 

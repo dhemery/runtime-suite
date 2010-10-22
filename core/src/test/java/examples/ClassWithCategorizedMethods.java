@@ -1,8 +1,8 @@
 package examples;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
+import com.dhemery.runtimesuite.filters.Category;
 
 public class ClassWithCategorizedMethods {
 	@Test public void methodWithNoCategories() {}

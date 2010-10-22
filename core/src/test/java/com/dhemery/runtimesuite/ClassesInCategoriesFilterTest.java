@@ -20,7 +20,7 @@ public class ClassesInCategoriesFilterTest {
 		ClassFilter filter = new ClassesInCategories(CategoryA.class);
 		assertThat(filter.passes(ClassInCategoryA.class)).isTrue();
 		assertThat(filter.passes(ClassInCategoriesAandB.class)).isTrue();
-	}
+	} 
 	
 	@Test public void forASingleCategory_rejectsEachClassNotInThatCategory() {
 		ClassFilter filter = new ClassesInCategories(CategoryA.class);

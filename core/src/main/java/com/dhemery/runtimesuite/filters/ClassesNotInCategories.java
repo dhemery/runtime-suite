@@ -1,15 +1,11 @@
 package com.dhemery.runtimesuite.filters;
 
-import org.junit.experimental.categories.Category;
-
 import com.dhemery.runtimesuite.ClassFilter;
 
 /**
- * <p>
  * A filter that rejects each class if it is in a disallowed category.
- * </p>
+ * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
- * @see Category
  */
 public class ClassesNotInCategories implements ClassFilter {
 	private final ClassFilter inCategories;

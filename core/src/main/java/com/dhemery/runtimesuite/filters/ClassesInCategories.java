@@ -5,18 +5,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.experimental.categories.Category;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.dhemery.runtimesuite.ClassFilter;
 
 /**
- * <p>
  * A filter that accepts each class if it is in an allowed category.
- * </p>
+ * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
- * @see Category
  */
 public class ClassesInCategories implements ClassFilter {
+	Log log = LogFactory.getLog(ClassesInCategories.class);
 	private final List<Class<?>> allowedCategories;
 
 	/**
@@ -38,8 +38,11 @@ public class ClassesInCategories implements ClassFilter {
 
 	private Collection<Class<?>> categoriesOn(Class<?> candidateClass) {
 		if(!candidateClass.isAnnotationPresent(Category.class)) {
+			log.debug(String.format("Class %s has no Category annotation", candidateClass));
 			return Collections.emptyList();
 		}
-		return Arrays.asList(candidateClass.getAnnotation(Category.class).value());
+		Class<?>[] categories = candidateClass.getAnnotation(Category.class).value();
+		log.debug(String.format("Class %s is in categories %s", candidateClass, categories));
+		return Arrays.asList(categories);
 	}
 }
