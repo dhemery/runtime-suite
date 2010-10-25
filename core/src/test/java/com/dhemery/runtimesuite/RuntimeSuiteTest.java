@@ -19,8 +19,8 @@ import com.dhemery.runtimesuite.ClassFinder;
 import com.dhemery.runtimesuite.Filter;
 import com.dhemery.runtimesuite.Finder;
 import com.dhemery.runtimesuite.RuntimeSuite;
+import com.dhemery.runtimesuite.finders.ListedClasses;
 
-import examples.ListedClassFinder;
 import examples.ListedClassNonFinder;
 import examples.ListedClassRejecterFilter;
 import examples.ListedClassRejecterNonFilter;
@@ -34,46 +34,46 @@ import examples.RunnableWithFilterableMethodNames;
 
 public class RuntimeSuiteTest {
 	public static class SuiteWithTwoFinders {
-		@Finder public ClassFinder classFinder1 = new ListedClassFinder(Runnable1.class);
-		@Finder public ClassFinder classFinder2 = new ListedClassFinder(Runnable2.class);
+		@Finder public ClassFinder classFinder1 = new ListedClasses(Runnable1.class);
+		@Finder public ClassFinder classFinder2 = new ListedClasses(Runnable2.class);
 	}
 
 	public static class SuiteWithTwoFilters {
-		@Finder public ClassFinder classFinder1 = new ListedClassFinder(Runnable1.class, Runnable2.class, Runnable3.class);
+		@Finder public ClassFinder classFinder1 = new ListedClasses(Runnable1.class, Runnable2.class, Runnable3.class);
 		@Filter public ClassFilter classFilter1 = new ListedClassRejecterFilter(Runnable1.class);
 		@Filter public ClassFilter classFilter2 = new ListedClassRejecterFilter(Runnable3.class);
 	} 
 
 	public static class SuiteWithFindersNotToRun {
-		public ClassFinder classFinderTypeButNoFinderAnnotation = new ListedClassFinder(Runnable1.class);
+		public ClassFinder classFinderTypeButNoFinderAnnotation = new ListedClasses(Runnable1.class);
 		@Finder public ListedClassNonFinder finderAnnotationButNotClassFinderType = new ListedClassNonFinder(Runnable2.class);
-		@Finder public ClassFinder classFinderTypeWithFinderAnnotation = new ListedClassFinder(Runnable3.class);
+		@Finder public ClassFinder classFinderTypeWithFinderAnnotation = new ListedClasses(Runnable3.class);
 	}
 
 	public static class SuiteWithFiltersNotToRun {
-		@Finder public ClassFinder finder = new ListedClassFinder(Runnable1.class, Runnable2.class, Runnable3.class);
+		@Finder public ClassFinder finder = new ListedClasses(Runnable1.class, Runnable2.class, Runnable3.class);
 		public ClassFilter classFilterTypeButNoFilterAnnotation = new ListedClassRejecterFilter(Runnable1.class);
 		@Filter public ListedClassRejecterNonFilter filterAnnotationButNotClassFilterType = new ListedClassRejecterNonFilter(Runnable2.class);
 		@Filter public ClassFilter classFilterTypeWithFilterAnnotation = new ListedClassRejecterFilter(Runnable3.class);
 	}
 
 	public static class SuiteWithFieldsDeclaredAsSubtypes {
-		@Finder public ListedClassFinder finder = new ListedClassFinder(Runnable1.class, Runnable2.class, Runnable3.class);
+		@Finder public ListedClasses finder = new ListedClasses(Runnable1.class, Runnable2.class, Runnable3.class);
 		@Filter public ListedClassRejecterFilter filter = new ListedClassRejecterFilter(Runnable2.class);
 	}
 
 	public static class SuiteThatFindsATestClassSeveralTimes {
-		@Finder public ClassFinder finder1 = new ListedClassFinder(Runnable1.class);
-		@Finder public ClassFinder finder2 = new ListedClassFinder(Runnable1.class);
-		@Finder public ClassFinder finder3 = new ListedClassFinder(Runnable1.class);
+		@Finder public ClassFinder finder1 = new ListedClasses(Runnable1.class);
+		@Finder public ClassFinder finder2 = new ListedClasses(Runnable1.class);
+		@Finder public ClassFinder finder3 = new ListedClasses(Runnable1.class);
 	}
 
 	public static class SuiteThatFindsNonTestClasses {
-		@Finder public ClassFinder nonTestClassFinder = new ListedClassFinder(NotRunnable.class);
+		@Finder public ClassFinder nonTestClassFinder = new ListedClasses(NotRunnable.class);
 	}
 
 	public static class SuiteWithMethodFilters {
-		@Finder public ClassFinder finder = new ListedClassFinder(RunnableWithFilterableMethodNames.class);
+		@Finder public ClassFinder finder = new ListedClasses(RunnableWithFilterableMethodNames.class);
 		@Filter public MethodFilter filter = new MethodNamePrefixFilter("a_");
 	}
 
