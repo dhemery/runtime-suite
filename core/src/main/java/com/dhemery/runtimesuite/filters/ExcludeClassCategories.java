@@ -7,14 +7,14 @@ import com.dhemery.runtimesuite.ClassFilter;
  * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
  */
-public class ClassesNotInCategories implements ClassFilter {
+public class ExcludeClassCategories implements ClassFilter {
 	private final ClassFilter inCategories;
 
 	/**
 	 * @param disallowedCategories the list of categories rejected by this filter.
 	 */
-	public ClassesNotInCategories(Class<?>...disallowedCategories) {
-		inCategories = new ClassesInCategories(disallowedCategories);
+	public ExcludeClassCategories(Class<?>...disallowedCategories) {
+		inCategories = new IncludeClassCategories(disallowedCategories);
 	}
 
 	/**

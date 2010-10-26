@@ -74,7 +74,7 @@ public class ClassesOnClasspathTest {
 	}
 	
 	@Test public void ignoresNonTestClasses() {
-		// classpath.four contains
+		// classpath.d contains
 		//    - ./d/Test_d_1.class
 		//    - ./d/NotATest_d_2.class
 		String classpath = makeClasspath("classpath.d");

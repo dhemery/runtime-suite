@@ -9,14 +9,14 @@ import com.dhemery.runtimesuite.MethodFilter;
  * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
  */
-public class MethodsNotInCategories implements MethodFilter {
+public class ExcludeMethodCategories implements MethodFilter {
 	private final MethodFilter inCategories;
 
 	/**
 	 * @param disallowedCategories the list of categories rejected by this filter.
 	 */
-	public MethodsNotInCategories(Class<?>...disallowedCategories) {
-		inCategories = new MethodsInCategories(disallowedCategories);
+	public ExcludeMethodCategories(Class<?>...disallowedCategories) {
+		inCategories = new IncludeMethodCategories(disallowedCategories);
 	}
 
 	/**

@@ -15,14 +15,14 @@ import com.dhemery.runtimesuite.ClassFilter;
  * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
  */
-public class ClassesInCategories implements ClassFilter {
-	Log log = LogFactory.getLog(ClassesInCategories.class);
+public class IncludeClassCategories implements ClassFilter {
+	Log log = LogFactory.getLog(IncludeClassCategories.class);
 	private final List<Class<?>> allowedCategories;
 
 	/**
 	 * @param allowedCategories the list of categories allowed by this filter.
 	 */
-	public ClassesInCategories(Class<?>...allowedCategories) {
+	public IncludeClassCategories(Class<?>...allowedCategories) {
 		this.allowedCategories = Arrays.asList(allowedCategories);
 	}
 

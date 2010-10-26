@@ -13,14 +13,14 @@ import com.dhemery.runtimesuite.MethodFilter;
  * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
  */
-public class MethodsInCategories implements MethodFilter {
+public class IncludeMethodCategories implements MethodFilter {
 
 	private final List<Class<?>> allowedCategories;
 
 	/**
 	 * @param allowedCategories the list of categories allowed by this filter.
 	 */
-	public MethodsInCategories(Class<?>...allowedCategories) {
+	public IncludeMethodCategories(Class<?>...allowedCategories) {
 		this.allowedCategories = Arrays.asList(allowedCategories);
 	}
 
