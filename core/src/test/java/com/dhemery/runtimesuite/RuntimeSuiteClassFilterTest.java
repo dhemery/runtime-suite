@@ -18,6 +18,7 @@ import com.dhemery.runtimesuite.ClassFinder;
 import com.dhemery.runtimesuite.Filter;
 import com.dhemery.runtimesuite.Finder;
 import com.dhemery.runtimesuite.RuntimeSuite;
+import com.dhemery.runtimesuite.filters.ExcludeClasses;
 import com.dhemery.runtimesuite.finders.ListedClasses;
 
 public class RuntimeSuiteClassFilterTest {
