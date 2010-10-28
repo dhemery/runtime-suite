@@ -1,6 +1,14 @@
 package com.dhemery.runtimesuite.filters;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.dhemery.runtimesuite.ClassFilter;
+import com.dhemery.runtimesuite.internal.ClassInspector;
 
 /**
  * A filter that rejects each class if it is in a disallowed category.
@@ -8,13 +16,14 @@ import com.dhemery.runtimesuite.ClassFilter;
  * @author Dale H. Emery
  */
 public class ExcludeClassCategories implements ClassFilter {
-	private final ClassFilter inCategories;
+	Log log = LogFactory.getLog(ExcludeClassCategories.class);
+	private final List<Class<?>> disallowedCategories;
 
 	/**
 	 * @param disallowedCategories the list of categories rejected by this filter.
 	 */
 	public ExcludeClassCategories(Class<?>...disallowedCategories) {
-		inCategories = new IncludeClassCategories(disallowedCategories);
+		this.disallowedCategories = Arrays.asList(disallowedCategories);
 	}
 
 	/**
@@ -24,6 +33,6 @@ public class ExcludeClassCategories implements ClassFilter {
 	 * otherwise {@code true}. 
 	 */
 	public boolean passes(Class<?> candidateClass) {
-		return !inCategories.passes(candidateClass);
+		return Collections.disjoint(disallowedCategories, ClassInspector.categoriesOn(candidateClass));
 	}
 }

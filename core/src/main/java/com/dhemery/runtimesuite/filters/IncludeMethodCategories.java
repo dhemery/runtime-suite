@@ -2,11 +2,11 @@ package com.dhemery.runtimesuite.filters;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import com.dhemery.runtimesuite.MethodFilter;
+import com.dhemery.runtimesuite.internal.MethodInspector;
 
 /**
  * A filter that accepts each method if it is in an allowed category.
@@ -31,13 +31,6 @@ public class IncludeMethodCategories implements MethodFilter {
 	 * otherwise {@code false}. 
 	 */
 	public boolean passes(Method candidateMethod) {
-		return !Collections.disjoint(allowedCategories, categoriesOn(candidateMethod));
-	}
-
-	private Collection<Class<?>> categoriesOn(Method candidateMethod) {
-		if(!candidateMethod.isAnnotationPresent(Category.class)) {
-			return Collections.emptyList();
-		}
-		return Arrays.asList(candidateMethod.getAnnotation(Category.class).value());
+		return !Collections.disjoint(allowedCategories, MethodInspector.categoriesOn(candidateMethod));
 	}
 }

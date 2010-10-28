@@ -6,13 +6,13 @@ A Runtime Suite is a class that finds candidate test classes at runtime, filters
 
 The project also includes these finders and filters:
 
- * `ClassesOnClasspath` class finder: Finds all classes on the given classpath.
+ * `ClassesOnClasspath` class finder: Finds all classes on the given classpaths.
  * `ListedClasses` class finder: Finds the specified classes. This can be useful to construct a fixed list of test classes to be filtered by information gathered at runtime.
  * `IncludeClasses` class filter: Passes each specified class; rejects all other classes.
  * `ExcludeClasses` class filter: Passes each class except those specified.
  * `IncludeClassCategories` class filter: Passes each class in any of the specified categories; rejects all other classes.
  * `ExcludeClassCategories` class filter: Rejects each class in any of the specified categories; passes all other classes.
-  * `IncludeMethodCategories` method filter: Passes each test method in any of the specified categories; rejects all other test methods.
+ * `IncludeMethodCategories` method filter: Passes each test method in any of the specified categories; rejects all other test methods.
  * `ExcludeMethodCategories` method filter: Rejects each test method in any of the specified categories; passes all other test methods.
 
 ## Declaring Runtime Suites
@@ -35,8 +35,7 @@ Conceptually, `RuntimeSuite` does the following:
 * Call each class finder and accumulate the resulting candidate classes.
 * Call each class filter and retain the classes that survive all filters.
 * Call each method filter and retain the methods that survive all filters.
-* Create a `Runner` for each surviving method of each surviving class.
-* Yield the runners to JUnit for processing.
+* Yield the surviving test methods to JUnit to run.
 
 ## Declaring Class Finders in Suites
 
