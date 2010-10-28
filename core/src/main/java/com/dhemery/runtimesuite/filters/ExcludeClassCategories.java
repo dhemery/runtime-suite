@@ -1,29 +1,18 @@
 package com.dhemery.runtimesuite.filters;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.dhemery.runtimesuite.ClassFilter;
-import com.dhemery.runtimesuite.internal.ClassInspector;
+import com.dhemery.runtimesuite.internal.ClassCategoryFilter;
 
 /**
  * A filter that rejects each class if it is in a disallowed category.
  * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
  */
-public class ExcludeClassCategories implements ClassFilter {
-	Log log = LogFactory.getLog(ExcludeClassCategories.class);
-	private final List<Class<?>> disallowedCategories;
-
+public class ExcludeClassCategories extends ClassCategoryFilter {
 	/**
 	 * @param disallowedCategories the list of categories rejected by this filter.
 	 */
 	public ExcludeClassCategories(Class<?>...disallowedCategories) {
-		this.disallowedCategories = Arrays.asList(disallowedCategories);
+		super(disallowedCategories);
 	}
 
 	/**
@@ -33,6 +22,6 @@ public class ExcludeClassCategories implements ClassFilter {
 	 * otherwise {@code true}. 
 	 */
 	public boolean passes(Class<?> candidateClass) {
-		return Collections.disjoint(disallowedCategories, ClassInspector.categoriesOn(candidateClass));
+		return !hasMatchingCategory(candidateClass);
 	}
 }

@@ -7,12 +7,18 @@ import java.util.Collections;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.dhemery.runtimesuite.ClassFilter;
 import com.dhemery.runtimesuite.filters.Category;
 
-public class ClassInspector {
-	private static Log log = LogFactory.getLog(ClassInspector.class);
+public abstract class ClassCategoryFilter implements ClassFilter {
+	private Log log = LogFactory.getLog(ClassCategoryFilter.class);
+	private final Collection<Class<?>> filterCategories;
 
-	public static Collection<Class<?>> categoriesOn(Class<?> c) {
+	public ClassCategoryFilter(Class<?>...filterCategories) {
+		this.filterCategories = Arrays.asList(filterCategories);
+	}
+
+	private Collection<Class<?>> categoriesOn(Class<?> c) {
 		if(!c.isAnnotationPresent(Category.class)) {
 			log.debug(String.format("Class %s has no Category annotation", c));
 			return Collections.emptyList();
@@ -22,4 +28,7 @@ public class ClassInspector {
 		return Arrays.asList(categories);
 	}
 
+	protected boolean hasMatchingCategory(Class<?> c) {
+		return !Collections.disjoint(filterCategories, categoriesOn(c));
+	}
 }

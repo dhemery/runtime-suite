@@ -1,26 +1,20 @@
 package com.dhemery.runtimesuite.filters;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
-import com.dhemery.runtimesuite.MethodFilter;
-import com.dhemery.runtimesuite.internal.MethodInspector;
+import com.dhemery.runtimesuite.internal.MethodCategoryFilter;
 
 /**
  * A filter that rejects each method if it is in a disallowed category.
  * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
  */
-public class ExcludeMethodCategories implements MethodFilter {
-	private final Collection<Class<?>> disallowedCategories;
-
+public class ExcludeMethodCategories extends MethodCategoryFilter {
 	/**
 	 * @param disallowedCategories the list of categories rejected by this filter.
 	 */
 	public ExcludeMethodCategories(Class<?>...disallowedCategories) {
-		this.disallowedCategories = Arrays.asList(disallowedCategories);
+		super(disallowedCategories);
 	}
 
 	/**
@@ -30,6 +24,6 @@ public class ExcludeMethodCategories implements MethodFilter {
 	 * otherwise {@code true}.
 	 */
 	public boolean passes(Method candidateMethod) {
-		return Collections.disjoint(disallowedCategories, MethodInspector.categoriesOn(candidateMethod));
+		return !hasMatchingCategory(candidateMethod);
 	}
 }

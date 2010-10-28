@@ -1,27 +1,20 @@
 package com.dhemery.runtimesuite.filters;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-import com.dhemery.runtimesuite.MethodFilter;
-import com.dhemery.runtimesuite.internal.MethodInspector;
+import com.dhemery.runtimesuite.internal.MethodCategoryFilter;
 
 /**
  * A filter that accepts each method if it is in an allowed category.
  * See {@link Category} for details of how to place classes in categories.
  * @author Dale H. Emery
  */
-public class IncludeMethodCategories implements MethodFilter {
-
-	private final List<Class<?>> allowedCategories;
-
+public class IncludeMethodCategories extends MethodCategoryFilter {
 	/**
 	 * @param allowedCategories the list of categories allowed by this filter.
 	 */
 	public IncludeMethodCategories(Class<?>...allowedCategories) {
-		this.allowedCategories = Arrays.asList(allowedCategories);
+		super(allowedCategories);
 	}
 
 	/**
@@ -31,6 +24,6 @@ public class IncludeMethodCategories implements MethodFilter {
 	 * otherwise {@code false}. 
 	 */
 	public boolean passes(Method candidateMethod) {
-		return !Collections.disjoint(allowedCategories, MethodInspector.categoriesOn(candidateMethod));
+		return hasMatchingCategory(candidateMethod);
 	}
 }
