@@ -16,26 +16,39 @@ import examples.ClassInCategoryB;
 import examples.ClassWithNoCategories;
 
 public class ExcludeClassCategoriesTest {
-	@Test public void forASingleCategory_passesEachClassThatLacksThatCategory() {
+	@Test
+	public void withAnEmptyCategoryList_passesAllClasses() {
+		ClassFilter filter = new ExcludeClassCategories();
+		assertThat(filter.passes(ClassWithNoCategories.class)).isTrue();
+		assertThat(filter.passes(ClassInCategoryA.class)).isTrue();
+		assertThat(filter.passes(ClassInCategoryB.class)).isTrue();
+		assertThat(filter.passes(ClassInCategoriesAandB.class)).isTrue();
+	}
+
+	@Test
+	public void forASingleCategory_passesEachClassThatLacksThatCategory() {
 		ClassFilter filter = new ExcludeClassCategories(CategoryA.class);
 		assertThat(filter.passes(ClassWithNoCategories.class)).isTrue();
 		assertThat(filter.passes(ClassInCategoryB.class)).isTrue();
 		assertThat(filter.passes(ClassInCategoriesCandD.class)).isTrue();
 	}
 	
-	@Test public void forASingleCategory_rejectsEachClassInThatCategory() {
+	@Test
+	public void forASingleCategory_rejectsEachClassInThatCategory() {
 		ClassFilter filter = new ExcludeClassCategories(CategoryA.class);
 		assertThat(filter.passes(ClassInCategoryA.class)).isFalse();
 		assertThat(filter.passes(ClassInCategoriesAandB.class)).isFalse();
 	}
 	
-	@Test public void forMultipleCategories_passesEachClassThatLacksEverySpecifiedCategory() {
+	@Test
+	public void forMultipleCategories_passesEachClassThatLacksEverySpecifiedCategory() {
 		ClassFilter filter = new ExcludeClassCategories(CategoryA.class, CategoryB.class);
 		assertThat(filter.passes(ClassWithNoCategories.class)).isTrue();
 		assertThat(filter.passes(ClassInCategoriesCandD.class)).isTrue();
 	}
 
-	@Test public void forMultipleCategories_rejectsEachClassInAnySpecifiedCategory() {
+	@Test
+	public void forMultipleCategories_rejectsEachClassInAnySpecifiedCategory() {
 		ClassFilter filter = new ExcludeClassCategories(CategoryA.class, CategoryB.class);
 		assertThat(filter.passes(ClassInCategoryA.class)).isFalse();
 		assertThat(filter.passes(ClassInCategoryB.class)).isFalse();
