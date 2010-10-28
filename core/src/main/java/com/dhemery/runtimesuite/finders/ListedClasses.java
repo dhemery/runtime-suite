@@ -8,6 +8,8 @@ import com.dhemery.runtimesuite.ClassFinder;
 /**
  * <p>
  * A finder that "finds" the classes passed to its constructor.
+ * This can be useful to construct a fixed list of test classes
+ * that will be filtered by information gathered at runtime.
  * </p>
  * @author Dale H. Emery
  */
