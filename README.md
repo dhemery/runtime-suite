@@ -8,6 +8,7 @@ The project also includes these finders and filters:
 
  * `ClassesOnClasspath` class finder: Finds all classes on the given classpath.
  * `ListedClasses` class finder: Finds the specified classes. This can be useful to construct a fixed list of test classes to be filtered by information gathered at runtime.
+ * `IncludeClasses` class filter: Passes each specified class; rejects all other classes.
  * `ExcludeClasses` class filter: Passes each class except those specified.
  * `IncludeClassCategories` class filter: Passes each class in any of the specified categories; rejects all other classes.
  * `ExcludeClassCategories` class filter: Rejects each class in any of the specified categories; passes all other classes.

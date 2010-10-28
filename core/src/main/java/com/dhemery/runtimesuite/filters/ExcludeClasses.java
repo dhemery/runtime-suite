@@ -1,7 +1,7 @@
 package com.dhemery.runtimesuite.filters;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import com.dhemery.runtimesuite.ClassFilter;
 
@@ -10,7 +10,7 @@ import com.dhemery.runtimesuite.ClassFilter;
  * @author Dale H. Emery
  */
 public class ExcludeClasses implements ClassFilter {
-	private List<Class<?>> disallowedClasses;
+	private Collection<Class<?>> disallowedClasses;
 
 	/**
 	 * @param disallowedClasses the list of classes rejected by this filter.
