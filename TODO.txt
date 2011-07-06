@@ -24,3 +24,5 @@ Let ParentRunner apply the filters? Build all runners, then let it filter?
 What to do with classes that inherit from suites?
 
 What to do with suites that inherit from other classes (with annotations)?
+
+Find classes in jars (and what other extensions?).

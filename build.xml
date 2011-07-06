@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="runtime-suite" default="test">
+	<property name="src.dir" location="src" />
+	<property name="test.src.dir" location="test" />
+
+	<property name="lib.dir" location="lib" />
+
+	<property name="target" location="target" />
+	<property name="bin.dir" location="${target}/bin" />
+	<property name="dist.bin.dir" location="${target}/dist" />
+	<property name="test.bin.dir" location="${target}/test" />
+
+	<property name="build.jar" value="${dist.bin.dir}/${ant.project.name}.jar" />
+
+	<property name="report.dir" location="reports" />
+	<property name="dist.dir" location="dist" />
+
+	<fileset id="build.libs" dir="${lib.dir}">
+		<include name="junit/**.jar" />
+		<include name="slf4j/**.jar" />
+	</fileset>
+
+	<fileset id="test.libs" dir="${lib.dir}">
+		<include name="hamcrest/**.jar" />
+		<include name="logback/**.jar" />
+	</fileset>
+	
+	<path id="build.classpath">
+		<fileset refid="build.libs" />
+	</path>
+
+	<path id="test.classpath">
+		<fileset refid="build.libs" />
+		<fileset refid="test.libs" />
+		<pathelement location="${bin.dir}" />
+		<pathelement location="${test.bin.dir}" />
+	</path>
+
+	<fileset id="test.classes" dir="${test.bin.dir}">
+		<include name="com/dhemery/runtimesuite/**/*.class"/>
+	</fileset>
+
+	<target name="build" depends="-init">
+		<echo>Compiling ${ant.project.name}</echo>
+		<mkdir dir="${bin.dir}" />
+		<javac srcdir="${src.dir}" destdir="${bin.dir}" includeAntRuntime="false">
+			<classpath refid="build.classpath" />
+		</javac>
+		<unjar dest="${bin.dir}">
+			<fileset refid="build.libs" />
+		</unjar>
+		<mkdir dir="${dist.bin.dir}" />
+		<jar basedir="${bin.dir}" destfile="${build.jar}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${target}" quiet="true" />
+		<delete dir="${report.dir}" quiet="true" />
+	</target>
+
+	<target name="dist" depends="test">
+		<buildnumber file="version.number"/>
+		<property name="version" value="0.1.${build.number}" />
+		<property name="dist.jar.name" value="${ant.project.name}-${version}.jar" />
+		<echo>Building ${dist.jar.name}</echo>
+		<mkdir dir="${dist.dir}" />
+		<copy file="${build.jar}" toFile="${dist.dir}/${dist.jar.name}" />
+	</target>
+
+	<target name="test" depends="unit.tests">
+		<echo>Creating test report</echo>
+		<junitreport todir="${report.dir}">
+			<fileset dir="${report.dir}/xml">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${report.dir}"/>
+		</junitreport>
+		<delete dir="${report.dir}/xml" quiet="true" />
+	</target>
+
+	<target name="unit.tests" depends="-compile.tests">
+		<run.tests classes="unit.test.classes" message="Running unit tests" />
+	</target>
+	
+	<target name="-compile.tests" depends="build">
+		<mkdir dir="${test.bin.dir}" />
+		<javac srcdir="${test.src.dir}" destdir="${test.bin.dir}" includeAntRuntime="false">
+			<classpath refid="test.classpath" />
+		</javac>
+	</target>
+
+	<target name="-init">
+		<tstamp />
+	</target>
+
+	<macrodef name="run.tests">
+		<attribute name="message" />
+		<attribute name="classes" />
+		<sequential>
+			<echo>@{message}</echo>
+			<mkdir dir="${report.dir}/xml" />
+			<junit haltonfailure="true">
+				<classpath refid="test.classpath" />
+				<batchtest fork="no" todir="${report.dir}/xml">
+					<fileset refid="@{classes}" />
+					<formatter type="xml" usefile="yes" />
+				</batchtest>
+			</junit>
+		</sequential>
+	</macrodef>	
+</project>
