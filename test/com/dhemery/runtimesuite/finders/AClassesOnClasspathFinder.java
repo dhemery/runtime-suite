@@ -22,7 +22,7 @@ public class AClassesOnClasspathFinder {
 	}
 
 	@Test public void findsAllClassesOnASingleElementClasspath() {
-		String classpath = "example.classpath.a";
+		String classpath = "testbin/classpath.a";
 		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
 		assertThat(namesOf(foundClasses), hasItems("example.classpath.a.Test_a_1",
 										"example.classpath.a.Test_a_2",
@@ -37,9 +37,9 @@ public class AClassesOnClasspathFinder {
 	}
 
 	@Test public void findsAllClassesOnAMultipleElementClasspath() {
-		String classpath = "example.classpath.a"
+		String classpath = "testbin/classpath.a"
 						+ File.pathSeparator
-						+ "example.classpath.b";
+						+ "testbin/classpath.b";
 		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
 		assertThat(namesOf(foundClasses), hasItems("example.classpath.a.Test_a_1",
 												"example.classpath.a.Test_a_2",
@@ -67,7 +67,7 @@ public class AClassesOnClasspathFinder {
 		// classpath.c contains
 		//    - ./c/Test_c_1.class
 		//    - ./c/not-a-test.txt
-		String classpath = "example.classpath.c";
+		String classpath = "testbin/classpath.c";
 		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
 		assertThat(namesOf(foundClasses), contains("example.classpath.c.Test_c_1"));
 	}
@@ -76,7 +76,7 @@ public class AClassesOnClasspathFinder {
 		// classpath.d contains
 		//    - ./d/Test_d_1.class
 		//    - ./d/NotATest_d_2.class
-		String classpath = "example.classpath.d";
+		String classpath = "testbin/classpath.d";
 		Collection<Class<?>> foundClasses = new ClassesOnClasspath(classpath).find();
 		assertThat(namesOf(foundClasses), contains("example.classpath.d.Test_d_1"));
 	}
