@@ -22,8 +22,6 @@
 	<property name="examples.build.dir" location="${build.dir}/examples" />
 	<property name="classpaths.build.dir" location="${build.dir}/classpaths" />
 
-	<property name="main.build.jar" value="${dist.build.dir}/${ant.project.name}.jar" />
-
 	<property name="report.dir" location="reports" />
 
 	<fileset id="main.libs" dir="${lib.dir}">
@@ -36,11 +34,25 @@
 		<include name="logback/**.jar" />
 	</fileset>
 	
-	<path id="main.compile.classpath">
-		<fileset refid="build.libs" />
+	<path id="compile.main.classpath">
+		<fileset refid="main.libs" />
 	</path>
 
-	<path id="test.compile.classpath">
+	<path id="compile.examples.classpath">
+		<fileset refid="test.libs" />
+		<fileset refid="main.libs" />
+	</path>
+
+	<path id="compile.tests.classpath">
+		<pathelement location="${examples.build.dir}" />
+		<pathelement location="${main.build.dir}" />
+		<fileset refid="test.libs" />
+		<fileset refid="main.libs" />
+	</path>
+ 
+	<path id="run.tests.classpath">
+		<pathelement location="${test.build.dir}" />
+		<pathelement location="${examples.build.dir}" />
 		<pathelement location="${main.build.dir}" />
 		<fileset refid="test.libs" />
 		<fileset refid="main.libs" />
@@ -54,23 +66,30 @@
 		<echo>Compiling ${ant.project.name}</echo>
 		<mkdir dir="${main.build.dir}" />
 		<javac srcdir="${main.src.dir}" destdir="${main.build.dir}" includeAntRuntime="false">
-			<classpath refid="build.classpath" />
+			<classpath refid="compile.main.classpath" />
 		</javac>
 	</target>
 
-	<target name="compile.tests" depends="compile.main">
-		<mkdir dir="${test.bin.dir}" />
-		<javac srcdir="${test.src.dir}" destdir="${test.bin.dir}" includeAntRuntime="false">
-			<classpath refid="test.classpath" />
+	<target name="compile.tests" depends="compile.main, compile.examples">
+		<mkdir dir="${test.build.dir}" />
+		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" includeAntRuntime="false">
+			<classpath refid="compile.tests.classpath" />
+		</javac>
+	</target>
+
+	<target name="compile.examples">
+		<mkdir dir="${examples.build.dir}" />
+		<javac srcdir="${examples.src.dir}" destdir="${examples.build.dir}" includeAntRuntime="false">
+			<classpath refid="compile.examples.classpath" />
 		</javac>
 	</target>
 
 	<target name="run.tests" depends="compile.tests">
 		<mkdir dir="${report.dir}/xml" />
-		<junit haltonfailure="true">
-			<classpath refid="test.classpath" />
+		<junit haltonfailure="false">
+			<classpath refid="run.tests.classpath" />
 			<batchtest fork="no" todir="${report.dir}/xml">
-				<fileset refid="${unit.test.classes}" />
+				<fileset refid="test.classes" />
 				<formatter type="xml" usefile="yes" />
 			</batchtest>
 		</junit>

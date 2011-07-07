@@ -30,7 +30,7 @@ public class ARuntimeSuite {
 	private JUnitCore runner;
 	private SuiteRunListener executed;
 
-	public class SuiteRunListener extends RunListener {
+	private static class SuiteRunListener extends RunListener {
 		public final List<String> tests = new ArrayList<String>();
 
 		@Override
