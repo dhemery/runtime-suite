@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="runtime-suite" default="test">
-	<property name="src.dir" location="src" />
+<!--
+	Compile sources to build/main
+	Compile tests to build/tests
+	Compile test examples to build/examples
+	Compile each batch of classpath classes to build/classpaths/x
+	Dist: build/main
+	Tests to run: build/tests
+	Classpath to run tests: build/main, build/tests, build/examples, build/classpath.x
+-->
+
+<project name="runtime-suite" default="run.tests">
+	<property name="main.src.dir" location="main" />
 	<property name="test.src.dir" location="test" />
+	<property name="examples.src.dir" location="examples" />
 
 	<property name="lib.dir" location="lib" />
 
-	<property name="target" location="target" />
-	<property name="bin.dir" location="${target}/bin" />
-	<property name="dist.bin.dir" location="${target}/dist" />
-	<property name="test.bin.dir" location="${target}/test" />
+	<property name="build.dir" location="build" />
+	<property name="main.build.dir" location="${build.dir}/main" />
+	<property name="test.build.dir" location="${build.dir}/tests" />
+	<property name="examples.build.dir" location="${build.dir}/examples" />
+	<property name="classpaths.build.dir" location="${build.dir}/classpaths" />
 
-	<property name="build.jar" value="${dist.bin.dir}/${ant.project.name}.jar" />
+	<property name="main.build.jar" value="${dist.build.dir}/${ant.project.name}.jar" />
 
 	<property name="report.dir" location="reports" />
-	<property name="dist.dir" location="dist" />
 
-	<fileset id="build.libs" dir="${lib.dir}">
+	<fileset id="main.libs" dir="${lib.dir}">
 		<include name="junit/**.jar" />
 		<include name="slf4j/**.jar" />
 	</fileset>
@@ -25,50 +36,44 @@
 		<include name="logback/**.jar" />
 	</fileset>
 	
-	<path id="build.classpath">
+	<path id="main.compile.classpath">
 		<fileset refid="build.libs" />
 	</path>
 
-	<path id="test.classpath">
-		<fileset refid="build.libs" />
+	<path id="test.compile.classpath">
+		<pathelement location="${main.build.dir}" />
 		<fileset refid="test.libs" />
-		<pathelement location="${bin.dir}" />
-		<pathelement location="${test.bin.dir}" />
+		<fileset refid="main.libs" />
 	</path>
 
-	<fileset id="test.classes" dir="${test.bin.dir}">
-		<include name="com/dhemery/runtimesuite/**/*.class"/>
+	<fileset id="test.classes" dir="${test.build.dir}">
+		<include name="**/*.class"/>
 	</fileset>
 
-	<target name="build" depends="-init">
+	<target name="compile.main" depends="init">
 		<echo>Compiling ${ant.project.name}</echo>
-		<mkdir dir="${bin.dir}" />
-		<javac srcdir="${src.dir}" destdir="${bin.dir}" includeAntRuntime="false">
+		<mkdir dir="${main.build.dir}" />
+		<javac srcdir="${main.src.dir}" destdir="${main.build.dir}" includeAntRuntime="false">
 			<classpath refid="build.classpath" />
 		</javac>
-		<unjar dest="${bin.dir}">
-			<fileset refid="build.libs" />
-		</unjar>
-		<mkdir dir="${dist.bin.dir}" />
-		<jar basedir="${bin.dir}" destfile="${build.jar}" />
 	</target>
 
-	<target name="clean">
-		<delete dir="${target}" quiet="true" />
-		<delete dir="${report.dir}" quiet="true" />
+	<target name="compile.tests" depends="compile.main">
+		<mkdir dir="${test.bin.dir}" />
+		<javac srcdir="${test.src.dir}" destdir="${test.bin.dir}" includeAntRuntime="false">
+			<classpath refid="test.classpath" />
+		</javac>
 	</target>
 
-	<target name="dist" depends="test">
-		<buildnumber file="version.number"/>
-		<property name="version" value="0.1.${build.number}" />
-		<property name="dist.jar.name" value="${ant.project.name}-${version}.jar" />
-		<echo>Building ${dist.jar.name}</echo>
-		<mkdir dir="${dist.dir}" />
-		<copy file="${build.jar}" toFile="${dist.dir}/${dist.jar.name}" />
-	</target>
-
-	<target name="test" depends="unit.tests">
-		<echo>Creating test report</echo>
+	<target name="run.tests" depends="compile.tests">
+		<mkdir dir="${report.dir}/xml" />
+		<junit haltonfailure="true">
+			<classpath refid="test.classpath" />
+			<batchtest fork="no" todir="${report.dir}/xml">
+				<fileset refid="${unit.test.classes}" />
+				<formatter type="xml" usefile="yes" />
+			</batchtest>
+		</junit>
 		<junitreport todir="${report.dir}">
 			<fileset dir="${report.dir}/xml">
 				<include name="TEST-*.xml"/>
@@ -77,35 +82,13 @@
 		</junitreport>
 		<delete dir="${report.dir}/xml" quiet="true" />
 	</target>
-
-	<target name="unit.tests" depends="-compile.tests">
-		<run.tests classes="unit.test.classes" message="Running unit tests" />
-	</target>
 	
-	<target name="-compile.tests" depends="build">
-		<mkdir dir="${test.bin.dir}" />
-		<javac srcdir="${test.src.dir}" destdir="${test.bin.dir}" includeAntRuntime="false">
-			<classpath refid="test.classpath" />
-		</javac>
+	<target name="clean">
+		<delete dir="${build.dir}" quiet="true" />
+		<delete dir="${report.dir}" quiet="true" />
 	</target>
 
-	<target name="-init">
+	<target name="init">
 		<tstamp />
 	</target>
-
-	<macrodef name="run.tests">
-		<attribute name="message" />
-		<attribute name="classes" />
-		<sequential>
-			<echo>@{message}</echo>
-			<mkdir dir="${report.dir}/xml" />
-			<junit haltonfailure="true">
-				<classpath refid="test.classpath" />
-				<batchtest fork="no" todir="${report.dir}/xml">
-					<fileset refid="@{classes}" />
-					<formatter type="xml" usefile="yes" />
-				</batchtest>
-			</junit>
-		</sequential>
-	</macrodef>	
 </project>
