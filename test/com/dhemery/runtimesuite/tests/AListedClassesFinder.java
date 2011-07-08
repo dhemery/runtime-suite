@@ -1,15 +1,15 @@
-package com.dhemery.runtimesuite.finders;
+package com.dhemery.runtimesuite.tests;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
-
 
 import com.dhemery.runtimesuite.finders.ListedClasses;
 
 import example.tests.Runnable1;
 import example.tests.Runnable2;
 import example.tests.Runnable3;
+
+import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
 
 public class AListedClassesFinder {

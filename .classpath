@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="main"/>
-	<classpathentry kind="src" output="testbin/tests" path="test"/>
-	<classpathentry kind="src" output="testbin/examples" path="examples"/>
-	<classpathentry kind="src" output="testbin/classpath.a" path="classpaths"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="src" output="build/main" path="main"/>
+	<classpathentry kind="src" output="build/tests" path="test"/>
+	<classpathentry kind="src" output="build/examples" path="examples"/>
+	<classpathentry kind="src" output="build/classpath.a" path="classpath.a"/>
+	<classpathentry kind="src" output="build/classpath.b" path="classpath.b"/>
+	<classpathentry kind="src" output="build/classpath.c" path="classpath.c"/>
+	<classpathentry kind="src" output="build/classpath.d" path="classpath.d"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/logback/logback-classic-0.9.29.jar"/>
 	<classpathentry kind="lib" path="lib/logback/logback-core-0.9.29.jar"/>

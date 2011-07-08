@@ -1,17 +1,16 @@
-package com.dhemery.runtimesuite;
+package com.dhemery.runtimesuite.tests;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
-import org.hamcrest.TypeSafeMatcher;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
-import org.junit.runner.notification.RunListener;
+
+import com.dhemery.runtimesuite.helpers.IsCollectionThat;
+import com.dhemery.runtimesuite.helpers.SuiteRunListener;
 
 import example.suites.SuiteThatFiltersOutAllClassesButOne;
 import example.suites.SuiteThatFindsATestClassSeveralTimes;
@@ -24,20 +23,9 @@ import example.suites.SuiteWithMethodFilters;
 import example.suites.SuiteWithNoMethodFilters;
 import example.suites.SuiteWithTwoFinders;
 
-
-
 public class ARuntimeSuite {
 	private JUnitCore runner;
 	private SuiteRunListener executed;
-
-	private static class SuiteRunListener extends RunListener {
-		public final List<String> tests = new ArrayList<String>();
-
-		@Override
-		public void testStarted(Description description) {
-			tests.add(description.getMethodName());
-		}
-	}
 
 	@Before
 	public void setUp() {
@@ -59,25 +47,9 @@ public class ARuntimeSuite {
 	}
 
 	private Matcher<List<String>> hasDuplicates() {
-		return new TypeSafeMatcher<List<String>>() {
-
-			@Override
-			public boolean matchesSafely(List<String> candidate) {
-				List<String> list = (List<String>) candidate;
-				List<String> alreadySeen = new ArrayList<String>();
-				for(String string : list) {
-					if(alreadySeen.contains(string)) return true;
-					alreadySeen.add(string);
-				}
-				return false;
-			}
-
-			@Override
-			public void describeTo(org.hamcrest.Description description) {
-				description.appendText("with duplicates");
-			}};
+		return IsCollectionThat.<String>hasDuplicates();
 	}
-
+	
 	@Test
 	public void runsTestsOnlyFromCorrectlyDeclaredFinders() {
 		runner.run(SuiteWithGoodAndBadClassFinders.class);

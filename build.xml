@@ -13,6 +13,7 @@
 	<property name="main.src.dir" location="main" />
 	<property name="test.src.dir" location="test" />
 	<property name="examples.src.dir" location="examples" />
+	<property name="classpaths.src.dir" location="classpath" />
 
 	<property name="lib.dir" location="lib" />
 
@@ -20,7 +21,7 @@
 	<property name="main.build.dir" location="${build.dir}/main" />
 	<property name="test.build.dir" location="${build.dir}/tests" />
 	<property name="examples.build.dir" location="${build.dir}/examples" />
-	<property name="classpaths.build.dir" location="${build.dir}/classpaths" />
+	<property name="classpaths.build.dir" location="${build.dir}/classpath" />
 
 	<property name="report.dir" location="reports" />
 
@@ -46,6 +47,10 @@
 	<path id="compile.tests.classpath">
 		<pathelement location="${examples.build.dir}" />
 		<pathelement location="${main.build.dir}" />
+		<pathelement location="${classpaths.build.dir}.a" />
+		<pathelement location="${classpaths.build.dir}.b" />
+		<pathelement location="${classpaths.build.dir}.c" />
+		<pathelement location="${classpaths.build.dir}.d" />
 		<fileset refid="test.libs" />
 		<fileset refid="main.libs" />
 	</path>
@@ -54,12 +59,16 @@
 		<pathelement location="${test.build.dir}" />
 		<pathelement location="${examples.build.dir}" />
 		<pathelement location="${main.build.dir}" />
+		<pathelement location="${classpaths.build.dir}.a" />
+		<pathelement location="${classpaths.build.dir}.b" />
+		<pathelement location="${classpaths.build.dir}.c" />
+		<pathelement location="${classpaths.build.dir}.d" />
 		<fileset refid="test.libs" />
 		<fileset refid="main.libs" />
 	</path>
 
 	<fileset id="test.classes" dir="${test.build.dir}">
-		<include name="**/*.class"/>
+		<include name="**/com/dhemery/runtimesuite/tests/*.class"/>
 	</fileset>
 
 	<target name="compile.main" depends="init">
@@ -70,7 +79,7 @@
 		</javac>
 	</target>
 
-	<target name="compile.tests" depends="compile.main, compile.examples">
+	<target name="compile.tests" depends="compile.main, compile.examples, compile.classpath.examples">
 		<mkdir dir="${test.build.dir}" />
 		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" includeAntRuntime="false">
 			<classpath refid="compile.tests.classpath" />
@@ -80,8 +89,25 @@
 	<target name="compile.examples">
 		<mkdir dir="${examples.build.dir}" />
 		<javac srcdir="${examples.src.dir}" destdir="${examples.build.dir}" includeAntRuntime="false">
-			<classpath refid="compile.examples.classpath" />
+			<classpath refid="compile.tests.classpath" />
 		</javac>
+	</target>
+
+	<macrodef name="compile-classpath">
+		<attribute name="root" />
+		<sequential>
+			<mkdir dir="${classpaths.build.dir}.@{root}" />
+			<javac srcdir="${classpaths.src.dir}.@{root}" destdir="${classpaths.build.dir}.@{root}" includeAntRuntime="false">
+				<classpath refid="compile.tests.classpath" />
+			</javac>
+		</sequential>
+	</macrodef>
+
+	<target name="compile.classpath.examples">
+		<compile-classpath root="a" />
+		<compile-classpath root="b" />
+		<compile-classpath root="c" />
+		<compile-classpath root="d" />
 	</target>
 
 	<target name="run.tests" depends="compile.tests">

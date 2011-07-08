@@ -1,4 +1,4 @@
-package com.dhemery.runtimesuite.filters;
+package com.dhemery.runtimesuite.tests;
 
 
 import static org.junit.Assert.*;
